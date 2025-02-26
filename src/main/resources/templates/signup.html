@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ressources Relationnelles - Inscription</title>
+    <style>
+        /* Basic Reset & Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(180deg, #01010b, #09011a);
+            color: #fff;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Title & Subtitle */
+        h1 {
+            text-align: center;
+            font-size: 2.3em;
+            margin-bottom: 10px;
+            color: #f0f2ff;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1em;
+            margin-bottom: 20px;
+            color: #c9d6df;
+        }
+
+        /* Star layers for parallax background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -5;
+        }
+
+        .stars-1 {
+            background: url('https://raw.githubusercontent.com/luxu/fluidstars/master/stars-layer.png') repeat;
+            animation: starScroll 60s linear infinite;
+            opacity: 0.7;
+        }
+
+        .stars-2 {
+            background: url('https://raw.githubusercontent.com/luxu/fluidstars/master/stars-layer.png') repeat;
+            animation: starScrollReverse 120s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes starScroll {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 2000px 2000px;
+            }
+        }
+
+        @keyframes starScrollReverse {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: -2000px -2000px;
+            }
+        }
+
+        /* Additional small static points to fill the background with more star-like dots */
+        .twinkle-star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255,255,255,0.8);
+            pointer-events: none;
+            z-index: -4;
+        }
+
+        /* We'll define multiple orbit-center containers scattered around the page. */
+
+        .orbit-center {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        /* revolve animations, same as before. */
+        @keyframes revolve1 {
+            0% {
+                transform: rotate(0deg) translateX(150px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve2 {
+            0% {
+                transform: rotate(0deg) translateX(220px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(220px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve3 {
+            0% {
+                transform: rotate(0deg) translateX(180px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(180px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve4 {
+            0% {
+                transform: rotate(0deg) translateX(250px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(250px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve5 {
+            0% {
+                transform: rotate(0deg) translateX(200px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(200px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve6 {
+            0% {
+                transform: rotate(0deg) translateX(170px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(170px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve7 {
+            0% {
+                transform: rotate(0deg) translateX(230px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(230px) rotate(-360deg);
+            }
+        }
+        @keyframes revolve8 {
+            0% {
+                transform: rotate(0deg) translateX(190px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(190px) rotate(-360deg);
+            }
+        }
+
+        /* Planets definition. They revolve inside their container. */
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: 0 0; /* revolve center is left:0, top:0 of container. */
+        }
+
+        .planet1 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #ff0062, #550038 70%);
+            box-shadow: 0 0 20px rgba(255, 0, 98, 0.5);
+            animation: revolve1 25s linear infinite;
+        }
+
+        .planet3 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #0077ff, #001a4c 70%);
+            box-shadow: 0 0 20px rgba(0,119,255,0.5);
+            animation: revolve2 35s linear infinite;
+        }
+
+        .planet4 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #00ff77, #005f38 70%);
+            box-shadow: 0 0 20px rgba(0,255,119,0.5);
+            animation: revolve3 20s linear infinite;
+        }
+
+        .planet5 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #bf00ff, #4b0082 70%);
+            box-shadow: 0 0 20px rgba(191,0,255,0.5);
+            animation: revolve4 40s linear infinite;
+        }
+
+        .planet6 {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #ff00b7, #8b0059 70%);
+            box-shadow: 0 0 15px rgba(255,0,183,0.5);
+            animation: revolve5 30s linear infinite;
+        }
+
+        .planet7 {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle at 30% 30%, #fffb00, #7a7600 70%);
+            box-shadow: 0 0 25px rgba(255,251,0,0.5);
+            animation: revolve6 45s linear infinite;
+        }
+
+        .planet8 {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, #00f7ff, #004457 70%);
+            box-shadow: 0 0 20px rgba(0,247,255,0.5);
+            animation: revolve7 55s linear infinite;
+        }
+
+        /* Shooting star with a slight glow around it, no tail */
+        .shooting-star {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.7s linear;
+        }
+
+        /* Container for signup form (similar to login) */
+        .signup-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+            width: 370px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeInForm 1s ease;
+            z-index: 10;
+            position: relative;
+        }
+
+        @keyframes fadeInForm {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signup-container h1 {
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            color: #e2e4ff;
+        }
+
+        .signup-container p {
+            margin-bottom: 25px;
+            font-size: 1em;
+            color: #eceeff;
+        }
+
+        .signup-container input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1em;
+            outline: none;
+            transition: box-shadow 0.3s, background-color 0.3s;
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .signup-container input:focus {
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        /* We'll reuse meter if we want a password strength for signup as well */
+        .meter {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            height: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .meter-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 6px;
+            transition: width 0.4s ease, background 0.4s ease;
+            background: linear-gradient(90deg, #003cff, #00d2ff);
+        }
+
+        .signup-btn {
+            position: relative;
+            background: linear-gradient(45deg, #6a52ff, #9672ff);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 28px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            font-size: 1em;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 0 12px rgba(150, 114, 255, 0.8);
+        }
+
+        .signup-btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 6px rgba(150, 114, 255, 0.9);
+        }
+
+        .signup-feedback {
+            font-size: 0.9em;
+            color: #ffbaba;
+            min-height: 18px;
+            margin-bottom: 10px;
+            transition: color 0.4s;
+        }
+
+        /* Button to go back to / for login */
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            margin-top: 5px;
+            font-size: 0.95em;
+            color: #fff;
+            background: linear-gradient(45deg, #555, #999);
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 10px rgba(80, 80, 80, 0.7);
+        }
+
+        .back-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 5px rgba(80, 80, 80, 0.9);
+        }
+    </style>
+</head>
+<body>
+<!-- Parallax star layers -->
+<div class="stars stars-1"></div>
+<div class="stars stars-2"></div>
+
+<!-- More static stars -->
+<script>
+    // We'll do 300 static stars with random sizes
+    for(let i=0; i<300; i++) {
+        const star = document.createElement('div');
+        star.className = 'twinkle-star';
+        const topPos = Math.random()*100;
+        const leftPos = Math.random()*100;
+        star.style.top = topPos + '%';
+        star.style.left = leftPos + '%';
+        // random sizes from 1 to 5 px
+        const size = (Math.random()*4)+1;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        document.body.appendChild(star);
+    }
+</script>
+
+<!-- We'll define multiple orbit-center containers scattered around the page. -->
+
+<div class="orbit-center" style="top:10%; left:20%;">
+    <div class="planet planet1"></div>
+</div>
+
+<div class="orbit-center" style="top:60%; left:10%;">
+    <div class="planet planet3"></div>
+</div>
+
+<div class="orbit-center" style="top:50%; left:80%;">
+    <div class="planet planet4"></div>
+</div>
+
+<div class="orbit-center" style="top:25%; left:50%;">
+    <div class="planet planet5"></div>
+</div>
+
+<div class="orbit-center" style="top:75%; left:40%;">
+    <div class="planet planet6"></div>
+</div>
+
+<div class="orbit-center" style="top:20%; left:5%;">
+    <div class="planet planet7"></div>
+</div>
+
+<div class="orbit-center" style="top:80%; left:85%;">
+    <div class="planet planet8"></div>
+</div>
+
+<!-- Container for signup form -->
+<div class="signup-container">
+    <h1>Inscription</h1>
+    <p>Créez votre compte et rejoignez notre univers</p>
+
+    <div class="signup-feedback" id="signupFeedback"></div>
+
+    <input type="text" placeholder="Nom d'utilisateur" id="username"/>
+    <input type="email" placeholder="Adresse email" id="email"/>
+    <input type="password" placeholder="Mot de passe" id="password"/>
+
+    <!-- If you want a strength meter for signup password as well -->
+    <div class="meter">
+        <div class="meter-fill" id="meterFill"></div>
+    </div>
+
+    <button class="signup-btn" id="signupBtn">S'inscrire</button>
+
+    <!-- Button to go back to / for login -->
+    <a class="back-button" href="/">Retour à la connexion</a>
+</div>
+
+<script>
+    /* We'll do smaller shooting stars (5px) and spawn them more frequently. */
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        const size = 5; // smaller
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.boxShadow = '0 0 6px 2px rgba(255,255,255,0.8)';
+
+        // pick random edge
+        const edges = ['top','bottom','left','right'];
+        const edge = edges[Math.floor(Math.random()*edges.length)];
+        let startX=0, startY=0;
+        if(edge === 'top') {
+            startY=0;
+            startX=Math.random()*window.innerWidth;
+        } else if(edge==='bottom') {
+            startY=window.innerHeight;
+            startX=Math.random()*window.innerWidth;
+        } else if(edge==='left') {
+            startX=0;
+            startY=Math.random()*window.innerHeight;
+        } else {
+            // right
+            startX=window.innerWidth;
+            startY=Math.random()*window.innerHeight;
+        }
+
+        star.style.left=startX+'px';
+        star.style.top=startY+'px';
+        document.body.appendChild(star);
+
+        star.offsetHeight; // reflow
+
+        // random angle
+        const angle=Math.random()*Math.PI*2;
+        const dist=Math.hypot(window.innerWidth, window.innerHeight)*1.2;
+        const finalX=startX+dist*Math.cos(angle);
+        const finalY=startY+dist*Math.sin(angle);
+
+        star.style.transitionDuration='0.7s';
+        star.style.transform=`translate(${finalX - startX}px, ${finalY - startY}px)`;
+
+        setTimeout(()=>{
+            star.remove();
+        },700);
+    }
+
+    // spawn a star every 600ms
+    setInterval(createShootingStar,600);
+
+    // If you want a password strength meter here too
+    const passwordInput = document.getElementById('password');
+    const meterFill = document.getElementById('meterFill');
+    const signupFeedback = document.getElementById('signupFeedback');
+    const signupBtn = document.getElementById('signupBtn');
+
+    function checkPasswordStrength(pw) {
+        let score = 0;
+        if(pw.length>=8) score++;
+        if(/[A-Z]/.test(pw)) score++;
+        if(/[0-9]/.test(pw)) score++;
+        if(/[^A-Za-z0-9]/.test(pw)) score++;
+        return score; // 0..4
+    }
+
+    passwordInput.addEventListener('input', ()=>{
+        const pw = passwordInput.value;
+        const score = checkPasswordStrength(pw);
+        const perc = (score/4)*100;
+        meterFill.style.width = perc+'%';
+
+        let gradient='';
+        let msg='';
+        switch(score){
+            case 0:
+                gradient='linear-gradient(90deg,#1b1e2c,#2a2f44)';
+                msg='';
+                break;
+            case 1:
+                gradient='linear-gradient(90deg,#1630ff,#0053d4)';
+                msg='Faible';
+                break;
+            case 2:
+                gradient='linear-gradient(90deg,#0e64fa,#00c2ff)';
+                msg='Moyen';
+                break;
+            case 3:
+                gradient='linear-gradient(90deg,#7adfff,#3fa2ff)';
+                msg='Bon';
+                break;
+            case 4:
+                gradient='linear-gradient(90deg,#00ffed,#00b8ff)';
+                msg='Excellent';
+                break;
+        }
+        meterFill.style.background=gradient;
+        signupFeedback.textContent=msg;
+    });
+
+    signupBtn.addEventListener('click', ()=>{
+        alert('Vous avez créé un compte avec succès (simulation).');
+    });
+</script>
+</body>
+</html>
