@@ -15,4 +15,4 @@ Bon développement à vous !
 A FAIRE :
 
 -RGAA
-- RGPD ( demande de suppression des données )
+-RGPD ( demande de suppression des données )
