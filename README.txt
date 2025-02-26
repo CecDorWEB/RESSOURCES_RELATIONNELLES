@@ -9,6 +9,9 @@ Pour que l'application fonctionne bien il vous faudra :
     -> Créer le dossier et ajouter le dans RessourcesRelationnellesApplication dans @ComponentScan
 - Par pitié définissez bien vos entités, répertoire, vue et service dans les dossiers prévus à cet effet :)
 Le changement des dépendances se fait dans le fichier pom.xml
+
+J'ai ajouté un système de sécurité !! Si vous êtes pas connecté vous n'aurez pas accès à certaines pages -> si vous voulez donner l'accès à la page aller dans config/WebConfig et ajouter votre route dans addPathPatterns !!
+
 Bon développement à vous !
 
 

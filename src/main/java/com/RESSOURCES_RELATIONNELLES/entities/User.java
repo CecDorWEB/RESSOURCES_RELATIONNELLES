@@ -32,6 +32,18 @@ public class User {
     @Column(name = "lastLoginDate")
     private Date lastLoginDate;
 
+    public User() {
+    }
+
+    public User(String username, String firstName, String lastName, String email, String password, Date creationDate) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.creationDate = creationDate;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
