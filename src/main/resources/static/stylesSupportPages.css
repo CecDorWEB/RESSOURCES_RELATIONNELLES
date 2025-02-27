@@ -1,0 +1,102 @@
+/* Style des tableaux */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+/* En-tête du tableau */
+thead {
+  background-color: #4A628B;
+  color: white;
+  text-align: left;
+}
+
+/* Colonnes de l'en-tête */
+th {
+  padding: 12px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+}
+
+/* Contenu du tableau */
+td {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  word-wrap: break-word; /* Permet aux longs textes de passer à la ligne */
+  white-space: normal;
+}
+
+/* Alternance des couleurs pour les lignes */
+tbody tr:nth-child(even) {
+  background-color: #4A628B20; /* Couleur légèrement transparente pour lisibilité */
+}
+
+/* Survol des lignes */
+tbody tr:hover {
+  background-color: #E4E4E5;
+  cursor: pointer;
+}
+
+/* Styles des boutons OUTILS*/
+.supportTools {
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    gap: 1em;
+}
+
+/* Responsive : Ajout d'un défilement sur petits écrans */
+@media screen and (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Style des boutons */
+.supportTools button {
+    background: linear-gradient(90deg, #4A628B, #6BAEFF); /* Bleu plus clair */
+    color: white;
+    border: none;
+    padding: 0.5em;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Ombre légère */
+    width: 120px; /* Largeur uniforme */
+    text-align: center;
+}
+
+/* Effet au survol */
+.supportTools button:hover {
+    background: linear-gradient(90deg, #6BAEFF, #3A8DFF); /* Inversion du dégradé */
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Ombre accentuée */
+    transform: scale(1.03); /* Léger zoom */
+}
+
+/* Effet au clic */
+.supportTools button:active {
+    transform: scale(0.98); /* Légère réduction au clic */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/*-----------Page statistique------------------------*/
+.tableauDeBord{
+	display:flex;
+}
+
+.tableauDeBord section{
+	border: 1px solid black;
+	padding:1em;
+}
+
+.UserDataTotal, .RessourceDataTotal {
+	background-color: orange;
+	align-items: center;
+	text-align: center;
+	
+}

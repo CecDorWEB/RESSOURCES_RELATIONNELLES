@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="fr" xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
 
 <head>
     <meta charset="UTF-8" />
@@ -406,6 +407,44 @@
         transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
+
+<nav>
+	<ul>
+		<li><a th:href="@{/moderator}">Moderateur</a></li>
+		<li><a th:href="@{/administrator}">Administrateur</a></li>
+		<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
+	</ul>
+</nav>
+
+<script>
+    /* We'll do smaller shooting stars (5px) and spawn them more frequently. */
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        const size = 5; // smaller
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.boxShadow = '0 0 6px 2px rgba(255,255,255,0.8)';
+
+        // pick random edge
+        const edges = ['top','bottom','left','right'];
+        const edge = edges[Math.floor(Math.random()*edges.length)];
+        let startX=0, startY=0;
+        if(edge === 'top') {
+            startY=0;
+            startX=Math.random()*window.innerWidth;
+        } else if(edge==='bottom') {
+            startY=window.innerHeight;
+            startX=Math.random()*window.innerWidth;
+        } else if(edge==='left') {
+            startX=0;
+            startY=Math.random()*window.innerHeight;
+        } else {
+            // right
+            startX=window.innerWidth;
+            startY=Math.random()*window.innerHeight;
+        }
+=======
     .testimonial-user {
         display: flex;
         gap: 15px;
