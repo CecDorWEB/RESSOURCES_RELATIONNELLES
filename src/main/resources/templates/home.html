@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -472,6 +472,14 @@
 
     <a class="create-account"  href="signup">Créer un compte</a>
 </div>
+
+<nav>
+	<ul>
+		<li><a th:href="@{/moderator}">Moderateur</a></li>
+		<li><a th:href="@{/administrator}">Administrateur</a></li>
+		<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
+	</ul>
+</nav>
 
 <script>
     /* We'll do smaller shooting stars (5px) and spawn them more frequently. */
