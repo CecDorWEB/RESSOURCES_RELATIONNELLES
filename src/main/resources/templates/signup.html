@@ -298,9 +298,6 @@
         <p th:if="${param.error}" class="error">Une erreur est survenue lors de l'inscription</p>
 
         <form th:action="@{/authentification/signup}" th:object="${user}" method="post">
-            <label for="username">Nom d'utilisateur :</label>
-            <input type="text" id="username" th:field="*{username}" required />
-
             <label for="firstName">Prénom :</label>
             <input type="text" id="firstName" th:field="*{firstName}" required />
 

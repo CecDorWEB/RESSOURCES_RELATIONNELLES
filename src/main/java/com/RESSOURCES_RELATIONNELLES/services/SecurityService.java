@@ -43,13 +43,13 @@ public class SecurityService {
     }
 
     // ✅ Vérifie si un utilisateur existe déjà en base
-    public boolean userAlreadyExists(String email, String username) {
-        return userRepository.findByEmail(email) != null || userRepository.findByUsername(username) != null;
+    public boolean userAlreadyExists(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 
     // ✅ Vérifie les identifiants pour la connexion
-    public boolean login(String username, String password) {
-        User user = userRepository.findByUsername(username);
+    public boolean login(String email, String password) {
+        User user = userRepository.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) { // Utilisation correcte de matches()
             setAuthToken();
             return true;
@@ -59,7 +59,7 @@ public class SecurityService {
 
     // ✅ Inscription d'un nouvel utilisateur
     public boolean signUpUser(User user) {
-        if (!userAlreadyExists(user.getEmail(), user.getUsername())) {
+        if (!userAlreadyExists(user.getEmail())) {
             String hashedPassword = passwordEncoder.encode(user.getPassword()); // Encodage sécurisé
             user.setPassword(hashedPassword);
             userRepository.save(user);

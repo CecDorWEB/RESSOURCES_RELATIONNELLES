@@ -227,11 +227,11 @@
         <div class="icon">🔒</div>
         <h2>Connexion</h2>
         <!-- Affichage du message d'erreur en cas d'échec de connexion -->
-        <p th:if="${param.error}" class="error">Nom d'utilisateur ou mot de passe incorrect</p>
+        <p th:if="${param.error}" class="error">Email ou mot de passe incorrect</p>
 
         <form th:action="@{/authentification/login}" th:object="${user}" method="post">
-            <label for="username">Nom d'utilisateur :</label>
-            <input type="text" id="username" th:field="*{username}" required />
+            <label for="email">Email :</label>
+            <input type="text" id="email" th:field="*{email}" required />
 
             <label for="password">Mot de passe :</label>
             <input type="password" id="password" th:field="*{password}" required />

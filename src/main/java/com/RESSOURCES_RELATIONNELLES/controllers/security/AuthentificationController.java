@@ -47,7 +47,7 @@ public class AuthentificationController {
     @GetMapping("/logout")
     public String logout() {
         this.securityService.removeAuthToken();
-        return "home";
+        return "redirect:/";
     }
 
     @PostMapping("/login")
@@ -55,7 +55,7 @@ public class AuthentificationController {
         if (this.securityService.isAuthenticated()) {
             return "alreadyConnected";
         }
-        boolean isAuth = this.securityService.login(user.getUsername(), user.getPassword());
+        boolean isAuth = this.securityService.login( user.getEmail() , user.getPassword());
         if (isAuth) {
             return "redirect:/"; // Connexion réussie, redirection vers l'accueil
         } else {
