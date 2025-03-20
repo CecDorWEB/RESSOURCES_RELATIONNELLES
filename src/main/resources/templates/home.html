@@ -407,15 +407,6 @@
         transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-
-<nav>
-	<ul>
-		<li><a th:href="@{/moderator}">Moderateur</a></li>
-		<li><a th:href="@{/administrator}">Administrateur</a></li>
-		<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
-	</ul>
-</nav>
-
 <script>
     /* We'll do smaller shooting stars (5px) and spawn them more frequently. */
     function createShootingStar() {
@@ -590,7 +581,10 @@
             <ul class="nav-links" id="navbarLinks">
                 <li><a href="#hero">Accueil</a></li>
                 <li><a href="#projet">Le projet</a></li>
-                <li><a href="#resources">Ressources</a></li>
+                <li><a th:href="@{/ressource}">Ressources</a></li>
+                <li><a th:href="@{/moderator}">Moderateur</a></li>
+				<li><a th:href="@{/administrator}">Administrateur</a></li>
+				<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
             </ul>
         </nav>
         <div class="auth">
@@ -629,7 +623,7 @@
         Rejoignez une plateforme unique dédiée à la qualité de nos liens : familles, amis, collègues.
         Trouvez des ressources pour mieux communiquer, partager et grandir ensemble.
     </p>
-    <button class="hero-btn">Explorer les ressources</button>
+    <button class="hero-btn" th:href="@{/ressource}">Explorer les ressources</button>
 
 </section>
 
@@ -660,7 +654,7 @@
                 catalogue est pensé pour répondre aux besoins de chacun.
             </p>
 
-            <button>Explorer le catalogue</button>
+            <button th:href="@{/ressource}">Explorer le catalogue</button>
         </div>
     </div>
 

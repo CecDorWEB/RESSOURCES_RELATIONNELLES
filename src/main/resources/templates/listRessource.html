@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/listRessource.css}">
+</head>
+<body>
+<h1>Ici la liste des ressources</h1>
+<section class="ressource_card_container">
+<article class="ressourceCard" th:each="r:${listRessource}">
+<img th:src="${r.headerImagePath}"/>
+<p th:text="${r.category.name}"></p>
+<p th:text="${r.ressourceType.name}"></p>
+<h1 th:text="${r.title}"></h1>
+</article>
+</section>
+</body>
+</html>

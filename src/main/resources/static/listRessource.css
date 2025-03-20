@@ -1,0 +1,21 @@
+.ressource_card_container{
+	display:flex;
+	flex-wrap: wrap;
+	gap:1em;
+}
+
+.ressourceCard{
+	display:flex;
+	flex-direction:column;
+	max-width:200px;
+	border:1px solid grey;
+	border-radius:1em;
+	
+}
+
+img{
+	width: 200px;
+	height:100px;
+	object-fit: cover;
+	border-radius:1em 1em 0 0;
+}

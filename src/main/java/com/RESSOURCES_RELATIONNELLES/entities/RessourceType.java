@@ -18,7 +18,7 @@ public class RessourceType {
 	private Long id;
 
 	@Column(name = "name", nullable = false)
-	private int name;
+	private String name;
 
 	@OneToMany(mappedBy = "ressourceType")
 	private List<Ressource> listRessources;
@@ -31,11 +31,11 @@ public class RessourceType {
 		this.id = id;
 	}
 
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -47,7 +47,7 @@ public class RessourceType {
 		this.listRessources = listRessources;
 	}
 
-	public RessourceType(int name, List<Ressource> listRessources) {
+	public RessourceType(String name, List<Ressource> listRessources) {
 		super();
 		this.name = name;
 		this.listRessources = listRessources;

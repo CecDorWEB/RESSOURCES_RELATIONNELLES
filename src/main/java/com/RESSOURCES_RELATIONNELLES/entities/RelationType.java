@@ -18,7 +18,7 @@ public class RelationType {
 	private Long id;
 
 	@Column(name = "name", nullable = false)
-	private int name;
+	private String name;
 
 	@OneToMany(mappedBy = "relationType")
 	private List<HaveRelationType> listRelationTypes;
@@ -31,11 +31,11 @@ public class RelationType {
 		this.id = id;
 	}
 
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -47,7 +47,7 @@ public class RelationType {
 		this.listRelationTypes = listRelationTypes;
 	}
 
-	public RelationType(int name, List<HaveRelationType> listRelationTypes) {
+	public RelationType(String name, List<HaveRelationType> listRelationTypes) {
 		super();
 		this.name = name;
 		this.listRelationTypes = listRelationTypes;

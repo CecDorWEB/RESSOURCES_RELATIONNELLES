@@ -18,7 +18,7 @@ public class Category {
 	private Long id;
 
 	@Column(name = "name", nullable = false)
-	private int name;
+	private String name;
 
 	@OneToMany(mappedBy = "category")
 	private List<Ressource> listRessources;
@@ -31,11 +31,11 @@ public class Category {
 		this.id = id;
 	}
 
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -47,7 +47,7 @@ public class Category {
 		this.listRessources = listRessources;
 	}
 
-	public Category(int name, List<Ressource> listRessources) {
+	public Category(String name, List<Ressource> listRessources) {
 		super();
 		this.name = name;
 		this.listRessources = listRessources;
