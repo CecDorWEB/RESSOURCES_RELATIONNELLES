@@ -17,6 +17,10 @@ public class RessourceService {
 		return _resourceRepository.findAll();
 	}
 
+	public Ressource getRessourceById(Long id) {
+		return _resourceRepository.findById(id).orElse(null);
+	}
+
 	public RessourceService(RessourceRepository resourceRepository) {
 		this._resourceRepository = resourceRepository;
 	}
