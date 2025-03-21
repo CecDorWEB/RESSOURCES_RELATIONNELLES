@@ -12,6 +12,9 @@ import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
 @Repository
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 
-	@Query("select res from Ressource res JOIN res.listRelationTypes rel WHERE rel.id = :relationTypeId ")
-	public List<Ressource> findAllRessourceByRelationType(@Param("relationTypeId") Long relationTypeId);
+	@Query("SELECT res FROM Ressource res " + "LEFT JOIN res.listRelationTypes rel "
+			+ "WHERE (:relationTypeId IS NULL OR rel.relationType.id = :relationTypeId) "
+			+ "AND (:searchWord IS NULL OR LOWER(res.title) LIKE LOWER(CONCAT('%', :searchWord, '%')) "
+			+ "OR LOWER(res.description) LIKE LOWER(CONCAT('%', :searchWord, '%')))")
+	List<Ressource> findByFilters(@Param("relationTypeId") Long relationTypeId, @Param("searchWord") String searchWord);
 }

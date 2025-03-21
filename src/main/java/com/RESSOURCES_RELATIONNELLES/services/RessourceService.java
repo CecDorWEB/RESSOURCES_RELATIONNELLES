@@ -17,8 +17,8 @@ public class RessourceService {
 		return _resourceRepository.findAll();
 	}
 
-	public List<Ressource> getAllRessourcesByRelationType(Long relationTypeId) {
-		return _resourceRepository.findAllRessourceByRelationType(relationTypeId);
+	public List<Ressource> getFilteredRessources(Long relationTypeId, String searchWord) {
+		return _resourceRepository.findByFilters(relationTypeId, searchWord);
 	}
 
 	public RessourceService(RessourceRepository resourceRepository) {

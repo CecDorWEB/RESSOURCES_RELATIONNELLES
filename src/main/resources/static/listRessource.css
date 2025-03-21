@@ -4,6 +4,8 @@ body{
 	gap:2em;
 	font-family: "Poppins", sans-serif;
     background: #fafbfd;
+    width:85%;
+    margin:auto;
     margin-bottom:2em;
 }
 
@@ -39,7 +41,7 @@ div.relation_filter a.relation_filter_link{
     transition: transform 0.2s;
     width: fit-content;
     font-size: 1rem;
-    max-width:100px;
+    max-width:120px;
     cursor:pointer;
 }
 
@@ -51,6 +53,35 @@ div.relation_filter a.relation_filter_link:hover {
 
 .ressource_card_container * {
 	margin:0;
+}
+
+.search_ressource{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+
+}
+
+.search_ressource > form {
+	display:flex;
+	gap:0.5rem;
+	width: 100%;
+}
+
+.search_ressource > form > input{
+	all:unset;
+	border: 1px solid #7e1bf2;
+	padding: 0.5rem;
+	border-radius: 10px;
+	color: #7e1bf2;
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-size:0.8rem;
+}
+
+.search_ressource > form > input.search_input_ressource{
+	width: 100%;
+	color:black;
 }
 
 .ressource_card_container{
@@ -111,5 +142,14 @@ div.relation_filter a.relation_filter_link:hover {
 	div.relation_filter a.relation_filter_link{
     padding: 0.6rem 1rem;
     max-width:none;
+}
+.ressource_card_container{
+	display:flex;
+	justify-content:space-around;
+	flex-wrap: wrap;
+	gap:2em;
+}
+.search_ressource > form {
+	gap:1rem;
 }
 }
