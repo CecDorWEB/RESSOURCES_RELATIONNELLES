@@ -24,9 +24,12 @@ import jakarta.validation.Valid;
 @Controller
 public class RessourceController {
 	private final RessourceService _ressourceService;
+	private final RelationTypeService _relationTypeService;
 
-	public RessourceController(RessourceService ressourceService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService) {
+
 		this._ressourceService = ressourceService;
+		this._relationTypeService = relationTypeService;
 	}
 
     @GetMapping("/ressource/create")
@@ -38,8 +41,8 @@ public class RessourceController {
 
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model) {
-		List<RelationType> relationType = _relationTypeService.getAllRelationType();
-		List<Ressource> ressource = _ressourceService.getAllRessources();
+		List<RelationType> relationType = _relationTypeService.findAll();
+		List<Ressource> ressource = _ressourceService.findAll();
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessource", ressource);
 		return "listRessource";
@@ -47,20 +50,21 @@ public class RessourceController {
 
 	@GetMapping("/ressource/{id}")
 	public String afficherRessource(@PathVariable Long id, Model model) {
-		Ressource ressource = _ressourceService.getRessourceById(id);
-		if(ressource != null)
+		Optional<Ressource> ressource = _ressourceService.findById(id);
+		if(ressource.isPresent())
 		{
-			model.addAttribute("title", "Modification d'une ressource");
+			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
+
             model.addAttribute("paragraphs", paragraphs);
             model.addAttribute("ressource", ressource.get());
-            return "ressourceForm";
+            return "ressource";
         }
         return "redirect:/home"; // Redirige si l'ID n'existe pas
     }
 
 	@GetMapping("/ressource/edit/{id}")
 	public String openEditForm(@PathVariable Long id, Model model) {
-		Optional<Ressource> ressource = _ressourceService.FindById(id);
+		Optional<Ressource> ressource = _ressourceService.findById(id);
 		if (ressource.isPresent()) {
 
 			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
@@ -89,7 +93,7 @@ public class RessourceController {
 
 		ressource.setContent(content);
 
-		var newRessource = _ressourceService.SaveRessource(ressource);
+		var newRessource = _ressourceService.save(ressource);
 
 		if (newRessource != null && newRessource.getId() > 0) 
 		{
