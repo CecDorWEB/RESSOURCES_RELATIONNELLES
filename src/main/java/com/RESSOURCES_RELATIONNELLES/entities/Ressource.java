@@ -47,10 +47,10 @@ public class Ressource {
 	private String status;
 
 	@Column(name = "privacy", nullable = false)
-	private Boolean privacy;
+	private Boolean privacy = false;
 
 	@Column(name = "isActive", nullable = false)
-	private Boolean isActive;
+	private Boolean isActive = false;
 
 	@OneToOne
 	@JoinColumn(name = "statistic_id")
@@ -210,4 +210,12 @@ public class Ressource {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "Ressource [id=" + id + ", title=" + title + ", headerImagePath=" + headerImagePath + ", filePath="
+				+ filePath + ", content=" + content + ", publicationDate=" + publicationDate + ", updateDate="
+				+ updateDate + ", description=" + description + ", status=" + status + ", privacy=" + privacy
+				+ ", isActive=" + isActive + ", statistic=" + statistic + ", category=" + category + ", ressourceType="
+				+ ressourceType + ", listRelationTypes=" + listRelationTypes + "]";
+	}
 }
