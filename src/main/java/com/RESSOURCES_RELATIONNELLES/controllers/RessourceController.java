@@ -32,13 +32,27 @@ public class RessourceController {
 	@Autowired
 	private RelationTypeService _relationTypeService;
 
-	@GetMapping("/ressource")
+	@GetMapping("/ressources")
 	public String consultAllRessources(Model model) {
 		List<RelationType> relationType = _relationTypeService.getAllRelationType();
 		List<Ressource> ressource = _ressourceService.getAllRessources();
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessource", ressource);
 		return "listRessource";
+	}
+
+	@GetMapping("/ressource/{id}")
+	public String afficherRessource(@PathVariable Long id, Model model) {
+		Ressource ressource = _ressourceService.getRessourceById(id);
+
+		if (ressource != null) {
+			model.addAttribute("ressource", ressource); // Ajouter la ressource au modèle
+		} else {
+			model.addAttribute("errorMessage", "Ressource non trouvée"); // Message d'erreur si la ressource est
+																			// introuvable
+		}
+
+		return "ressource"; // Retourner la vue Thymeleaf associée
 	}
 
 	@GetMapping("/ressource/create")
