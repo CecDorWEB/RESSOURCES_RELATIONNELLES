@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resources Relationnelles</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<!-- HEADER -->
+<header>
+    <div class="nav-container">
+        <nav>
+            <img src="/img/logo-nobg.png" alt="Logo" id="logo">
+            <ul class="nav-links" id="navbarLinks">
+                <li><a href="/home#hero">Accueil</a></li>
+                <li><a href="/home#projet">Le projet</a></li>
+                <li><a href="/resources">Ressources</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="authentification/login" class="btn-login">Connexion</a>
+            <a href="authentification/signup" class="btn-register">Inscription</a>
+        </div>
+    </div>
+</header>
+
+<!-- CONTENU -->
+<main layout:fragment="content"></main>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2023 Resources Relationnelles. Tous droits réservés.</p>
+    <p>
+        <a href="#">FAQ</a> |
+        <a href="#">Contact</a> |
+        <a href="#">Politique de Confidentialité</a> |
+        <a href="#">Conditions</a>
+    </p>
+</footer>
+</body>
+<script src="/js/script.js"></script>
+</html>

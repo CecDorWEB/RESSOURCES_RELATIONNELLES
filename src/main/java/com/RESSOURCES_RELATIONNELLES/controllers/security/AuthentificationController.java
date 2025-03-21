@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/authentification")
 public class AuthentificationController {
 
     private final HttpSession session;
@@ -29,7 +28,7 @@ public class AuthentificationController {
     @GetMapping("/login")
     public String login(Model model) {
         if (this.securityService.isAuthenticated()) {
-            return "alreadyConnected";
+            return "home";
         }
         model.addAttribute("user", new User());
         return "login";
@@ -38,7 +37,7 @@ public class AuthentificationController {
     @GetMapping("/signup")
     public String signup(Model model) {
         if (this.securityService.isAuthenticated()) {
-            return "alreadyConnected";
+            return "redirect:/home";
         }
         model.addAttribute("user", new User());
         return "signup";
@@ -47,17 +46,17 @@ public class AuthentificationController {
     @GetMapping("/logout")
     public String logout() {
         this.securityService.removeAuthToken();
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user, Model model) {
         if (this.securityService.isAuthenticated()) {
-            return "alreadyConnected";
+            return "redirect:/home";
         }
         boolean isAuth = this.securityService.login( user.getEmail() , user.getPassword());
         if (isAuth) {
-            return "redirect:/"; // Connexion réussie, redirection vers l'accueil
+            return "redirect:/home"; // Connexion réussie, redirection vers l'accueil
         } else {
             model.addAttribute("error", "Identifiants incorrects !");
             return "login"; // Retour à la page login avec un message d'erreur
@@ -67,11 +66,11 @@ public class AuthentificationController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") User user, Model model) {
         if (this.securityService.isAuthenticated()) {
-            return "alreadyConnected";
+            return "redirect:/home";
         }
         boolean signUpOk =  this.securityService.signUpUser(user);
         if (signUpOk) {
-            return "redirect:/authentification/login"; // Redirige vers login après inscription réussie
+            return "redirect:/login"; // Redirige vers login après inscription réussie
         }
         else {
             model.addAttribute("error", "Problème lors de l'inscription !");

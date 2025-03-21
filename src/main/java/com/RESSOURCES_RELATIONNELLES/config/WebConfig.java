@@ -14,7 +14,19 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**", "/signup")
-                .excludePathPatterns("/authentification/**", "/notAccess" , "/"); // Autorise certaines pages
+                //.addPathPatterns("/**") // TODO Enable this if u want to block by login
+                .excludePathPatterns(
+                    "/signup",  // Autorise inscription
+                    "/login", // Autorise connexion
+                    "/notAccess", // Autorise notaccess
+                    "/", "/home", // Autorise home
+
+                    "/css/**", // Autorise fichiers css
+                    "/js/**", // Autorise fichiers js
+                    "/img/**", // Autorise images
+                    "/favicon.ico",
+
+                    "/**" //TODO Disable this if u want to block by login
+                );
     }
 }

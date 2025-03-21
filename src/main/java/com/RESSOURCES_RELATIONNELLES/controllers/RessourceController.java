@@ -25,7 +25,7 @@ public class RessourceController {
     public String openCreateForm(Model model) {
         model.addAttribute("title", "Création d'une ressource");
         model.addAttribute("ressource", new Ressource());
-        return "ressource-form";
+        return "ressourceForm";
     }
 
     @GetMapping("/ressource/edit/{id}")
@@ -38,7 +38,7 @@ public class RessourceController {
             model.addAttribute("title", "Modification d'une ressource");
             model.addAttribute("paragraphs", paragraphs);
             model.addAttribute("ressource", ressource.get());
-            return "ressource-form";
+            return "ressourceForm";
         }
         return "redirect:/home"; // Redirige si l'ID n'existe pas
     }
@@ -52,7 +52,7 @@ public class RessourceController {
 
         if (result.hasErrors()) {
             model.addAttribute("title", ressource.getId() == null ? "Création d'une ressource" : "Modification d'une ressource");
-            return "ressource-form";
+            return "ressourceForm";
         }
 
         // Transformation des paragraphes en <section>
