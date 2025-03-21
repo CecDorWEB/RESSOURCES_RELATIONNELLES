@@ -1,25 +1,35 @@
 package com.RESSOURCES_RELATIONNELLES.services;
 
-import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
-import com.RESSOURCES_RELATIONNELLES.repositories.RessourceRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.repositories.RessourceRepository;
 
 @Service
 public class RessourceService {
 
-    private final RessourceRepository _resourceRepository;
+	private final RessourceRepository _resourceRepository;
 
-    public RessourceService(RessourceRepository resourceRepository) {
-        this._resourceRepository = resourceRepository;
-    }
+	public List<Ressource> getAllRessources() {
+		return _resourceRepository.findAll();
+	}
 
-    public Ressource SaveRessource(Ressource ressource) {
-        return _resourceRepository.save(ressource);
-    }
+	public Ressource getRessourceById(Long id) {
+		return _resourceRepository.findById(id).orElse(null);
+	}
 
-    public Optional<Ressource> FindById(Long id) {
-        return _resourceRepository.findById(id);
-    }
+	public RessourceService(RessourceRepository resourceRepository) {
+		this._resourceRepository = resourceRepository;
+	}
+
+	public Ressource SaveRessource(Ressource ressource) {
+		return _resourceRepository.save(ressource);
+	}
+
+	public Optional<Ressource> FindById(Long id) {
+		return _resourceRepository.findById(id);
+	}
 }

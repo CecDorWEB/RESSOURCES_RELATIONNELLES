@@ -46,11 +46,11 @@ public class Ressource {
 	@Column(name = "status", nullable = true)
 	private String status;
 
-	@Column(name = "privacy", nullable = false)
-	private Boolean privacy = false;
+	@Column(name = "isPublished", nullable = false)
+	private Boolean isPublished = false;
 
-	@Column(name = "isActive", nullable = false)
-	private Boolean isActive = false;
+	@Column(name = "isActived", nullable = false)
+	private Boolean isActived = true;
 
 	@OneToOne
 	@JoinColumn(name = "statistic_id")
@@ -64,6 +64,32 @@ public class Ressource {
 
 	@OneToMany(mappedBy = "ressource")
 	private List<HaveRelationType> listRelationTypes;
+
+	public Ressource() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Ressource(String title, String headerImagePath, String filePath, String content, Date publicationDate,
+			Date updateDate, String description, String status, Boolean isPublished, Boolean isActived,
+			Statistic statistic, Category category, RessourceType ressourceType,
+			List<HaveRelationType> listRelationTypes) {
+		super();
+		this.title = title;
+		this.headerImagePath = headerImagePath;
+		this.filePath = filePath;
+		this.content = content;
+		this.publicationDate = publicationDate;
+		this.updateDate = updateDate;
+		this.description = description;
+		this.status = status;
+		this.isPublished = isPublished;
+		this.isActived = isActived;
+		this.statistic = statistic;
+		this.category = category;
+		this.ressourceType = ressourceType;
+		this.listRelationTypes = listRelationTypes;
+	}
 
 	public Long getId() {
 		return id;
@@ -137,20 +163,20 @@ public class Ressource {
 		this.status = status;
 	}
 
-	public Boolean getPrivacy() {
-		return privacy;
+	public Boolean getIsPublished() {
+		return isPublished;
 	}
 
-	public void setPrivacy(Boolean privacy) {
-		this.privacy = privacy;
+	public void setIsPublished(Boolean isPublished) {
+		this.isPublished = isPublished;
 	}
 
-	public Boolean getIsActive() {
-		return isActive;
+	public Boolean getIsActived() {
+		return isActived;
 	}
 
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
+	public void setIsActived(Boolean isActived) {
+		this.isActived = isActived;
 	}
 
 	public Statistic getStatistic() {
@@ -185,37 +211,4 @@ public class Ressource {
 		this.listRelationTypes = listRelationTypes;
 	}
 
-	public Ressource(String title, String headerImagePath, String filePath, String content, Date publicationDate,
-			Date updateDate, String description, String status, Boolean privacy, Boolean isActive, Statistic statistic,
-			Category category, RessourceType ressourceType, List<HaveRelationType> listRelationTypes) {
-		super();
-		this.title = title;
-		this.headerImagePath = headerImagePath;
-		this.filePath = filePath;
-		this.content = content;
-		this.publicationDate = publicationDate;
-		this.updateDate = updateDate;
-		this.description = description;
-		this.status = status;
-		this.privacy = privacy;
-		this.isActive = isActive;
-		this.statistic = statistic;
-		this.category = category;
-		this.ressourceType = ressourceType;
-		this.listRelationTypes = listRelationTypes;
-	}
-
-	public Ressource() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public String toString() {
-		return "Ressource [id=" + id + ", title=" + title + ", headerImagePath=" + headerImagePath + ", filePath="
-				+ filePath + ", content=" + content + ", publicationDate=" + publicationDate + ", updateDate="
-				+ updateDate + ", description=" + description + ", status=" + status + ", privacy=" + privacy
-				+ ", isActive=" + isActive + ", statistic=" + statistic + ", category=" + category + ", ressourceType="
-				+ ressourceType + ", listRelationTypes=" + listRelationTypes + "]";
-	}
 }
