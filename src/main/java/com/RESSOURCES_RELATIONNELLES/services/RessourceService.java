@@ -1,8 +1,8 @@
 package com.RESSOURCES_RELATIONNELLES.services;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
@@ -10,10 +10,22 @@ import com.RESSOURCES_RELATIONNELLES.repositories.RessourceRepository;
 
 @Service
 public class RessourceService {
-	@Autowired
-	private RessourceRepository ressourceRepository;
+
+	private final RessourceRepository _resourceRepository;
 
 	public List<Ressource> getAllRessources() {
-		return ressourceRepository.findAll();
+		return _resourceRepository.findAll();
+	}
+
+	public RessourceService(RessourceRepository resourceRepository) {
+		this._resourceRepository = resourceRepository;
+	}
+
+	public Ressource SaveRessource(Ressource ressource) {
+		return _resourceRepository.save(ressource);
+	}
+
+	public Optional<Ressource> FindById(Long id) {
+		return _resourceRepository.findById(id);
 	}
 }
