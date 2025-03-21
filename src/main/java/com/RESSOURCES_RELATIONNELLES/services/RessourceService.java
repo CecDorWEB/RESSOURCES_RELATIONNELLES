@@ -17,6 +17,10 @@ public class RessourceService {
 		return _resourceRepository.findAll();
 	}
 
+	public List<Ressource> getAllRessourcesByRelationType(Long relationTypeId) {
+		return _resourceRepository.findAllRessourceByRelationType(relationTypeId);
+	}
+
 	public RessourceService(RessourceRepository resourceRepository) {
 		this._resourceRepository = resourceRepository;
 	}

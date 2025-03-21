@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
 <head>
+	<meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/listRessource.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
 	<section class="intro_listRessource">
@@ -10,7 +12,12 @@
 	Chaque ressource est classée selon le type de relation et la nature du contenu.</p>
 	
 	<div class="relation_filter" >
-		<button th:each="relation:${listRelation}" th:text="${relation.name}"></button>
+	<a class="relation_filter_link" th:href="@{/ressources}">Tous</a>
+	<a th:each="relation : ${listRelation}" 
+       th:text="${relation.name}" 
+       th:href="@{/ressources(relationTypeId=${relation.id})}" 
+       class="relation_filter_link">
+    </a>
 	</div>
 	</section>
 

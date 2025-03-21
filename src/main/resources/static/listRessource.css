@@ -1,12 +1,18 @@
 body{
 	display:flex;
 	flex-direction: column;
-	gap:1em;
+	gap:2em;
+	font-family: "Poppins", sans-serif;
+    background: #fafbfd;
+    margin-bottom:2em;
 }
+
 .intro_listRessource{
 	display:flex;
 	flex-direction: column;
+	text-align:center;
 	align-items: center;
+	gap:1em;
 }
 
 .intro_listRessource > h1{
@@ -16,22 +22,28 @@ body{
 
 div.relation_filter{
 	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	justify-content:center;
 	gap:1em;
 }
 
-div.relation_filter button{
+div.relation_filter a.relation_filter_link{
+	text-decoration:none;
 	background-color: #fff;
     color:#7e1bf2;
  	border: 1px solid #7e1bf2;
     border-radius: 10px;
-    padding: 0.6rem 1rem;
+    padding: 0.4rem 0.8rem;
     font-weight: 600;
     transition: transform 0.2s;
     width: fit-content;
     font-size: 1rem;
+    max-width:100px;
+    cursor:pointer;
 }
 
-div.relation_filter button:hover {
+div.relation_filter a.relation_filter_link:hover {
         transform: scale(1.05);
         background-color: #7e1bf2;
         color: #fff;
@@ -45,7 +57,7 @@ div.relation_filter button:hover {
 	display:flex;
 	justify-content:center;
 	flex-wrap: wrap;
-	gap:1.5em;
+	gap:2em;
 }
 
 .ressource_card_container > .ressourceCard{
@@ -76,7 +88,6 @@ div.relation_filter button:hover {
     font-weight: 600;
     transition: transform 0.2s;
     width: fit-content;
-    font-size: 0.8rem;
 }
 
 
@@ -88,11 +99,17 @@ div.relation_filter button:hover {
 }
 
 .ressource_card_container > .ressourceCard > h1.ressource_title{
+	 display: flex;
+    align-items: center;
+    justify-content: center;
 	height:100%;
 	padding: 0 0.3rem;
 	color:rgba(0,0,0,0.8);
 }
 
 @media screen and (min-width: 1024px) {
-	
+	div.relation_filter a.relation_filter_link{
+    padding: 0.6rem 1rem;
+    max-width:none;
+}
 }

@@ -32,10 +32,18 @@ public class RessourceController {
 	@Autowired
 	private RelationTypeService _relationTypeService;
 
-	@GetMapping("/ressource")
-	public String consultAllRessources(Model model) {
+	@GetMapping("/ressources")
+	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId) {
 		List<RelationType> relationType = _relationTypeService.getAllRelationType();
-		List<Ressource> ressource = _ressourceService.getAllRessources();
+
+		List<Ressource> ressource;
+
+		if (relationTypeId != null) {
+			ressource = _ressourceService.getAllRessourcesByRelationType(relationTypeId);
+		} else {
+			ressource = _ressourceService.getAllRessources(); // Si aucun filtre, renvoyer toutes les ressources
+		}
+
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessource", ressource);
 		return "listRessource";
