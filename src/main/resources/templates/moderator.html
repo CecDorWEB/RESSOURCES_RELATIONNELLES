@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesSupportPages.css}">
+	<title>Modération</title>
 </head>
 <body>
+<main layout:fragment="content">
 <h1>Page Moderateur</h1>
 <section>
 	<h2>Validation des ressources en attente de publication</h2>
@@ -73,5 +76,6 @@
 		  </tbody>
 		</table>
 </section>
+</main>
 </body>
 </html>

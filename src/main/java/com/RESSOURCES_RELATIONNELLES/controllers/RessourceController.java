@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,13 +23,20 @@ import jakarta.validation.Valid;
 @Controller
 public class RessourceController {
 	private final RessourceService _ressourceService;
+	private final RelationTypeService _relationTypeService;
 
-	public RessourceController(RessourceService ressourceService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService) {
+
 		this._ressourceService = ressourceService;
+		this._relationTypeService = relationTypeService;
 	}
 
-	@Autowired
-	private RelationTypeService _relationTypeService;
+	@GetMapping("/ressource/create")
+	public String openCreateForm(Model model) {
+		model.addAttribute("title", "Création d'une ressource");
+		model.addAttribute("ressource", new Ressource());
+		return "ressourceForm";
+	}
 
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
@@ -50,16 +56,22 @@ public class RessourceController {
 		return "listRessource";
 	}
 
-	@GetMapping("/ressource/create")
-	public String openCreateForm(Model model) {
-		model.addAttribute("title", "Création d'une ressource");
-		model.addAttribute("ressource", new Ressource());
-		return "ressource-form";
+	@GetMapping("/ressource/{id}")
+	public String afficherRessource(@PathVariable Long id, Model model) {
+		Optional<Ressource> ressource = _ressourceService.findById(id);
+		if (ressource.isPresent()) {
+			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
+
+			model.addAttribute("paragraphs", paragraphs);
+			model.addAttribute("ressource", ressource.get());
+			return "ressource";
+		}
+		return "redirect:/home"; // Redirige si l'ID n'existe pas
 	}
 
 	@GetMapping("/ressource/edit/{id}")
 	public String openEditForm(@PathVariable Long id, Model model) {
-		Optional<Ressource> ressource = _ressourceService.FindById(id);
+		Optional<Ressource> ressource = _ressourceService.findById(id);
 		if (ressource.isPresent()) {
 
 			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
@@ -88,9 +100,13 @@ public class RessourceController {
 
 		ressource.setContent(content);
 
-		_ressourceService.SaveRessource(ressource);
+		var newRessource = _ressourceService.save(ressource);
 
-		return "redirect:/home";
+		if (newRessource != null && newRessource.getId() > 0) {
+			return "redirect:/ressource/" + newRessource.getId();
+		} else {
+			return "redirect:/home";
+		}
 	}
 
 	private List<String> extractParagraphs(String content) {

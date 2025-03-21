@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
 <head>
 	<meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" th:href="@{/listRessource.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ressources</title>
+	<link rel="stylesheet" href="/css/listRessource.css" />
 </head>
 <body>
+<main layout:fragment="content">
 	<section class="intro_listRessource">
 	<h1>Articles & Ressources relationnelles</h1>
 	<p>Accédez à nos ressources pour mieux comprendre et enrichir vos relations au quotidien.<br>
@@ -16,7 +20,7 @@
 	<a th:each="relation : ${listRelation}" 
        th:text="${relation.name}" 
        class="relation_filter_link"
-       <!-- th:href="@{/ressources(relationTypeId=${relation.id})}"  -->
+       th:href="@{/ressources(relationTypeId=${relation.id})}"
        onclick="updateRelationType(event, this)">
     </a>
 	</div>
@@ -61,6 +65,7 @@
 	
 	
 </section>
+</main>
 </body>
 </html>
 
