@@ -7,7 +7,30 @@
     <link rel="stylesheet" href="/css/home.css" />
 </head>
 <body>
+<<<<<<< HEAD
+<!-- HEADER / NAVBAR -->
+<header>
+    <div class="nav-container">
+        <nav>
+            <img src="/logo-nobg.png" alt="Logo" id="logo">
+            <ul class="nav-links" id="navbarLinks">
+                <li><a href="#hero">Accueil</a></li>
+                <li><a href="#projet">Le projet</a></li>
+                <li><a th:href="@{/ressources}">Ressources</a></li>
+                <li><a th:href="@{/moderator}">Moderateur</a></li>
+				<li><a th:href="@{/administrator}">Administrateur</a></li>
+				<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="authentification/login" class="btn-login">Connexion</a>
+            <a href="authentification/signup" class="btn-register">Inscription</a>
+        </div>
+    </div>
+</header>
+=======
     <main layout:fragment="content">
+>>>>>>> main
 
     <!-- HERO SECTION -->
     <section class="hero" id="hero">

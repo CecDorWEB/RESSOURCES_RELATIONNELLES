@@ -18,4 +18,8 @@ public class RelationTypeService extends BaseService<RelationType, Long> {
 		super(baseRepository);
 	}
 
+	public List<RelationType> getAllRelationType() {
+		return relationTypeRepository.findAll();
+	}
+
 }

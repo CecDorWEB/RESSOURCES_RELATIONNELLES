@@ -3,6 +3,8 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layouts/mainLayout}">
 <head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Ressources</title>
 	<link rel="stylesheet" href="/css/listRessource.css" />
 </head>
@@ -14,9 +16,23 @@
 	Chaque ressource est classée selon le type de relation et la nature du contenu.</p>
 	
 	<div class="relation_filter" >
-		<button th:each="relation:${listRelation}" th:text="${relation.name}"></button>
+	<a class="relation_filter_link" th:href="@{/ressources}">Tous</a>
+	<a th:each="relation : ${listRelation}" 
+       th:text="${relation.name}" 
+       class="relation_filter_link"
+       th:href="@{/ressources(relationTypeId=${relation.id})}"
+       onclick="updateRelationType(event, this)">
+    </a>
 	</div>
 	</section>
+	
+	<article class="search_ressource">
+		<form action="/ressources" method="get">
+			<input type="hidden" id="relationTypeId" name="relationTypeId" th:value="${param.relationTypeId}">
+			<input class="search_input_ressource" placeholder="Rechercher une ressource" type="search" id="search" name="searchWord" required="">
+			<input type="submit" class="button-search w-button" value="Rechercher">
+		</form>
+	</article>
 
 <section class="ressource_card_container">
 	<article class="ressourceCard" th:each="res:${listRessource}">
@@ -28,7 +44,28 @@
 		<h1 class="ressource_title" th:text="${res.title}"></h1>
 		<p th:text="${res.category.name}"></p>
 	</article>
+	
+	<script>
+	function updateRelationType(event, element) {
+        event.preventDefault();  // Empêche le lien de recharger immédiatement
+
+        let relationTypeId = new URL(element.href).searchParams.get("relationTypeId");
+
+        // Si un champ de recherche est rempli, soumettre le formulaire
+        let searchInput = document.getElementById("search").value;
+        if (searchInput.trim() !== "") {
+            document.getElementById("relationTypeId").value = relationTypeId;
+            document.getElementById("searchForm").submit();
+        } else {
+            // Sinon, rediriger directement avec relationTypeId seulement
+            window.location.href = "/ressources?relationTypeId=" + relationTypeId;
+        }
+    }
+	</script>
+	
+	
 </section>
 </main>
 </body>
 </html>
+
