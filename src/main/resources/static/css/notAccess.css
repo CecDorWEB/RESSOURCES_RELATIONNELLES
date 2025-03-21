@@ -1,0 +1,186 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: var(--gradient-bg);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    position: relative;
+}
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Container for content */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2; /* Content above shapes */
+}
+
+/* Content card */
+.content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeInUp 1s ease forwards;
+    position: relative;
+}
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Icon bounce animation */
+.icon {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    color: #d9534f;
+    animation: bounceIn 1s ease-out;
+}
+@keyframes bounceIn {
+    0% {
+        transform: translateY(-50px) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(10px) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+h1 {
+    color: #d9534f;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+p {
+    color: #555;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+.btn {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.3s, background 0.3s;
+}
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px) scale(1.03);
+}
+.footer {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+/* Floating shapes in the background */
+.floating-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* behind container content */
+    pointer-events: none;
+}
+
+/* Each shape can have unique color, size, animation */
+.shape {
+    position: absolute;
+    opacity: 0.7;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+/* Example shapes - you can add or remove as needed */
+
+.shape1 {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 99, 132, 0.6);
+    top: -150px;
+    left: 10%;
+    animation-name: moveDown;
+    animation-duration: 20s;
+}
+.shape2 {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(54, 162, 235, 0.6);
+    top: 120%;
+    left: 70%;
+    animation-name: moveUp;
+    animation-duration: 25s;
+}
+.shape3 {
+    width: 120px;
+    height: 120px;
+    background-color: rgba(255, 206, 86, 0.6);
+    top: -150px;
+    left: 50%;
+    animation-name: moveDown;
+    animation-duration: 30s;
+}
+.shape4 {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(153, 102, 255, 0.6);
+    top: 110%;
+    left: 20%;
+    animation-name: moveUp;
+    animation-duration: 18s;
+}
+
+/* Keyframes for shapes - moving up or down */
+@keyframes moveDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(250vh);
+    }
+}
+@keyframes moveUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(-250vh);
+    }
+}

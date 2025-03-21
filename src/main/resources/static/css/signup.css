@@ -1,0 +1,238 @@
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Animated background gradient */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: var(--gradient-bg);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    position: relative;
+}
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Container for content */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2; /* Above background shapes */
+}
+
+/* Content card */
+.content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeInUp 1s ease forwards;
+    position: relative;
+}
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Icon bounce animation */
+.icon {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    color: #28a745;
+    animation: bounceIn 1s ease-out;
+}
+@keyframes bounceIn {
+    0% {
+        transform: translateY(-50px) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(10px) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    font-weight: bold;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+progress {
+    width: 100%;
+    height: 12px;
+    margin-top: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #ddd;
+    transition: background 0.3s ease;
+}
+
+progress::-webkit-progress-value {
+    transition: background-color 0.3s ease;
+}
+
+progress.weak::-webkit-progress-value {
+    background-color: #FF4944;
+}
+
+progress.medium::-webkit-progress-value {
+    background-color: #F2BB16;
+}
+
+progress.strong::-webkit-progress-value {
+    background-color: #00B23C;
+}
+
+.buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+button {
+    padding: 10px;
+    width: 48%;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+.btn-signup {
+    background-color: #28a745;
+    color: white;
+}
+.btn-signup:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.btn-login {
+    background-color: #007BFF;
+    color: white;
+}
+button:hover:not(:disabled) {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
+/* Floating shapes in the background */
+.floating-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* behind container content */
+    pointer-events: none;
+}
+/* Example shape classes */
+.shape {
+    position: absolute;
+    opacity: 0.6;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+.shape1 {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 99, 132, 0.6);
+    top: -150px;
+    left: 10%;
+    animation-name: moveDown;
+    animation-duration: 20s;
+}
+.shape2 {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(54, 162, 235, 0.6);
+    top: 120%;
+    left: 70%;
+    animation-name: moveUp;
+    animation-duration: 25s;
+}
+.shape3 {
+    width: 120px;
+    height: 120px;
+    background-color: rgba(255, 206, 86, 0.6);
+    top: -150px;
+    left: 50%;
+    animation-name: moveDown;
+    animation-duration: 30s;
+}
+.shape4 {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(153, 102, 255, 0.6);
+    top: 110%;
+    left: 20%;
+    animation-name: moveUp;
+    animation-duration: 18s;
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(250vh);
+    }
+}
+@keyframes moveUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(-250vh);
+    }
+}
