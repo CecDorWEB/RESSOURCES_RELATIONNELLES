@@ -4,14 +4,26 @@
     <link rel="stylesheet" type="text/css" th:href="@{/listRessource.css}">
 </head>
 <body>
-<h1>Ici la liste des ressources</h1>
+	<section class="intro_listRessource">
+	<h1>Articles & Ressources relationnelles</h1>
+	<p>Accédez à nos ressources pour mieux comprendre et enrichir vos relations au quotidien.<br>
+	Chaque ressource est classée selon le type de relation et la nature du contenu.</p>
+	
+	<div class="relation_filter" >
+		<button th:each="relation:${listRelation}" th:text="${relation.name}"></button>
+	</div>
+	</section>
+
 <section class="ressource_card_container">
-<article class="ressourceCard" th:each="r:${listRessource}">
-<img th:src="${r.headerImagePath}"/>
-<p th:text="${r.category.name}"></p>
-<p th:text="${r.ressourceType.name}"></p>
-<h1 th:text="${r.title}"></h1>
-</article>
+	<article class="ressourceCard" th:each="res:${listRessource}">
+		<img th:src="${res.headerImagePath}"/>
+		<div class="list_of_relationType">
+			<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
+		</div>
+		<p th:text="${res.ressourceType.name}"></p>
+		<h1 class="ressource_title" th:text="${res.title}"></h1>
+		<p th:text="${res.category.name}"></p>
+	</article>
 </section>
 </body>
 </html>
