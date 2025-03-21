@@ -50,7 +50,7 @@ public class User {
 	private Date lastLoginDate;
 
 	@OneToOne
-	@JoinColumn(name = "adresse_id", nullable = false)
+	@JoinColumn(name = "adresse_id", nullable = true)
 	private Adresse adresse;
 
 	public User() {

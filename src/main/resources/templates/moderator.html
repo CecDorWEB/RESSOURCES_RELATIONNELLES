@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesSupportPages.css}">
+</head>
+<body>
+<h1>Page Moderateur</h1>
+<section>
+	<h2>Validation des ressources en attente de publication</h2>
+	<p>Liste des ressources en attente de publication :</p>
+		<table>
+		  <thead>
+		    <tr>
+		      <th scope="col">Id</th>
+		      <th scope="col">Title</th>
+		      <th scope="col">Date de création</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Type de ressource</th>
+		      <th scope="col">Catégorie</th>
+		      <th scope="col">Relation</th>
+		      <th scope="col">Statut</th>
+		      <th scope="col">Créateur</th>
+		      <th scope="col">Outils</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			  <tr>
+				  <td>Id de l'article</td>
+				  <td>Titre de l'article</td>
+				  <td>date de création</td>
+				  <td>Introduction de l'article</td>
+				  <td>le type de ressource: ex: Article</td>
+				  <td>la catégorie: ex: Loisirs</td>
+				  <td>la relation: ex:Soi</td>
+				  <td>le statut : ex: publique</td>
+				  <td>Jean Michel</td>
+				  <td>
+				  	<div class="supportTools">
+					  	<button>Consulter</button>
+					  	<button>Publier</button>
+				  	</div>
+				  </td>
+			  </tr>
+		  </tbody>
+		</table>
+</section>
+<section>
+<h2>Gestion des commentaires</h2>
+	<p>Liste des commentaires signalés:</p>
+	<table>
+		  <thead>
+		    <tr>
+		      <th scope="col">Id</th>
+		      <th scope="col">Ressource</th>
+		      <th scope="col">Contenu</th>
+		      <th scope="col">Auteur</th>
+		      <th scope="col">Outils</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			  <tr>
+				  <td>1</td>
+				  <td>Titre de la ressource où apparait le commentaire</td>
+				  <td>Ici le contenu du commentaire</td>
+				  <td>Nom de l'auteur du commentaire</td>
+				  <td>
+				  	<div class="supportTools">
+					  	<button>Consulter</button>
+					  	<button>Suspendre</button>
+				  	</div>
+				  </td>
+			  </tr>
+		  </tbody>
+		</table>
+</section>
+</body>
+</html>

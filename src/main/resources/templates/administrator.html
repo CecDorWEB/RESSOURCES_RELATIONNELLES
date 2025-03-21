@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesSupportPages.css}">
+</head>
+<body>
+<h1>Page Administrateur</h1>
+<button>Statistiques</button>
+<button>Gérer les utilisateurs</button>
+<button>Gérer les ressources</button>
+
+
+	<h2>Tableau de bord des statistiques du site</h2>
+	<div class="tableauDeBord">
+	<section class="UserData">
+		<div class="UserDataTotal">
+		<h3>Nombre total d'utilisateur</h3>
+		<p>20</p>
+		</div>
+		<table border="1" class="UserDataTable">
+		  <thead>
+		    <tr>
+		      <th></th>
+		      <th>01/25</th>
+		      <th>02/25</th>
+		      <th>03/25</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td>Nb d'inscrits</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		    </tr>
+		    <tr>
+		      <td>Nb de connexions</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		    </tr>
+		  </tbody>
+		</table>
+		<button>Exporter les données</button>
+	</section>
+	<section class="RessourceData">
+	<div class="RessourceDataTotal">
+	<h3>Nombre total de ressource</h3>
+	<p>200</p>
+	</div>
+	<table border="1" class="RessourceDataTable">
+		  <thead>
+		    <tr>
+		      <th></th>
+		      <th>01/25</th>
+		      <th>02/25</th>
+		      <th>03/25</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td>Nb de ressources créés</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		    </tr>
+		    <tr>
+		      <td>Nb de consultation</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		    </tr>
+		     <tr>
+		      <td>Nb de resources exploitées</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		    </tr>
+		     <tr>
+		      <td>Nb de commentaires publiés</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		    </tr>
+		  </tbody>
+		</table>
+		<button>Exporter les données</button>
+	</section>
+	
+<!-- 
+	
+<section class="filters">
+    <h2>Ajouter filtres :</h2>
+    <form>
+        <!-- Période -->
+        <label for="periode">Période :</label>
+        <select id="periode" name="periode">
+            <option value="">-- Sélectionner --</option>
+            <option value="jour">Dernier jour</option>
+            <option value="semaine">Dernière semaine</option>
+            <option value="mois">Dernier mois</option>
+            <option value="annee">Dernière année</option>
+        </select>
+
+        <!-- Catégorie -->
+        <label for="categorie">Catégorie :</label>
+        <select id="categorie" name="categorie">
+            <option value="">-- Sélectionner --</option>
+            <option value="loisirs">Loisirs</option>
+            <option value="travail">Récupérer liste auto</option>
+        </select>
+
+        <!-- Type de ressource -->
+        <label for="type-ressource">Type de ressource :</label>
+        <select id="type-ressource" name="type-ressource">
+            <option value="">-- Sélectionner --</option>
+            <option value="article">Article</option>
+            <option value="video">Récupérer liste auto</option>
+        </select>
+
+        <!-- Type de relation -->
+        <label for="relation">Type de relation :</label>
+        <select id="relation" name="relation">
+            <option value="">-- Sélectionner --</option>
+            <option value="famille">Famille</option>
+            <option value="amis">Récupérer liste auto</option>
+        </select>
+
+        <!-- Zone géographique -->
+        <label for="zone">Zone géographique :</label>
+        <select id="zone" name="zone">
+            <option value="">-- Sélectionner --</option>
+            <option value="local">Local</option>
+            <option value="national">National</option>
+            <option value="international">International</option>
+        </select>
+
+        <!-- Bouton Appliquer -->
+        <button type="submit">Appliquer</button>
+    </form>
+ -->
+</body>
+</html>

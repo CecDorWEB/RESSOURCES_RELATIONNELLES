@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Inscription</title>
+    <title>Connexion</title>
     <style>
         /* Global reset */
         * {
@@ -71,7 +71,7 @@
         .icon {
             font-size: 4rem;
             margin-bottom: 0.5rem;
-            color: #28a745;
+            color: #007BFF;
             animation: bounceIn 1s ease-out;
         }
         @keyframes bounceIn {
@@ -111,29 +111,6 @@
             border-radius: 5px;
             font-size: 14px;
         }
-        progress {
-            width: 100%;
-            height: 12px;
-            margin-top: 10px;
-            border-radius: 6px;
-            background-color: #ddd;
-            transition: background 0.3s;
-        }
-        progress::-webkit-progress-bar {
-            background-color: #ddd;
-            border-radius: 6px;
-        }
-        progress::-webkit-progress-value {
-            background-color: green;
-            border-radius: 6px;
-            transition: background 0.3s;
-        }
-        progress::-moz-progress-bar {
-            background-color: green;
-            border-radius: 6px;
-            transition: background 0.3s;
-        }
-
         .buttons {
             margin-top: 15px;
             display: flex;
@@ -148,19 +125,15 @@
             cursor: pointer;
             transition: background 0.3s, transform 0.3s;
         }
-        .btn-signup {
-            background-color: #28a745;
-            color: white;
-        }
-        .btn-signup:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
         .btn-login {
             background-color: #007BFF;
             color: white;
         }
-        button:hover:not(:disabled) {
+        .btn-signup {
+            background-color: #28a745;
+            color: white;
+        }
+        button:hover {
             opacity: 0.85;
             transform: translateY(-2px);
         }
@@ -239,48 +212,8 @@
             }
         }
     </style>
-    <script>
-        /*
-          We are adding test cases to ensure correct password validation.
-          1) If user enters a password < 8 chars -> progress bar < 20% -> button disabled.
-          2) If user enters uppercase, lowercase, digit, special char, at least 8 chars -> progress bar 100% -> button enabled.
-          3) If user enters some but not all criteria -> partial progress.
-        */
-
-        // Please confirm your expected behavior: Should the user be forced to meet ALL 5 conditions?
-        // Currently, the code demands 8+ length, uppercase, lowercase, digit, special.
-
-        function validatePassword() {
-            let password = document.getElementById("password").value;
-            let progressBar = document.getElementById("password-strength");
-            let submitButton = document.getElementById("submit-btn");
-
-            let strength = 0;
-
-            if (password.length >= 8) strength += 1;
-            if (/[A-Z]/.test(password)) strength += 1;
-            if (/[a-z]/.test(password)) strength += 1;
-            if (/\d/.test(password)) strength += 1; // FIXED: corrected from \d to /\d/
-            if (/[@$!%*?&]/.test(password)) strength += 1;
-
-            let percentage = (strength / 5) * 100;
-            progressBar.value = percentage;
-
-            // Color logic
-            if (percentage < 40) {
-                progressBar.style.backgroundColor = "red";
-            } else if (percentage < 80) {
-                progressBar.style.backgroundColor = "orange";
-            } else {
-                progressBar.style.backgroundColor = "green";
-            }
-
-            submitButton.disabled = (percentage !== 100);
-        }
-    </script>
 </head>
 <body>
-
 <!-- Floating shapes container -->
 <div class="floating-shapes">
     <div class="shape shape1"></div>
@@ -291,38 +224,27 @@
 
 <div class="container">
     <div class="content">
-        <div class="icon">✅</div>
-        <h2>Créer un compte</h2>
+        <div class="icon">🔒</div>
+        <h2>Connexion</h2>
+        <!-- Affichage du message d'erreur en cas d'échec de connexion -->
+        <p th:if="${param.error}" class="error">Email ou mot de passe incorrect</p>
 
-        <!-- Affichage d'un message d'erreur si besoin -->
-        <p th:if="${param.error}" class="error">Une erreur est survenue lors de l'inscription</p>
-
-        <form th:action="@{/authentification/signup}" th:object="${user}" method="post">
-            <label for="firstName">Prénom :</label>
-            <input type="text" id="firstName" th:field="*{firstName}" required />
-
-            <label for="lastName">Nom :</label>
-            <input type="text" id="lastName" th:field="*{lastName}" required />
-
+        <form th:action="@{/authentification/login}" th:object="${user}" method="post">
             <label for="email">Email :</label>
-            <input type="email" id="email" th:field="*{email}" required />
+            <input type="text" id="email" th:field="*{email}" required />
 
             <label for="password">Mot de passe :</label>
-            <input type="password" id="password" th:field="*{password}" onkeyup="validatePassword()" required />
+            <input type="password" id="password" th:field="*{password}" required />
 
-            <!-- Barre de progression de la force du mot de passe -->
-            <progress id="password-strength" value="0" max="100"></progress>
-
-            <!-- Affichage du message d'erreur -->
+            <!-- Affichage d'un message d'erreur si besoin -->
             <p th:if="${error}" class="error" th:text="${error}"></p>
 
             <div class="buttons">
-                <button type="button" class="btn-login" onclick="window.location.href='/authentification/login'">Se connecter</button>
-                <button type="submit" id="submit-btn" class="btn-signup" disabled>S'inscrire</button>
+                <button type="submit" class="btn-login">Se connecter</button>
+                <button type="button" class="btn-signup" onclick="window.location.href='/authentification/signup'">S'inscrire</button>
             </div>
         </form>
     </div>
 </div>
-
 </body>
 </html>
