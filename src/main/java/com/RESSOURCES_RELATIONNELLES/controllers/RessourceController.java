@@ -1,81 +1,97 @@
 package com.RESSOURCES_RELATIONNELLES.controllers;
 
-import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
-import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
-import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
+import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
+import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
+
+import jakarta.validation.Valid;
+
 @Controller
 public class RessourceController {
-    private final RessourceService _ressourceService;
+	private final RessourceService _ressourceService;
 
-    public RessourceController(RessourceService ressourceService) {
-        this._ressourceService = ressourceService;
-    }
+	public RessourceController(RessourceService ressourceService) {
+		this._ressourceService = ressourceService;
+	}
 
-    @GetMapping("/ressource/create")
-    public String openCreateForm(Model model) {
-        model.addAttribute("title", "Création d'une ressource");
-        model.addAttribute("ressource", new Ressource());
-        return "ressource-form";
-    }
+	@Autowired
+	private RelationTypeService _relationTypeService;
 
-    @GetMapping("/ressource/edit/{id}")
-    public String openEditForm(@PathVariable Long id, Model model) {
-        Optional<Ressource> ressource = _ressourceService.FindById(id);
-        if (ressource.isPresent()) {
+	@GetMapping("/ressource")
+	public String consultAllRessources(Model model) {
+		List<RelationType> relationType = _relationTypeService.getAllRelationType();
+		List<Ressource> ressource = _ressourceService.getAllRessources();
+		model.addAttribute("listRelation", relationType);
+		model.addAttribute("listRessource", ressource);
+		return "listRessource";
+	}
 
-            List<String> paragraphs = extractParagraphs(ressource.get().getContent());
+	@GetMapping("/ressource/create")
+	public String openCreateForm(Model model) {
+		model.addAttribute("title", "Création d'une ressource");
+		model.addAttribute("ressource", new Ressource());
+		return "ressource-form";
+	}
 
-            model.addAttribute("title", "Modification d'une ressource");
-            model.addAttribute("paragraphs", paragraphs);
-            model.addAttribute("ressource", ressource.get());
-            return "ressource-form";
-        }
-        return "redirect:/home"; // Redirige si l'ID n'existe pas
-    }
+	@GetMapping("/ressource/edit/{id}")
+	public String openEditForm(@PathVariable Long id, Model model) {
+		Optional<Ressource> ressource = _ressourceService.FindById(id);
+		if (ressource.isPresent()) {
 
-    @PostMapping("/saveRessource")
-    public String saveOrUpdateRessource(
-            @Valid Ressource ressource,
-            BindingResult result,
-            @RequestParam List<String> paragraphs,
-            Model model) {
+			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
 
-        if (result.hasErrors()) {
-            model.addAttribute("title", ressource.getId() == null ? "Création d'une ressource" : "Modification d'une ressource");
-            return "ressource-form";
-        }
+			model.addAttribute("title", "Modification d'une ressource");
+			model.addAttribute("paragraphs", paragraphs);
+			model.addAttribute("ressource", ressource.get());
+			return "ressource-form";
+		}
+		return "redirect:/home"; // Redirige si l'ID n'existe pas
+	}
 
-        // Transformation des paragraphes en <section>
-        String content = paragraphs.stream()
-                .filter(p -> !p.trim().isEmpty())
-                .map(p -> "<section>" + p + "</section>")
-                .collect(Collectors.joining(""));
+	@PostMapping("/saveRessource")
+	public String saveOrUpdateRessource(@Valid Ressource ressource, BindingResult result,
+			@RequestParam List<String> paragraphs, Model model) {
 
-        ressource.setContent(content);
+		if (result.hasErrors()) {
+			model.addAttribute("title",
+					ressource.getId() == null ? "Création d'une ressource" : "Modification d'une ressource");
+			return "ressource-form";
+		}
 
-        _ressourceService.SaveRessource(ressource);
+		// Transformation des paragraphes en <section>
+		String content = paragraphs.stream().filter(p -> !p.trim().isEmpty()).map(p -> "<section>" + p + "</section>")
+				.collect(Collectors.joining(""));
 
-        return "redirect:/home";
-    }
+		ressource.setContent(content);
 
-    private List<String> extractParagraphs(String content) {
-        if (content == null || content.isBlank()) {
-            return List.of();
-        }
+		_ressourceService.SaveRessource(ressource);
 
-        return Arrays.stream(content.split("</section>")) // Séparer sur </section>
-                .map(p -> p.replace("<section>", "").trim()) // Supprimer les <section> d'ouverture
-                .filter(p -> !p.isEmpty()) // Enlever les vides
-                .toList(); // Convertir en liste
-    }
+		return "redirect:/home";
+	}
+
+	private List<String> extractParagraphs(String content) {
+		if (content == null || content.isBlank()) {
+			return List.of();
+		}
+
+		return Arrays.stream(content.split("</section>")) // Séparer sur </section>
+				.map(p -> p.replace("<section>", "").trim()) // Supprimer les <section> d'ouverture
+				.filter(p -> !p.isEmpty()) // Enlever les vides
+				.toList(); // Convertir en liste
+	}
 }
