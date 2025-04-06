@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.id} != null ? 'Modifier Utilisateur' : 'Ajouter Utilisateur'">Formulaire Utilisateur</title>
+    <link rel="stylesheet" th:href="@{/css/users.css}" />
+</head>
+<body>
+
+<header class="page-header">
+    <div class="header-content">
+        <h1 class="main-title" th:text="${user.id} != null ? 'Modifier un utilisateur' : 'Ajouter un utilisateur'">Formulaire</h1>
+        <p class="subtitle">Remplis les champs ci-dessous :</p>
+    </div>
+</header>
+
+<div class="table-container">
+    <form th:action="@{${user.id} != null ? '/users/edit/' + ${user.id} : '/users/add'}" th:object="${user}" method="post">
+        <div class="filter-bar" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+
+            <input class="search-input" type="text" th:field="*{firstName}" placeholder="Prénom" required />
+            <input class="search-input" type="text" th:field="*{lastName}" placeholder="Nom" required />
+            <input class="search-input" type="email" th:field="*{email}" placeholder="Email" required />
+            <input class="search-input" type="password" th:field="*{password}" placeholder="Mot de passe" required />
+            <input class="search-input" type="text" th:field="*{phoneNumber}" placeholder="Téléphone" />
+
+            <select class="search-input" th:field="*{gender}">
+                <option value="" disabled selected>Genre</option>
+                <option value="M">Homme</option>
+                <option value="F">Femme</option>
+            </select>
+
+            <input class="search-input" type="date" th:field="*{birthday}" placeholder="Date de naissance" />
+            <label>
+                <input type="checkbox" th:field="*{actived}" /> Actif ?
+            </label>
+
+            <button class="btn-add-user" type="submit" th:text="${user.id} != null ? 'Modifier' : 'Ajouter'">Soumettre</button>
+            <a class="btn-filter btn-refresh" href="/users">Annuler</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

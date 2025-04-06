@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des utilisateurs - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/superadmin.css}" />
+</head>
+<body>
+<header class="admin-header">
+    <div class="container">
+        <h1>🎛️ Tableau de bord - Super Admin</h1>
+        <p>Gérez les utilisateurs, leurs rôles et leurs accès.</p>
+    </div>
+</header>
+
+<main class="container">
+    <section class="filters">
+        <form method="get" th:action="@{/superadmin/users}">
+            <label for="roleId">Filtrer par rôle :</label>
+            <select name="roleId" id="roleId">
+                <option value="" th:selected="${selectedRoleId == null}">Tous les rôles</option>
+                <option th:each="r : ${roles}"
+                        th:value="${r.id}"
+                        th:text="${r.name}"
+                        th:selected="${selectedRoleId != null and selectedRoleId == r.id}">
+                </option>
+            </select>
+            <button type="submit">Filtrer</button>
+            <a th:href="@{/superadmin/users}" class="btn-clear">Réinitialiser</a>
+        </form>
+    </section>
+
+    <form th:action="@{/superadmin/users/batch-update-role}" method="post">
+        <section class="user-table-wrapper">
+            <table class="user-table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)" /></th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td><input type="checkbox" name="userIds" th:value="${user.id}" /></td>
+                    <td th:text="${user.lastName}">Nom</td>
+                    <td th:text="${user.firstName}">Prénom</td>
+                    <td th:text="${user.email}">Email</td>
+                    <td th:text="${user.role.name}">Rôle</td>
+                    <td th:text="${user.actived} ? '✅ Actif' : '🚫 Suspendu'"></td>
+                    <td>
+                        <a th:href="@{'/superadmin/users/toggle-active/' + ${user.id}}"
+                           th:text="${user.actived} ? 'Suspendre' : 'Réactiver'"
+                           th:class="'btn-action ' + (${user.actived} ? 'danger' : 'success')"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="batch-actions">
+            <label for="newRole">Changer le rôle sélectionné en :</label>
+            <select id="newRole" name="newRoleId">
+                <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.name}"></option>
+            </select>
+            <button type="submit" class="btn-role">Appliquer</button>
+        </section>
+    </form>
+</main>
+
+<script>
+    function toggleAll(source) {
+        let checkboxes = document.querySelectorAll('input[name="userIds"]');
+        checkboxes.forEach(cb => cb.checked = source.checked);
+    }
+</script>
+</body>
+</html>
