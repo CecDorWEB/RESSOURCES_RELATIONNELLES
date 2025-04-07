@@ -2,6 +2,7 @@ BIEN LE BONJOUR,
 
 Pour que l'application fonctionne bien il vous faudra :
 - créer une base de données nommée "ressources_relationnelles" en MySQL ( vous pouvez utiliser DBEAVER pour une manipulation plus facile )
+- Ajouter des roles, adresses et users pour le bon fonctionnement de l'application :)
 -> l'utilisateur est root et le mot de passe est root ( la sécurité avant tout ;D ) Hésitez pas à me demander @GaëtanLemeunier si vous avez un problème durant le lancement de l'application
 - L'application démarre à cette url -> http://localhost:8080/
 
