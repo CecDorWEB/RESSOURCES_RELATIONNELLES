@@ -34,6 +34,19 @@ public class AuthentificationController {
         return "login";
     }
 
+    @GetMapping("/debug/session")
+    @ResponseBody
+    public String debugSession(HttpSession session) {
+        Object token = session.getAttribute("IsUserConnectedToken");
+        User user = (User) session.getAttribute("user");
+
+        if (token != null && user != null) {
+            return "Connecté en tant que : " + user.getFirstName() + " - Rôle : " + user.getRole().getName();
+        } else {
+            return "Non connecté ou session vide.";
+        }
+    }
+
     @GetMapping("/signup")
     public String signup(Model model) {
         if (this.securityService.isAuthenticated()) {

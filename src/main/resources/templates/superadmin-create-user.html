@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un utilisateur</title>
+</head>
+<body>
+<h1>Créer un nouvel utilisateur</h1>
+
+<form th:action="@{/superadmin/users/create}" method="post" th:object="${user}">
+    <label>Email : <input type="email" th:field="*{email}" required /></label><br>
+    <label>Mot de passe : <input type="password" th:field="*{password}" required /></label><br>
+    <label>Prénom : <input type="text" th:field="*{firstName}" /></label><br>
+    <label>Nom : <input type="text" th:field="*{lastName}" /></label><br>
+    <label>Téléphone : <input type="text" th:field="*{phoneNumber}" /></label><br>
+
+    <label>Genre :
+        <select th:field="*{gender}">
+            <option value="">-- Choisir --</option>
+            <option value="M">Homme</option>
+            <option value="F">Femme</option>
+            <option value="A">Autre</option>
+        </select>
+    </label><br>
+
+    <label>Date de naissance : <input type="date" th:field="*{birthday}" /></label><br>
+
+    <label>Rôle :
+        <select th:field="*{role}" required>
+            <option th:each="r : ${roles}" th:value="${r}" th:text="${r.name}"></option>
+        </select>
+    </label><br>
+
+    <button type="submit">Créer l’utilisateur</button>
+</form>
+
+<a th:href="@{/superadmin/users}">Retour à la gestion des utilisateurs</a>
+</body>
+</html>

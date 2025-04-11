@@ -28,6 +28,20 @@ public class SecurityService {
     }
 
 
+
+    public boolean hasAccess(Long idUser, String expectedRole) {
+        // Récupère l'utilisateur en BDD
+        User user = userRepository.findById(idUser).orElse(null);
+
+        if (user == null || user.getRole() == null) {
+            return false;
+        }
+
+        String userRoleName = user.getRole().getName();
+
+        return expectedRole.equalsIgnoreCase(userRoleName);
+    }
+
     // ✅ Définit le token d'authentification
     public void setAuthToken(){
         if (!isAuthenticated()){
@@ -38,7 +52,7 @@ public class SecurityService {
     // ✅ Supprime le token d'authentification
     public void removeAuthToken(){
         if (isAuthenticated()){
-            session.removeAttribute(AUTH_TOKEN);
+            session.invalidate();
         }
     }
 
@@ -47,11 +61,11 @@ public class SecurityService {
         return userRepository.findByEmail(email) != null;
     }
 
-    // ✅ Vérifie les identifiants pour la connexion
     public boolean login(String email, String password) {
         User user = userRepository.findByEmail(email);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) { // Utilisation correcte de matches()
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             setAuthToken();
+            session.setAttribute("user", user); // ✅ AJOUT INDISPENSABLE
             return true;
         }
         return false;
