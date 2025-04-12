@@ -14,7 +14,8 @@ body{
 	flex-direction: column;
 	text-align:center;
 	align-items: center;
-	gap:1em;
+	gap:2rem;
+	padding: 3rem 0 2rem 0;
 }
 
 .intro_listRessource > h1{
@@ -41,7 +42,6 @@ div.relation_filter a.relation_filter_link{
     transition: transform 0.2s;
     width: fit-content;
     font-size: 1rem;
-    max-width:120px;
     cursor:pointer;
 }
 
@@ -59,7 +59,6 @@ div.relation_filter a.relation_filter_link:hover {
  display: flex;
  align-items: center;
  justify-content: center;
-
 }
 
 .search_ressource > form {
@@ -89,6 +88,7 @@ div.relation_filter a.relation_filter_link:hover {
 	justify-content:center;
 	flex-wrap: wrap;
 	gap:2em;
+	padding-top:2rem;
 }
 
 .ressource_card_container > .ressourceCard{

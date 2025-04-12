@@ -38,6 +38,7 @@ public class RessourceController {
 		return "ressourceForm";
 	}
 
+	//Récupération des ressources publiées et autorisées pour alimenter la liste des ressource
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
 			@RequestParam(required = false) String searchWord) {

@@ -20,7 +20,7 @@ public class RessourceService extends BaseService<Ressource, Long> {
 	}
 
 	public List<Ressource> getAllRessources() {
-		return _resourceRepository.findAll();
+		return _resourceRepository.findAllRessourcesActivedAndPublished();
 	}
 
 	public List<Ressource> getFilteredRessources(Long relationTypeId, String searchWord) {

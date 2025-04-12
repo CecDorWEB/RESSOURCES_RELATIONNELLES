@@ -11,6 +11,9 @@ import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
 
 @Repository
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
+	
+	@Query("SELECT res FROM Ressource res WHERE isPublished = true AND isActived=true AND status='public'")
+	List<Ressource> findAllRessourcesActivedAndPublished();
 
 	@Query("SELECT res FROM Ressource res " + "LEFT JOIN res.listRelationTypes rel "
 			+ "WHERE (:relationTypeId IS NULL OR rel.relationType.id = :relationTypeId) "

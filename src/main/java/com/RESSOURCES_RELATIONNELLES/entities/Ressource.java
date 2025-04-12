@@ -31,7 +31,7 @@ public class Ressource {
 	@Column(name = "filePath", nullable = true)
 	private String filePath;
 
-	@Column(name = "content", nullable = false)
+	@Column(name = "content",columnDefinition="TEXT", nullable = false)
 	private String content;
 
 	@Column(name = "publicationDate", nullable = false)
