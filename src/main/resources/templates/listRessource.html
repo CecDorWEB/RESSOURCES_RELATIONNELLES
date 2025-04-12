@@ -40,9 +40,10 @@
 		<div class="list_of_relationType">
 			<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
 		</div>
-		<p th:text="${res.ressourceType.name}"></p>
+		<p th:if="${res.ressourceType != null}" th:text="${res.ressourceType.name}"></p>
 		<h1 class="ressource_title" th:text="${res.title}"></h1>
-		<p th:text="${res.category.name}"></p>
+		<p th:if="${res.category != null}" th:text="${res.category.name}"></p>
+
 	</article>
 	
 	<script>
