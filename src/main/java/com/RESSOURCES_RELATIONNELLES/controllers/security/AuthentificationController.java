@@ -56,6 +56,7 @@ public class AuthentificationController {
         }
         boolean isAuth = this.securityService.login( user.getEmail() , user.getPassword());
         if (isAuth) {
+            this.securityService.setAuthToken();
             return "redirect:/home"; // Connexion réussie, redirection vers l'accueil
         } else {
             model.addAttribute("error", "Identifiants incorrects !");

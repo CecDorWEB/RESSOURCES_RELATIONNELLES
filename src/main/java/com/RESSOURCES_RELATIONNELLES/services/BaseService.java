@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class BaseService<TEntity, TId>  {
 
-    private final JpaRepository<TEntity, TId> _baseRepository;
+    protected final JpaRepository<TEntity, TId> _baseRepository;
 
     protected BaseService(JpaRepository<TEntity, TId> baseRepository) {
         _baseRepository = baseRepository;
