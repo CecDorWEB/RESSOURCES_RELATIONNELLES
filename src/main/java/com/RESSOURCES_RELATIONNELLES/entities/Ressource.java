@@ -31,7 +31,7 @@ public class Ressource {
 	@Column(name = "filePath", nullable = true)
 	private String filePath;
 
-	@Column(name = "content", nullable = false)
+	@Column(name = "content",columnDefinition="TEXT", nullable = false)
 	private String content;
 
 	@Column(name = "publicationDate", nullable = false)
@@ -43,7 +43,7 @@ public class Ressource {
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@Column(name = "status", nullable = true)
+	@Column(name = "status", nullable = false)
 	private String status;
 
 	@Column(name = "isPublished", nullable = false)
@@ -61,6 +61,9 @@ public class Ressource {
 
 	@ManyToOne
 	private RessourceType ressourceType;
+	
+	@ManyToOne
+	private User user;
 
 	@OneToMany(mappedBy = "ressource")
 	private List<HaveRelationType> listRelationTypes;
@@ -72,7 +75,7 @@ public class Ressource {
 
 	public Ressource(String title, String headerImagePath, String filePath, String content, Date publicationDate,
 			Date updateDate, String description, String status, Boolean isPublished, Boolean isActived,
-			Statistic statistic, Category category, RessourceType ressourceType,
+			Statistic statistic, Category category, RessourceType ressourceType, User user,
 			List<HaveRelationType> listRelationTypes) {
 		super();
 		this.title = title;
@@ -88,7 +91,16 @@ public class Ressource {
 		this.statistic = statistic;
 		this.category = category;
 		this.ressourceType = ressourceType;
+		this.user = user;
 		this.listRelationTypes = listRelationTypes;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Long getId() {
