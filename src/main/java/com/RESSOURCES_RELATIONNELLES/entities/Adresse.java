@@ -28,9 +28,6 @@ public class Adresse {
 	@Column(length = 100, nullable = false)
 	private String street;
 
-	@OneToOne(mappedBy = "adresse", cascade = CascadeType.ALL, orphanRemoval = true)
-	private User user;
-
 	public Adresse() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -82,14 +79,6 @@ public class Adresse {
 
 	public void setStreet(String street) {
 		this.street = street;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 }

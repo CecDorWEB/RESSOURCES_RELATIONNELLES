@@ -34,6 +34,12 @@ public class RessourceController {
 		this._relationTypeService = relationTypeService;
 		this._ressourceTypeService = ressourceTypeService;
 	}
+	
+	@GetMapping("/ressources/getall")
+	public List<Ressource> getAllRessources() {
+		return _ressourceService.getAllRessources();
+	}
+
 
 	@GetMapping("/ressource/create")
 	public String openCreateForm(Model model) {

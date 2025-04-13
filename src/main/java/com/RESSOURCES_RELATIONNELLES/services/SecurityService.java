@@ -51,7 +51,6 @@ public class SecurityService {
     public boolean login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) { // Utilisation correcte de matches()
-            setAuthToken();
             return true;
         }
         return false;
