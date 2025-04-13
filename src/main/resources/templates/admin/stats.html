@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord - Statistiques</title>
+    <link rel="stylesheet" th:href="@{/css/superadmin.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <header class="admin-header">
+        <div class="container">
+            <h1>📊 Statistiques des Ressources</h1>
+            <p>Visualisez les données d'utilisation des ressources selon différentes catégories.</p>
+            <a href="/admin/stats/export" class="btn-create-user">📤 Exporter en CSV</a>
+        </div>
+    </header>
+
+    <section class="tableauDeBord">
+        <div class="UserDataTotal">
+            <h2>Consultations par catégorie</h2>
+            <canvas id="chartConsult"></canvas>
+        </div>
+        <div class="UserDataTotal">
+            <h2>Favoris par catégorie</h2>
+            <canvas id="chartFav"></canvas>
+        </div>
+    </section>
+
+    <script th:inline="javascript">
+        const consultLabels = /*[[${consultLabels.stream().toList()}]]*/ [];
+        const consultData = /*[[${consultData.stream().toList()}]]*/ [];
+        const favLabels = /*[[${favLabels.stream().toList()}]]*/ [];
+        const favData = /*[[${favData.stream().toList()}]]*/ [];
+
+        console.log("ConsultLabels:", consultLabels);
+        console.log("ConsultData:", consultData);
+
+        new Chart(document.getElementById('chartConsult'), {
+            type: 'bar',
+            data: {
+                labels: consultLabels,
+                datasets: [{
+                    label: 'Consultations',
+                    data: consultData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        });
+
+        new Chart(document.getElementById('chartFav'), {
+            type: 'pie',
+            data: {
+                labels: favLabels,
+                datasets: [{
+                    label: 'Favoris',
+                    data: favData,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66BB6A', '#BA68C8']
+                }]
+            },
+            options: { responsive: true }
+        });
+    </script>
+
+    <section class="user-table-wrapper">
+        <h2>Tableau récapitulatif des ressources</h2>
+        <table class="user-table">
+            <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Catégorie</th>
+                <th>Consultations</th>
+                <th>Favoris</th>
+                <th>Exploitations</th>
+                <th>Commentaires</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${ressources}">
+                <td th:text="${r.title}">Titre</td>
+                <td th:text="${r.category != null ? r.category.name : '-'}">Catégorie</td>
+                <td th:text="${r.statistic != null ? r.statistic.nbConsult : 0}">0</td>
+                <td th:text="${r.statistic != null ? r.statistic.nbFav : 0}">0</td>
+                <td th:text="${r.statistic != null ? r.statistic.nbExploit : 0}">0</td>
+                <td th:text="${r.statistic != null ? r.statistic.nbComment : 0}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+</body>
+</html>

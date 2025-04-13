@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,10 +10,13 @@
     <div class="container">
         <h1>🎛️ Tableau de bord - Super Admin</h1>
         <p>Gérez les utilisateurs, leurs rôles et leurs accès.</p>
+        <a href="/superadmin/users/create" class="btn-create-user">Créer un nouveau compte</a>
     </div>
 </header>
 
 <main class="container">
+
+    <!-- Filtres -->
     <section class="filters">
         <form method="get" th:action="@{/superadmin/users}">
             <label for="roleId">Filtrer par rôle :</label>
@@ -23,15 +25,17 @@
                 <option th:each="r : ${roles}"
                         th:value="${r.id}"
                         th:text="${r.name}"
-                        th:selected="${selectedRoleId != null and selectedRoleId == r.id}">
-                </option>
+                        th:selected="${selectedRoleId != null and selectedRoleId == r.id}"></option>
             </select>
             <button type="submit">Filtrer</button>
             <a th:href="@{/superadmin/users}" class="btn-clear">Réinitialiser</a>
         </form>
     </section>
 
+    <!-- Formulaire englobant pour sélection et batch-update -->
     <form th:action="@{/superadmin/users/batch-update-role}" method="post">
+
+        <!-- Table utilisateurs -->
         <section class="user-table-wrapper">
             <table class="user-table">
                 <thead>
@@ -57,18 +61,27 @@
                         <a th:href="@{'/superadmin/users/toggle-active/' + ${user.id}}"
                            th:text="${user.actived} ? 'Suspendre' : 'Réactiver'"
                            th:class="'btn-action ' + (${user.actived} ? 'danger' : 'success')"></a>
+
+                        <a th:href="@{'/superadmin/users/edit/' + ${user.id}}" class="btn-action">✏️ Modifier</a>
+
+                        <form th:action="@{'/superadmin/users/delete/' + ${user.id}}" method="post"
+                              th:onsubmit="return confirm('Supprimer cet utilisateur ?')" style="display:inline;">
+                            <button type="submit" class="btn-action danger">🗑️ Supprimer</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </section>
 
+        <!-- Changement de rôle groupé -->
         <section class="batch-actions">
-            <label for="newRole">Changer le rôle sélectionné en :</label>
-            <select id="newRole" name="newRoleId">
+            <label for="newRole">Changer le rôle des utilisateurs sélectionnés en :</label>
+            <select id="newRole" name="newRoleId" required>
+                <option value="">-- Sélectionner un rôle --</option>
                 <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.name}"></option>
             </select>
-            <button type="submit" class="btn-role">Appliquer</button>
+            <button type="submit" class="btn-role">✅ Appliquer le changement de rôle</button>
         </section>
     </form>
 </main>
