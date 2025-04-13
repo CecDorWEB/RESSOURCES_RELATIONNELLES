@@ -11,27 +11,55 @@
 <body>
 <main layout:fragment="content">
 	<section class="intro_listRessource">
-	<h1>Articles & Ressources relationnelles</h1>
-	<p>Accédez à nos ressources pour mieux comprendre et enrichir vos relations au quotidien.<br>
-	Chaque ressource est classée selon le type de relation et la nature du contenu.</p>
+		<h1>Articles & Ressources relationnelles</h1>
+		<p>Accédez à nos ressources pour mieux comprendre et enrichir vos relations au quotidien.<br>
+		Chaque ressource est classée selon le type de relation et la nature du contenu.</p>
 	
-	<div class="relation_filter" >
-	<a class="relation_filter_link" th:href="@{/ressources}">Tous</a>
-	<a th:each="relation : ${listRelation}" 
-       th:text="${relation.name}" 
-       class="relation_filter_link"
-       th:href="@{/ressources(relationTypeId=${relation.id})}"
-       onclick="updateRelationType(event, this)">
-    </a>
-	</div>
+		<div class="relation_filter" >
+		    <a th:href="@{/ressources(ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
+		       th:class="'relation_filter_link' + (${param.relationTypeId} == null ? ' active' : '')"
+		       onclick="resetFilter(event, this)"
+		       data-reset="relationTypeId">
+		       Tous
+		    </a>
+		    <a th:each="relation : ${listRelation}"
+		       th:text="${relation.name}"
+		       th:href="@{/ressources(relationTypeId=${relation.id}, ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
+		       th:class="'relation_filter_link'"
+		       onclick="updateFiltersType(event, this)">
+		    </a>
+		  
+		</div>
+		<div class="ressourceType_filter" >
+		    <a th:href="@{/ressources(relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
+		       th:class="'ressourceType_filter_link' + (${param.ressourceTypeId} == null ? ' active' : '')"
+		       onclick="resetFilter(event, this)"
+		       data-reset="ressourceTypeId">
+		       Tous
+		    </a>
+		    <a th:each="ressourceType : ${listRessourceType}"
+		       th:text="${ressourceType.name}"
+		       th:href="@{/ressources(ressourceTypeId=${ressourceType.id}, relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
+		       th:class="'ressourceType_filter_link'"
+		       onclick="updateFiltersType(event, this)">
+		    </a>
+		</div>
 	</section>
 	
 	<article class="search_ressource">
-		<form action="/ressources" method="get">
-			<input type="hidden" id="relationTypeId" name="relationTypeId" th:value="${param.relationTypeId}">
-			<input class="search_input_ressource" placeholder="Rechercher une ressource" type="search" id="search" name="searchWord" required="">
-			<input type="submit" class="button-search w-button" value="Rechercher">
-		</form>
+		 <form id="searchForm" action="/ressources" method="get">
+        <input type="hidden" id="relationTypeId" name="relationTypeId" th:value="${param.relationTypeId}">
+        <input type="hidden" id="ressourceTypeId" name="ressourceTypeId" th:value="${param.ressourceTypeId}">
+        
+        <input class="search_input_ressource"
+               placeholder="Rechercher une ressource"
+               type="search"
+               id="search"
+               name="searchWord"
+               th:value="${param.searchWord}" />
+               
+        <input type="submit" class="button-search w-button" value="Rechercher">
+    </form>
 	</article>
 
 <section class="ressource_card_container">
@@ -40,29 +68,59 @@
 		<div class="list_of_relationType">
 			<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
 		</div>
-		<p th:text="${res.ressourceType.name}"></p>
+		<p class="ressource_type_item" th:text="${res.ressourceType.name}"></p>
 		<h1 class="ressource_title" th:text="${res.title}"></h1>
 		<p th:text="${res.category.name}"></p>
 	</article>
 	
 	<script>
-	function updateRelationType(event, element) {
-        event.preventDefault();  // Empêche le lien de recharger immédiatement
+	
+	function resetFilter(event, element) {
+	    event.preventDefault();
 
-        let relationTypeId = new URL(element.href).searchParams.get("relationTypeId");
+	    const resetKey = element.dataset.reset;
 
-        // Si un champ de recherche est rempli, soumettre le formulaire
-        let searchInput = document.getElementById("search").value;
-        if (searchInput.trim() !== "") {
-            document.getElementById("relationTypeId").value = relationTypeId;
-            document.getElementById("searchForm").submit();
-        } else {
-            // Sinon, rediriger directement avec relationTypeId seulement
-            window.location.href = "/ressources?relationTypeId=" + relationTypeId;
+	    const currentUrl = new URL(window.location.href);
+	    const currentParams = new URLSearchParams(currentUrl.search);
+
+	    // Supprimer uniquement le paramètre à reset
+	    currentParams.delete(resetKey);
+
+	    // Garder les autres filtres
+	    const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+	    window.location.href = newUrl;
+	}
+	
+	function updateFiltersType(event, element) {
+        event.preventDefault();  
+        
+        const currentUrl = new URL(window.location.href);
+        const currentParams = new URLSearchParams(currentUrl.search);
+
+        const clickedUrl = new URL(element.href);
+        const clickedParams = new URLSearchParams(clickedUrl.search);
+        
+        // Met à jour ou ajoute les paramètres cliqués
+        for (const [key, value] of clickedParams.entries()) {
+            currentParams.set(key, value);
         }
+
+        // Récupère la valeur de la barre de recherche
+        const searchInput = document.getElementById("search");
+        if (searchInput) {
+            const searchWord = searchInput.value.trim();
+            if (searchWord !== "") {
+                currentParams.set("searchWord", searchWord);
+            } else {
+                currentParams.delete("searchWord");
+            }
+        }
+
+        // Redirige avec les paramètres combinés
+        const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+        window.location.href = newUrl;
     }
 	</script>
-	
 	
 </section>
 </main>
