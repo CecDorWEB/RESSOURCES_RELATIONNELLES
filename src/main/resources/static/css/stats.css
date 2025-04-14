@@ -1,0 +1,189 @@
+/* =======================
+   RESET & BASE
+   ======================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* =======================
+   HEADER
+   ======================= */
+.stats-header {
+    background: linear-gradient(to right, #5f2c82, #49a09d);
+    color: #fff;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.header-content h1 {
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+.header-content p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+.export-btn {
+    background: #ffba02;
+    color: #333;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s ease-in-out;
+}
+.export-btn:hover {
+    background: #e8a600;
+}
+
+/* =======================
+   MAIN CONTAINER
+   ======================= */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem 2rem;
+}
+
+/* =======================
+   HIGHLIGHTS
+   ======================= */
+.highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.highlight-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+.highlight-card h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: #666;
+}
+.highlight-card p {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+/* =======================
+   TOP RESOURCES
+   ======================= */
+.top-resources {
+    margin-bottom: 2rem;
+    background: #fff;
+    padding: 1rem 1rem 2rem;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+.top-resources h2 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+.top-resource-card {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-left: 3px solid #49a09d;
+    background: #fdfdfd;
+    border-radius: 4px;
+}
+.top-resource-card h3 {
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    color: #666;
+}
+.top-resource-card p {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+/* =======================
+   CHARTS
+   ======================= */
+.charts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.chart-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 1.5rem;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+.chart-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+/* Responsive - si on veut plusieurs colonnes pour les charts
+   sur grand écran */
+@media (min-width: 768px) {
+    .charts {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+/* =======================
+   TABLE
+   ======================= */
+.table-section {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+}
+.table-section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+.table-wrapper {
+    margin-top: 1rem;
+}
+#ressourcesTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+#ressourcesTable thead {
+    background-color: #e9ecef;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+#ressourcesTable th, #ressourcesTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+#ressourcesTable tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* DataTables styles overrides if needed */
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+}
+.dataTables_wrapper .dataTables_paginate {
+    float: right;
+    margin-top: 0.5rem;
+}

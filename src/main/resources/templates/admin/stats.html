@@ -1,97 +1,211 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/mainLayout}">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tableau de bord - Statistiques</title>
-    <link rel="stylesheet" th:href="@{/css/superadmin.css}" />
+    <title>Statistiques des Ressources</title>
+
+    <!-- Lien vers la feuille de style externe -->
+    <link rel="stylesheet" href="/css/stats.css">
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 </head>
 <body>
-<div layout:fragment="content" class="container">
-    <header class="admin-header">
-        <div class="container">
-            <h1>📊 Statistiques des Ressources</h1>
-            <p>Visualisez les données d'utilisation des ressources selon différentes catégories.</p>
-            <a href="/admin/stats/export" class="btn-create-user">📤 Exporter en CSV</a>
-        </div>
-    </header>
 
-    <section class="tableauDeBord">
-        <div class="UserDataTotal">
+<!-- HEADER PRINCIPAL -->
+<header class="stats-header">
+    <div class="header-content">
+        <h1>Statistiques des Ressources</h1>
+        <p>Vue d’ensemble et analyses détaillées</p>
+        <a href="/admin/stats/export" class="btn export-btn">Exporter en CSV</a>
+    </div>
+</header>
+
+<!-- ZONE DE CONTENU PRINCIPAL -->
+<main class="main-container">
+
+    <!-- HIGHLIGHTS : cartes récapitulatives -->
+    <section class="highlights">
+        <div class="highlight-card">
+            <h2>Total Consultations</h2>
+            <p th:text="${totalConsultations}">0</p>
+        </div>
+        <div class="highlight-card">
+            <h2>Total Favoris</h2>
+            <p th:text="${totalFavoris}">0</p>
+        </div>
+        <div class="highlight-card">
+            <h2>Total Exploitations</h2>
+            <p th:text="${totalExploitations}">0</p>
+        </div>
+        <div class="highlight-card">
+            <h2>Total Commentaires</h2>
+            <p th:text="${totalCommentaires}">0</p>
+        </div>
+    </section>
+
+    <!-- TOP RESSOURCES (LA PLUS CONSULTÉE, ETC.) -->
+    <section class="top-resources">
+        <h2>Ressources phares</h2>
+        <div class="top-resource-card">
+            <h3>La plus consultée</h3>
+            <p>
+                <span th:text="${topConsultResource != null ? topConsultResource.title : 'Aucune'}"></span>
+                (<span th:text="${topConsultResource != null ? topConsultResource.statistic.nbConsult : 0}">0</span> consultations)
+            </p>
+        </div>
+        <div class="top-resource-card">
+            <h3>La plus mise en favori</h3>
+            <p>
+                <span th:text="${topFavoriResource != null ? topFavoriResource.title : 'Aucune'}"></span>
+                (<span th:text="${topFavoriResource != null ? topFavoriResource.statistic.nbFav : 0}">0</span> favoris)
+            </p>
+        </div>
+        <div class="top-resource-card">
+            <h3>La plus exploitée</h3>
+            <p>
+                <span th:text="${topExploitResource != null ? topExploitResource.title : 'Aucune'}"></span>
+                (<span th:text="${topExploitResource != null ? topExploitResource.statistic.nbExploit : 0}">0</span> exploitations)
+            </p>
+        </div>
+    </section>
+
+    <!-- GRAPHIQUES -->
+    <section class="charts">
+        <div class="chart-card">
             <h2>Consultations par catégorie</h2>
             <canvas id="chartConsult"></canvas>
         </div>
-        <div class="UserDataTotal">
+        <div class="chart-card">
             <h2>Favoris par catégorie</h2>
             <canvas id="chartFav"></canvas>
         </div>
+        <div class="chart-card">
+            <h2>Exploitations par catégorie</h2>
+            <canvas id="chartExploit"></canvas>
+        </div>
     </section>
 
-    <script th:inline="javascript">
-        const consultLabels = /*[[${consultLabels.stream().toList()}]]*/ [];
-        const consultData = /*[[${consultData.stream().toList()}]]*/ [];
-        const favLabels = /*[[${favLabels.stream().toList()}]]*/ [];
-        const favData = /*[[${favData.stream().toList()}]]*/ [];
-
-        console.log("ConsultLabels:", consultLabels);
-        console.log("ConsultData:", consultData);
-
-        new Chart(document.getElementById('chartConsult'), {
-            type: 'bar',
-            data: {
-                labels: consultLabels,
-                datasets: [{
-                    label: 'Consultations',
-                    data: consultData,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: { responsive: true, scales: { y: { beginAtZero: true } } }
-        });
-
-        new Chart(document.getElementById('chartFav'), {
-            type: 'pie',
-            data: {
-                labels: favLabels,
-                datasets: [{
-                    label: 'Favoris',
-                    data: favData,
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66BB6A', '#BA68C8']
-                }]
-            },
-            options: { responsive: true }
-        });
-    </script>
-
-    <section class="user-table-wrapper">
-        <h2>Tableau récapitulatif des ressources</h2>
-        <table class="user-table">
-            <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Catégorie</th>
-                <th>Consultations</th>
-                <th>Favoris</th>
-                <th>Exploitations</th>
-                <th>Commentaires</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="r : ${ressources}">
-                <td th:text="${r.title}">Titre</td>
-                <td th:text="${r.category != null ? r.category.name : '-'}">Catégorie</td>
-                <td th:text="${r.statistic != null ? r.statistic.nbConsult : 0}">0</td>
-                <td th:text="${r.statistic != null ? r.statistic.nbFav : 0}">0</td>
-                <td th:text="${r.statistic != null ? r.statistic.nbExploit : 0}">0</td>
-                <td th:text="${r.statistic != null ? r.statistic.nbComment : 0}">0</td>
-            </tr>
-            </tbody>
-        </table>
+    <!-- TABLEAU AVEC DATATABLES -->
+    <section class="table-section">
+        <h2>Tableau des Ressources</h2>
+        <div class="table-wrapper">
+            <table id="ressourcesTable" class="display">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Catégorie</th>
+                    <th>Consultations</th>
+                    <th>Favoris</th>
+                    <th>Exploitations</th>
+                    <th>Commentaires</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${ressources}">
+                    <td th:text="${r.title}">Titre</td>
+                    <td th:text="${r.category != null ? r.category.name : '-'}">Catégorie</td>
+                    <td th:text="${r.statistic != null ? r.statistic.nbConsult : 0}">0</td>
+                    <td th:text="${r.statistic != null ? r.statistic.nbFav : 0}">0</td>
+                    <td th:text="${r.statistic != null ? r.statistic.nbExploit : 0}">0</td>
+                    <td th:text="${r.statistic != null ? r.statistic.nbComment : 0}">0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
-</div>
+
+</main>
+
+<!-- JS - JQUERY + DATATABLES -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+        src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<!-- Script principal pour configurer les charts et le tableau -->
+<script th:inline="javascript">
+
+    // ---- Récupération des données depuis Thymeleaf ----
+    const consultLabels = /*[[${consultLabels.stream().toList()}]]*/ [];
+    const consultData = /*[[${consultData.stream().toList()}]]*/ [];
+
+    const favLabels = /*[[${favLabels.stream().toList()}]]*/ [];
+    const favData = /*[[${favData.stream().toList()}]]*/ [];
+
+    const exploitLabels = /*[[${exploitLabels.stream().toList()}]]*/ [];
+    const exploitData = /*[[${exploitData.stream().toList()}]]*/ [];
+
+    // ---- Initialisation des graphiques ----
+
+    // Consultations par catégorie (Bar chart)
+    new Chart(document.getElementById('chartConsult'), {
+        type: 'bar',
+        data: {
+            labels: consultLabels,
+            datasets: [{
+                label: 'Consultations',
+                data: consultData
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Favoris par catégorie (Doughnut)
+    new Chart(document.getElementById('chartFav'), {
+        type: 'doughnut',
+        data: {
+            labels: favLabels,
+            datasets: [{
+                label: 'Favoris',
+                data: favData
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '50%' // Ajuste l’aspect “donut”
+        }
+    });
+
+    // Exploitations par catégorie (Line chart)
+    new Chart(document.getElementById('chartExploit'), {
+        type: 'line',
+        data: {
+            labels: exploitLabels,
+            datasets: [{
+                label: 'Exploitations',
+                data: exploitData
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // ---- Initialisation du tableau DataTables ----
+    $(document).ready(function() {
+        $('#ressourcesTable').DataTable({
+            // Configuration optionnelle
+            paging: true,
+            pageLength: 10,
+            lengthChange: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json'
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
