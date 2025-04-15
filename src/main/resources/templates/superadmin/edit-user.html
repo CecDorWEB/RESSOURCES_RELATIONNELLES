@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+    <title>Modifier un utilisateur</title>
+    <link rel="stylesheet" href="/css/home.css" />
+    <style>
+        .form-section {
+            background: linear-gradient(to bottom right, #7e1bf2, #fe6f72);
+            padding: 4rem 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .form-container {
+            background: white;
+            color: #333;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h2 {
+            margin-bottom: 1.5rem;
+            color: #7e1bf2;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 1rem 0 0.3rem;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(to right, #7e1bf2, #fe6f72);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+<main layout:fragment="content">
+
+    <section class="form-section" revealOnScroll>
+        <h1>Modifier un utilisateur</h1>
+
+        <div class="form-container" revealOnScroll>
+            <h2>Modifiez les informations ci-dessous</h2>
+
+            <form th:action="@{'/superadmin/users/edit/' + ${user.id}}" method="post" th:object="${user}">
+                <label>Prénom :</label>
+                <input type="text" th:field="*{firstName}" required>
+
+                <label>Nom :</label>
+                <input type="text" th:field="*{lastName}" required>
+
+                <label>Email :</label>
+                <input type="email" th:field="*{email}" required>
+
+                <label>Nouveau mot de passe :</label>
+                <input type="password" name="newPassword" placeholder="Laisser vide pour ne pas changer">
+
+                <label>Rôle :</label>
+                <select name="roleId" required>
+                    <option th:each="role : ${roles}"
+                            th:value="${role.id}"
+                            th:text="${role.name}"
+                            th:selected="${role.id == user.role.id}">
+                    </option>
+                </select>
+
+                <button type="submit">Enregistrer les modifications</button>
+            </form>
+
+            <a href="/superadmin/users" class="back-link">← Retour</a>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
