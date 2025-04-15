@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,55 +15,78 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
 import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
+import com.RESSOURCES_RELATIONNELLES.services.RessourceTypeService;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class RessourceController {
 	private final RessourceService _ressourceService;
+	private final RelationTypeService _relationTypeService;
+	private final RessourceTypeService _ressourceTypeService;
 
-	public RessourceController(RessourceService ressourceService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService) {
+
 		this._ressourceService = ressourceService;
+		this._relationTypeService = relationTypeService;
+		this._ressourceTypeService = ressourceTypeService;
+	}
+	
+	@GetMapping("/ressources/getall")
+	public List<Ressource> getAllRessources() {
+		return _ressourceService.getAllRessources();
 	}
 
-	@Autowired
-	private RelationTypeService _relationTypeService;
-
-	@GetMapping("/ressources")
-	public String consultAllRessources(Model model) {
-		List<RelationType> relationType = _relationTypeService.getAllRelationType();
-		List<Ressource> ressource = _ressourceService.getAllRessources();
-		model.addAttribute("listRelation", relationType);
-		model.addAttribute("listRessource", ressource);
-		return "listRessource";
-	}
-
-	@GetMapping("/ressource/{id}")
-	public String afficherRessource(@PathVariable Long id, Model model) {
-		Ressource ressource = _ressourceService.getRessourceById(id);
-
-		if (ressource != null) {
-			model.addAttribute("ressource", ressource); // Ajouter la ressource au modèle
-		} else {
-			model.addAttribute("errorMessage", "Ressource non trouvée"); // Message d'erreur si la ressource est
-																			// introuvable
-		}
-
-		return "ressource"; // Retourner la vue Thymeleaf associée
-	}
 
 	@GetMapping("/ressource/create")
 	public String openCreateForm(Model model) {
 		model.addAttribute("title", "Création d'une ressource");
 		model.addAttribute("ressource", new Ressource());
-		return "ressource-form";
+		return "ressourceForm";
+	}
+
+	//Récupération des ressources PUBLIC pour les USERS non connectés, publiées et autorisées pour alimenter la liste des ressources
+	@GetMapping("/ressources")
+	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
+			@RequestParam(required = false) Long ressourceTypeId,
+			@RequestParam(required = false) String searchWord) {
+		List<RelationType> relationType = _relationTypeService.getAllRelationType();
+		List<RessourceType> ressourceType = _ressourceTypeService.getAllRessourceType();
+
+		List<Ressource> ressource;
+
+		if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
+			ressource = _ressourceService.getPublicFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
+		} else {
+			ressource = _ressourceService.getAllPublicRessources();
+		}
+
+		model.addAttribute("listRelation", relationType);
+		model.addAttribute("listRessourceType", ressourceType);
+		model.addAttribute("listRessource", ressource);
+		return "listRessource";
+	}
+
+	//Récupérer le contenu de la ressource par son id
+	@GetMapping("/ressource/{id}")
+	public String afficherRessource(@PathVariable Long id, Model model) {
+		Optional<Ressource> ressource = _ressourceService.findById(id);
+		if (ressource.isPresent()) {
+			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
+
+			model.addAttribute("paragraphs", paragraphs);
+			model.addAttribute("ressource", ressource.get());
+			return "ressource";
+		}
+		return "redirect:/home"; // Redirige si l'ID n'existe pas
 	}
 
 	@GetMapping("/ressource/edit/{id}")
 	public String openEditForm(@PathVariable Long id, Model model) {
-		Optional<Ressource> ressource = _ressourceService.FindById(id);
+		Optional<Ressource> ressource = _ressourceService.findById(id);
 		if (ressource.isPresent()) {
 
 			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
@@ -93,9 +115,13 @@ public class RessourceController {
 
 		ressource.setContent(content);
 
-		_ressourceService.SaveRessource(ressource);
+		var newRessource = _ressourceService.save(ressource);
 
-		return "redirect:/home";
+		if (newRessource != null && newRessource.getId() > 0) {
+			return "redirect:/ressource/" + newRessource.getId();
+		} else {
+			return "redirect:/home";
+		}
 	}
 
 	private List<String> extractParagraphs(String content) {

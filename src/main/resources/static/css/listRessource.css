@@ -1,0 +1,194 @@
+body{
+	display:flex;
+	flex-direction: column;
+	gap:2em;
+	font-family: "Poppins", sans-serif;
+    background: #fafbfd;
+    width:85%;
+    margin:auto;
+    margin-bottom:2em;
+}
+
+.intro_listRessource{
+	display:flex;
+	flex-direction: column;
+	text-align:center;
+	align-items: center;
+	gap:2rem;
+	padding: 3rem 0 2rem 0;
+}
+
+.intro_listRessource > h1{
+	margin-bottom : 0;
+	font-size: 2rem;
+}
+
+div.relation_filter, div.ressourceType_filter{
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	justify-content:center;
+	gap:1em;
+}
+
+div.relation_filter a.relation_filter_link, div.ressourceType_filter a.ressourceType_filter_link{
+	text-decoration:none;
+	background-color: #fff;
+    color:#7e1bf2;
+ 	border: 1px solid #7e1bf2;
+    border-radius: 10px;
+    padding: 0.4rem 0.8rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    width: fit-content;
+    font-size: 1rem;
+    cursor:pointer;
+}
+
+div.relation_filter a.relation_filter_link:hover {
+        transform: scale(1.05);
+        background-color: #7e1bf2;
+        color: #fff;
+}
+
+div.relation_filter a.relation_filter_link.active{
+        background-color: #7e1bf2;
+        color: #fff;
+}
+
+div.relation_filter a.relation_filter_link.not_active{
+        background-color: aqua;
+        color: #fff;
+}
+   
+    
+div.ressourceType_filter a.ressourceType_filter_link {
+    color: #cf25c7;
+    border: 1px solid #cf25c7;
+}
+
+div.ressourceType_filter a.ressourceType_filter_link:hover {
+    transform: scale(1.05);
+    background-color: #cf25c7;
+    color: #fff;
+}
+
+div.ressourceType_filter a.ressourceType_filter_link.active {
+    background-color: #cf25c7;
+    color: #fff;
+}
+
+.ressource_card_container * {
+	margin:0;
+}
+
+.search_ressource{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.search_ressource > form {
+	display:flex;
+	gap:0.5rem;
+	width: 100%;
+}
+
+.search_ressource > form > input{
+	all:unset;
+	border: 1px solid #7e1bf2;
+	padding: 0.5rem;
+	border-radius: 10px;
+	color: #7e1bf2;
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-size:0.8rem;
+}
+
+.search_ressource > form > input.search_input_ressource{
+	width: 100%;
+	color:black;
+}
+
+.ressource_card_container{
+	display:flex;
+	justify-content:center;
+	flex-wrap: wrap;
+	gap:2em;
+	padding-top:2rem;
+}
+
+.ressource_card_container > .ressourceCard{
+	display:flex;
+	flex-direction:column;
+	text-align:center;
+	gap:0.5rem;
+	width:250px;
+
+	border:1px solid rgba(128,128,128,0.2);
+	border-radius:1em;
+	box-shadow: 1px 1px 12px 2px #4141411a;
+	padding-bottom: 0.5rem;
+}
+
+.ressource_card_container > .ressourceCard > div.list_of_relationType{
+	display:flex;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.ressource_card_container > .ressourceCard > div.list_of_relationType > p.relationType_item{
+	background-color: #fff;
+    color:#7e1bf2;
+ 	border: 1px solid #7e1bf2;
+    border-radius: 10px;
+    padding: 0.3rem 0.5rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    width: fit-content;
+}
+
+
+.ressource_card_container > .ressourceCard > img{
+	height:150px;
+	filter: opacity(80%);
+	object-fit: cover;
+	border-radius:1em 1em 0 0;
+}
+
+.ressource_card_container > .ressourceCard > h1.ressource_title{
+	 display: flex;
+    align-items: center;
+    justify-content: center;
+	height:100%;
+	padding: 0 0.3rem;
+	color:rgba(0,0,0,0.8);
+}
+
+.ressource_card_container > .ressourceCard > p.ressource_type_item{
+	color: #cf25c7;
+    border: 1px solid #cf25c7;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0.3rem 0.5rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    width: fit-content;
+    margin:auto;
+}
+
+@media screen and (min-width: 1024px) {
+	div.relation_filter a.relation_filter_link{
+    padding: 0.6rem 1rem;
+    max-width:none;
+}
+.ressource_card_container{
+	display:flex;
+	justify-content:space-around;
+	flex-wrap: wrap;
+	gap:2em;
+}
+.search_ressource > form {
+	gap:1rem;
+}
+}

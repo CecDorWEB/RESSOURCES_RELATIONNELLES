@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesSupportPages.css}">
+	<title>Administration</title>
 </head>
 <body>
+<main layout:fragment="content">
 <h1>Page Administrateur</h1>
 <button>Statistiques</button>
 <button>Gérer les utilisateurs</button>
@@ -89,7 +92,7 @@
 	
 <!-- 
 	
-<section class="filters">
+<section class="filters"> -->
     <h2>Ajouter filtres :</h2>
     <form>
         <!-- Période -->
@@ -138,6 +141,7 @@
         <!-- Bouton Appliquer -->
         <button type="submit">Appliquer</button>
     </form>
- -->
+	</div>
+</main>
 </body>
 </html>

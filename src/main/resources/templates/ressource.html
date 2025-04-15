@@ -1,34 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
 <head>
     <title>Contenu de la Ressource</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/myRessource.css}">
+    <link rel="stylesheet" href="/css/myRessource.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="content-card">
-            <h1 th:text="${ressource.title}"></h1>
-            
-           <!--   <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}"> -->
-            <span th:text="${ressource.description}"></span>
-            <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
-            
-					    <span th:each="rr : ${ressource.listRelationTypes}">
+<main layout:fragment="content">
+<div class="container">
+    <div class="content-card">
+        <h1 th:text="${ressource.title}"></h1>
+
+        <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
+        <span th:text="${ressource.description}"></span>
+        <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
+
+            <span th:each="rr : ${ressource.listRelationTypes}">
 					        <span th:text="${rr.relationType.name}"></span>
 					    </span>
-					
-					<strong> / Type :</strong> <span th:text="${ressource.ressourceType.name}"></span>
-            </p>
-            <p><strong>Publié le :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}">
+
+            <strong> / Type :</strong> <span th:text="${ressource.ressourceType.name}"></span>
+        </p>
+        <p><strong>Publié le :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}">
             </span><strong> / Dernière mise à jour :</strong> <span th:text="${#dates.format(ressource.updateDate, 'dd MMM yyyy')}"></span></p>
-                 <p th:if="${#strings.isEmpty(ressource.filePath)}">
-                <span th:text="${ressource.content}"></span>
-            </p>
-            <p th:if="${not #strings.isEmpty(ressource.filePath)}">
-                <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
-                <h2 th:text="${ressource.content}"></h2>
-            </p>
-        </div>
+        <p th:if="${#strings.isEmpty(ressource.filePath)}">
+            <span th:text="${ressource.content}"></span>
+        </p>
+        <p th:if="${not #strings.isEmpty(ressource.filePath)}">
+            <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
+        <h2 th:text="${ressource.content}"></h2>
+        </p>
     </div>
+</div>
+</main>
 </body>
 </html>

@@ -229,7 +229,7 @@
         <!-- Affichage du message d'erreur en cas d'échec de connexion -->
         <p th:if="${param.error}" class="error">Email ou mot de passe incorrect</p>
 
-        <form th:action="@{/authentification/login}" th:object="${user}" method="post">
+        <form th:action="@{/login}" th:object="${user}" method="post">
             <label for="email">Email :</label>
             <input type="text" id="email" th:field="*{email}" required />
 
@@ -241,7 +241,7 @@
 
             <div class="buttons">
                 <button type="submit" class="btn-login">Se connecter</button>
-                <button type="button" class="btn-signup" onclick="window.location.href='/authentification/signup'">S'inscrire</button>
+                <button type="button" class="btn-signup" onclick="window.location.href='/signup'">S'inscrire</button>
             </div>
         </form>
     </div>

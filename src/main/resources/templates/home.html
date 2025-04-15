@@ -1,577 +1,11 @@
 <!DOCTYPE html>
-
-<html lang="fr" xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
-
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resources Relationnelles</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="/css/home.css" />
 </head>
-<style>
-    /* -----------------------------------
-   RESETS & BASE
------------------------------------ */
-    *,
-    *::before,
-    *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: "Poppins", sans-serif;
-        background-color: #f8fafc;
-        color: #333;
-        overflow-x: hidden;
-        /* Evite le scroll horizontal */
-    }
-
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    ul {
-        list-style: none;
-    }
-
-    button {
-        cursor: pointer;
-    }
-
-    /* -----------------------------------
-         CUSTOM VARIABLES
-      ----------------------------------- */
-    :root {
-        --primary-color: #7e1bf2;
-        --secondary-color: #fe6f72;
-        --accent-color: #ffdc60;
-        --light-bg: #f8fafc;
-        --dark-bg: #1e1e2f;
-        --gradient-bg: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    }
-
-    /* -----------------------------------
-         HEADER
-      ----------------------------------- */
-    header {
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background: #ffffff;
-        height: 70px;
-        display: flex;
-        align-items: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        z-index: 999;
-    }
-
-    .nav-container {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 1rem;
-        gap: 15px;
-    }
-
-    nav {
-        display: flex;
-        gap: 3rem;
-    }
-
-    #logo {
-        height: 50px;
-    }
-
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        font-weight: 500;
-    }
-
-    .nav-links>li>a {
-        color: var(--dark-text);
-        transition: color 0.3s;
-        text-wrap: none;
-        position: relative;
-    }
-
-    .nav-links>li>a::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -2px;
-        left: 0;
-        background-color: var(--primary-color);
-        transition: width 0.3s ease-in-out;
-    }
-
-    .nav-links>li>a:hover {
-        color: var(--primary-color);
-    }
-
-    .nav-links>li>a:hover::after {
-        width: 100%;
-    }
-
-    /* Boutons Connexion & Inscription plus visibles */
-
-    .btn-login {
-        border: 2px solid var(--primary-color);
-        border-radius: 5px;
-        padding: 0.4rem 0.8rem;
-        font-weight: 600;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .btn-login:hover {
-        background-color: var(--primary-color);
-        color: #fff;
-    }
-
-    .btn-register {
-        border: 2px solid var(--primary-color);
-        border-radius: 5px;
-        padding: 0.4rem 0.8rem;
-        font-weight: 600;
-        transition: background-color 0.3s, color 0.3s;
-        background-color: var(--primary-color);
-        color: #fff;
-    }
-
-    .btn-register:hover {
-        background-color: var(--white);
-        color: #000;
-    }
-
-    .auth {
-        display: flex;
-        gap: 5px;
-    }
-
-    /* -----------------------------------
-         HERO SECTION (PARALLAX + WAVES)
-      ----------------------------------- */
-    .hero {
-        position: relative;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #fff;
-        background: var(--gradient-bg);
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-        overflow: hidden;
-    }
-
-    .hero h1 {
-        font-size: 2.8rem;
-        margin-bottom: 1rem;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-        animation: slideDown 1s ease forwards;
-        opacity: 0;
-    }
-
-    .hero p {
-        font-size: 1.2rem;
-        max-width: 600px;
-        margin: 0 auto 2rem auto;
-        line-height: 1.6;
-        animation: slideUp 1s ease forwards;
-        animation-delay: 0.3s;
-        opacity: 0;
-    }
-
-    .hero .hero-btn {
-        font-size: 1rem;
-        padding: 0.8rem 1.5rem;
-        border-radius: 30px;
-        background-color: #fff;
-        color: var(--primary-color);
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-        animation: slideUp 1s ease forwards;
-        animation-delay: 0.6s;
-        opacity: 0;
-    }
-
-    #wave {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 50%;
-    }
-
-
-    @keyframes slideDown {
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        from {
-            transform: translateY(-30px);
-            opacity: 0;
-        }
-    }
-
-    @keyframes slideUp {
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        from {
-            transform: translateY(30px);
-            opacity: 0;
-        }
-    }
-
-    /* -----------------------------------
-         PRESENTATION SECTION
-      ----------------------------------- */
-    .presentation {
-        position: relative;
-        z-index: 1;
-        background-color: #fff;
-        padding: 5rem 2rem;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .presentation h2 {
-        font-size: 2rem;
-        color: var(--primary-color);
-        margin-bottom: 1rem;
-        letter-spacing: 1px;
-        transform: translateY(30px);
-    }
-
-    .presentation p {
-        max-width: 800px;
-        margin: 0.5rem auto;
-        font-size: 1.1rem;
-        color: #555;
-        line-height: 1.6;
-    }
-
-    /* -----------------------------------
-         FEATURES (CARDS)
-      ----------------------------------- */
-    /* SECTION FEATURES en blocs alternés */
-    #features {
-        width: 100%;
-        max-width: 1200px;
-        margin: 4rem auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10rem;
-        padding: 0 1rem;
-    }
-
-    .feature-block {
-        display: flex;
-        gap: 15px;
-    }
-
-    .feature-block.right {
-        flex-direction: row-reverse;
-        justify-self: right;
-    }
-
-    .feature-image {
-        height: 400px;
-        width: 400px;
-    }
-
-    .feature-content {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-        width: 500px;
-        height: 400px;
-        position: relative;
-        padding: 0 15px;
-    }
-
-    .feature-block.right .feature-content {
-        text-align: right;
-        align-items: end;
-    }
-
-    .feature-content h3 {
-        font-weight: 700;
-        font-size: 32px;
-    }
-
-    .feature-content p {
-        font-size: 1.2rem;
-    }
-
-    .feature-number {
-        position: absolute;
-        font-size: 600px;
-        opacity: 0.1;
-        color: var(--primary-color);
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .feature-block.right .feature-number {
-        left: -40%;
-    }
-
-    .feature-block.left .feature-number {
-        right: -40%;
-    }
-
-    .feature-content button {
-        border: 1px solid var(--primary-color);
-        border-radius: 5px;
-        padding: 0.8rem 1.5rem;
-        font-weight: 600;
-        background-color: var(--primary-color);
-        color: #fff;
-        transition: transform 0.2s;
-        width: fit-content;
-        font-size: 1.1rem;
-    }
-
-    .feature-content button:hover {
-        transform: scale(1.05);
-        background-color: #fff;
-    }
-
-
-
-    /* -----------------------------------
-         TESTIMONIALS SECTION
-      ----------------------------------- */
-    #testimonials {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 25px;
-        margin-top: 100px;
-    }
-
-    #testimonials h2 {
-        font-size: 32px;
-    }
-
-    .testimonials-container {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        gap: 50px;
-        padding: 50px 50px;
-    }
-
-    .testimonial {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        border-radius: 24px;
-        line-height: 1.6;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .testimonial-content {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 25px;
-        padding: 36px;
-        border-radius: 25px;
-        color: #000;
-        overflow: hidden;
-        background: #fff;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-<script>
-    /* We'll do smaller shooting stars (5px) and spawn them more frequently. */
-    function createShootingStar() {
-        const star = document.createElement('div');
-        star.className = 'shooting-star';
-        const size = 5; // smaller
-        star.style.width = size + 'px';
-        star.style.height = size + 'px';
-        star.style.boxShadow = '0 0 6px 2px rgba(255,255,255,0.8)';
-
-        // pick random edge
-        const edges = ['top','bottom','left','right'];
-        const edge = edges[Math.floor(Math.random()*edges.length)];
-        let startX=0, startY=0;
-        if(edge === 'top') {
-            startY=0;
-            startX=Math.random()*window.innerWidth;
-        } else if(edge==='bottom') {
-            startY=window.innerHeight;
-            startX=Math.random()*window.innerWidth;
-        } else if(edge==='left') {
-            startX=0;
-            startY=Math.random()*window.innerHeight;
-        } else {
-            // right
-            startX=window.innerWidth;
-            startY=Math.random()*window.innerHeight;
-        }
-=======
-    .testimonial-user {
-        display: flex;
-        gap: 15px;
-    }
-
-    .testimonial-user img {
-        height: 40px;
-        width: 40px;
-        border-radius: 100%;
-    }
-
-    .testimonial-content::before {
-        position: absolute;
-        content: "";
-        top: -4%;
-        left: 50%;
-        width: 90%;
-        height: 90%;
-        transform: translate(-50%);
-        background: var(--primary-color);
-        opacity: 0.3;
-        z-index: -1;
-        transform-origin: bottom;
-
-        border-radius: inherit;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .testimonial-content::after {
-        position: absolute;
-        content: "";
-        top: -8%;
-        left: 50%;
-        width: 80%;
-        height: 80%;
-        transform: translate(-50%);
-        background: var(--primary-color);
-        opacity: 0.1;
-        z-index: -2;
-        transform-origin: bottom;
-        border-radius: inherit;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .testimonial:hover {
-        transform: translate(0px, -16px);
-    }
-
-    .testimonial:hover .testimonial-content {
-        background: var(--primary-color);
-        color: #fff;
-    }
-
-    .testimonial:hover .testimonial-content::before {
-        rotate: -8deg;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .testimonial:hover .testimonial-content::after {
-        rotate: 8deg;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    /* -----------------------------------
-         CTA FINAL
-      ----------------------------------- */
-    .cta-final {
-        background: var(--gradient-bg);
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-        text-align: center;
-        padding: 4rem 2rem;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 25px;
-    }
-
-    .cta-final h2 {
-        font-size: 32px;
-        color: #fff;
-    }
-
-    .cta-final p {
-        max-width: 700px;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #fff;
-    }
-
-    .cta-final button {
-        background: #fff;
-        color: #000;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 25px;
-        font-size: 1rem;
-        transition: all 0.3s;
-        font-weight: 600;
-        position: relative;
-        overflow: hidden;
-        width: fit-content;
-    }
-
-    .cta-final button:hover {
-        color: #fff;
-        background-color: var(--primary-color);
-    }
-
-    /* -----------------------------------
-         FOOTER
-      ----------------------------------- */
-    footer {
-        background: #fff;
-        color: #999;
-        text-align: center;
-        padding: 1rem;
-        font-size: 0.9rem;
-        border-top: 1px solid #eee;
-    }
-
-    footer a {
-        color: var(--primary-color);
-        margin: 0 0.5rem;
-    }
-
-    /* -----------------------------------
-         RESPONSIVE
-      ----------------------------------- */
-</style>
 <body>
 <!-- HEADER / NAVBAR -->
 <header>
@@ -581,7 +15,7 @@
             <ul class="nav-links" id="navbarLinks">
                 <li><a href="#hero">Accueil</a></li>
                 <li><a href="#projet">Le projet</a></li>
-                <li><a th:href="@{/ressource}">Ressources</a></li>
+                <li><a th:href="@{/ressources}">Ressources</a></li>
                 <li><a th:href="@{/moderator}">Moderateur</a></li>
 				<li><a th:href="@{/administrator}">Administrateur</a></li>
 				<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
@@ -593,216 +27,167 @@
         </div>
     </div>
 </header>
+    <main layout:fragment="content">
 
-<!-- HERO SECTION -->
-<section class="hero" id="hero">
-    <svg id="wave" preserveAspectRatio="none" style="transform:rotate(0deg); transition: 0.3s"
-         viewBox="0 0 1440 290" version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
-                <stop stop-color="rgba(126, 27, 242, 1)" offset="0%"></stop>
-                <stop stop-color="rgba(254, 111, 114, 1)" offset="100%"></stop>
-            </linearGradient>
-        </defs>
-        <path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)"
-              d="M0,116L48,96.7C96,77,192,39,288,62.8C384,87,480,174,576,207.8C672,242,768,222,864,207.8C960,193,1056,184,1152,193.3C1248,203,1344,232,1440,207.8C1536,184,1632,106,1728,87C1824,68,1920,106,2016,135.3C2112,164,2208,184,2304,159.5C2400,135,2496,68,2592,43.5C2688,19,2784,39,2880,82.2C2976,126,3072,193,3168,212.7C3264,232,3360,203,3456,178.8C3552,155,3648,135,3744,120.8C3840,106,3936,97,4032,101.5C4128,106,4224,126,4320,125.7C4416,126,4512,106,4608,96.7C4704,87,4800,87,4896,116C4992,145,5088,203,5184,198.2C5280,193,5376,126,5472,87C5568,48,5664,39,5760,53.2C5856,68,5952,106,6048,145C6144,184,6240,222,6336,217.5C6432,213,6528,164,6624,130.5C6720,97,6816,77,6864,67.7L6912,58L6912,290L6864,290C6816,290,6720,290,6624,290C6528,290,6432,290,6336,290C6240,290,6144,290,6048,290C5952,290,5856,290,5760,290C5664,290,5568,290,5472,290C5376,290,5280,290,5184,290C5088,290,4992,290,4896,290C4800,290,4704,290,4608,290C4512,290,4416,290,4320,290C4224,290,4128,290,4032,290C3936,290,3840,290,3744,290C3648,290,3552,290,3456,290C3360,290,3264,290,3168,290C3072,290,2976,290,2880,290C2784,290,2688,290,2592,290C2496,290,2400,290,2304,290C2208,290,2112,290,2016,290C1920,290,1824,290,1728,290C1632,290,1536,290,1440,290C1344,290,1248,290,1152,290C1056,290,960,290,864,290C768,290,672,290,576,290C480,290,384,290,288,290C192,290,96,290,48,290L0,290Z">
-        </path>
-        <defs>
-            <linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0">
-                <stop stop-color="rgba(126, 27, 242, 1)" offset="0%"></stop>
-                <stop stop-color="rgba(254, 111, 114, 1)" offset="100%"></stop>
-            </linearGradient>
-        </defs>
-        <path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)"
-              d="M0,116L48,130.5C96,145,192,174,288,183.7C384,193,480,184,576,149.8C672,116,768,58,864,29C960,0,1056,0,1152,14.5C1248,29,1344,58,1440,101.5C1536,145,1632,203,1728,203C1824,203,1920,145,2016,135.3C2112,126,2208,164,2304,159.5C2400,155,2496,106,2592,87C2688,68,2784,77,2880,111.2C2976,145,3072,203,3168,193.3C3264,184,3360,106,3456,87C3552,68,3648,106,3744,135.3C3840,164,3936,184,4032,188.5C4128,193,4224,184,4320,164.3C4416,145,4512,116,4608,125.7C4704,135,4800,184,4896,198.2C4992,213,5088,193,5184,183.7C5280,174,5376,174,5472,145C5568,116,5664,58,5760,67.7C5856,77,5952,155,6048,154.7C6144,155,6240,77,6336,77.3C6432,77,6528,155,6624,159.5C6720,164,6816,97,6864,62.8L6912,29L6912,290L6864,290C6816,290,6720,290,6624,290C6528,290,6432,290,6336,290C6240,290,6144,290,6048,290C5952,290,5856,290,5760,290C5664,290,5568,290,5472,290C5376,290,5280,290,5184,290C5088,290,4992,290,4896,290C4800,290,4704,290,4608,290C4512,290,4416,290,4320,290C4224,290,4128,290,4032,290C3936,290,3840,290,3744,290C3648,290,3552,290,3456,290C3360,290,3264,290,3168,290C3072,290,2976,290,2880,290C2784,290,2688,290,2592,290C2496,290,2400,290,2304,290C2208,290,2112,290,2016,290C1920,290,1824,290,1728,290C1632,290,1536,290,1440,290C1344,290,1248,290,1152,290C1056,290,960,290,864,290C768,290,672,290,576,290C480,290,384,290,288,290C192,290,96,290,48,290L0,290Z">
-        </path>
-    </svg>
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+        <svg id="wave" preserveAspectRatio="none" style="transform:rotate(0deg); transition: 0.3s"
+             viewBox="0 0 1440 290" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
+                    <stop stop-color="rgba(126, 27, 242, 1)" offset="0%"></stop>
+                    <stop stop-color="rgba(254, 111, 114, 1)" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)"
+                  d="M0,116L48,96.7C96,77,192,39,288,62.8C384,87,480,174,576,207.8C672,242,768,222,864,207.8C960,193,1056,184,1152,193.3C1248,203,1344,232,1440,207.8C1536,184,1632,106,1728,87C1824,68,1920,106,2016,135.3C2112,164,2208,184,2304,159.5C2400,135,2496,68,2592,43.5C2688,19,2784,39,2880,82.2C2976,126,3072,193,3168,212.7C3264,232,3360,203,3456,178.8C3552,155,3648,135,3744,120.8C3840,106,3936,97,4032,101.5C4128,106,4224,126,4320,125.7C4416,126,4512,106,4608,96.7C4704,87,4800,87,4896,116C4992,145,5088,203,5184,198.2C5280,193,5376,126,5472,87C5568,48,5664,39,5760,53.2C5856,68,5952,106,6048,145C6144,184,6240,222,6336,217.5C6432,213,6528,164,6624,130.5C6720,97,6816,77,6864,67.7L6912,58L6912,290L6864,290C6816,290,6720,290,6624,290C6528,290,6432,290,6336,290C6240,290,6144,290,6048,290C5952,290,5856,290,5760,290C5664,290,5568,290,5472,290C5376,290,5280,290,5184,290C5088,290,4992,290,4896,290C4800,290,4704,290,4608,290C4512,290,4416,290,4320,290C4224,290,4128,290,4032,290C3936,290,3840,290,3744,290C3648,290,3552,290,3456,290C3360,290,3264,290,3168,290C3072,290,2976,290,2880,290C2784,290,2688,290,2592,290C2496,290,2400,290,2304,290C2208,290,2112,290,2016,290C1920,290,1824,290,1728,290C1632,290,1536,290,1440,290C1344,290,1248,290,1152,290C1056,290,960,290,864,290C768,290,672,290,576,290C480,290,384,290,288,290C192,290,96,290,48,290L0,290Z">
+            </path>
+            <defs>
+                <linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0">
+                    <stop stop-color="rgba(126, 27, 242, 1)" offset="0%"></stop>
+                    <stop stop-color="rgba(254, 111, 114, 1)" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)"
+                  d="M0,116L48,130.5C96,145,192,174,288,183.7C384,193,480,184,576,149.8C672,116,768,58,864,29C960,0,1056,0,1152,14.5C1248,29,1344,58,1440,101.5C1536,145,1632,203,1728,203C1824,203,1920,145,2016,135.3C2112,126,2208,164,2304,159.5C2400,155,2496,106,2592,87C2688,68,2784,77,2880,111.2C2976,145,3072,203,3168,193.3C3264,184,3360,106,3456,87C3552,68,3648,106,3744,135.3C3840,164,3936,184,4032,188.5C4128,193,4224,184,4320,164.3C4416,145,4512,116,4608,125.7C4704,135,4800,184,4896,198.2C4992,213,5088,193,5184,183.7C5280,174,5376,174,5472,145C5568,116,5664,58,5760,67.7C5856,77,5952,155,6048,154.7C6144,155,6240,77,6336,77.3C6432,77,6528,155,6624,159.5C6720,164,6816,97,6864,62.8L6912,29L6912,290L6864,290C6816,290,6720,290,6624,290C6528,290,6432,290,6336,290C6240,290,6144,290,6048,290C5952,290,5856,290,5760,290C5664,290,5568,290,5472,290C5376,290,5280,290,5184,290C5088,290,4992,290,4896,290C4800,290,4704,290,4608,290C4512,290,4416,290,4320,290C4224,290,4128,290,4032,290C3936,290,3840,290,3744,290C3648,290,3552,290,3456,290C3360,290,3264,290,3168,290C3072,290,2976,290,2880,290C2784,290,2688,290,2592,290C2496,290,2400,290,2304,290C2208,290,2112,290,2016,290C1920,290,1824,290,1728,290C1632,290,1536,290,1440,290C1344,290,1248,290,1152,290C1056,290,960,290,864,290C768,290,672,290,576,290C480,290,384,290,288,290C192,290,96,290,48,290L0,290Z">
+            </path>
+        </svg>
 
-    <h1>Améliorez vos relations, épanouissez-vous</h1>
-    <p>
-        Rejoignez une plateforme unique dédiée à la qualité de nos liens : familles, amis, collègues.
-        Trouvez des ressources pour mieux communiquer, partager et grandir ensemble.
-    </p>
-    <button class="hero-btn" th:href="@{/ressource}">Explorer les ressources</button>
+        <h1>Améliorez vos relations, épanouissez-vous</h1>
+        <p>
+            Rejoignez une plateforme unique dédiée à la qualité de nos liens : familles, amis, collègues.
+            Trouvez des ressources pour mieux communiquer, partager et grandir ensemble.
+        </p>
+        <button class="hero-btn">Explorer les ressources</button>
 
-</section>
+    </section>
 
-<!-- PRESENTATION DU PROJET -->
-<section class="presentation" id="presentation" revealOnScroll>
-    <h2>Pourquoi <strong>Resources Relationnelles</strong> ?</h2>
-    <p>
-        Parce que notre bonheur et notre épanouissement sont liés à la qualité de nos relations, nous avons créé
-        Resources Relationnelles afin de vous accompagner dans la découverte et la création d’outils destinés
-        à améliorer vos liens familiaux, amicaux et professionnels. Explorez les meilleures ressources et
-        partagez vos propres idées pour que chacun progresse à son rythme.
-    </p>
-</section>
+    <!-- PRESENTATION DU PROJET -->
+    <section class="presentation" id="presentation" revealOnScroll>
+        <h2>Pourquoi <strong>Resources Relationnelles</strong> ?</h2>
+        <p>
+            Parce que notre bonheur et notre épanouissement sont liés à la qualité de nos relations, nous avons créé
+            Resources Relationnelles afin de vous accompagner dans la découverte et la création d’outils destinés
+            à améliorer vos liens familiaux, amicaux et professionnels. Explorez les meilleures ressources et
+            partagez vos propres idées pour que chacun progresse à son rythme.
+        </p>
+    </section>
 
-<!-- FONCTIONNALITES (Features) -->
-<section class="features" id="features">
+    <!-- FONCTIONNALITES (Features) -->
+    <section class="features" id="features">
 
-    <div class="feature-block left" revealOnScroll="left">
-        <img src="/man_ordering_file.png" class="feature-image" />
-        <div class="feature-content">
-            <span class="feature-number">1</span>
-            <h3>Catalogue & Découverte</h3>
-            <p>
-                Découvrez un large éventail d’articles, de vidéos et de défis thématiques,
-                le tout soigneusement organisé pour vous aider à trouver rapidement
-                l’inspiration dont vous avez besoin. Que vous souhaitiez améliorer votre
-                communication familiale ou renforcer l’esprit d’équipe au travail, notre
-                catalogue est pensé pour répondre aux besoins de chacun.
-            </p>
-
-            <button th:href="@{/ressource}">Explorer le catalogue</button>
-        </div>
-    </div>
-
-    <div class="feature-block right" revealOnScroll="right">
-        <img src="/man_woman_sharing.png" class="feature-image" />
-        <div class="feature-content">
-            <span class="feature-number">2</span>
-            <h3>Créer & Partager</h3>
-            <p>
-                Contribuez en publiant vos propres ressources : partagez vos expériences,
-                vos outils et vos astuces pour inspirer la communauté. Chaque création
-                validée et appréciée profite à tous, en enrichissant un espace vivant
-                fondé sur l’entraide et la bienveillance.
-            </p>
-
-            <button>Proposer une ressource</button>
-        </div>
-
-    </div>
-
-    <div class="feature-block left" revealOnScroll="left">
-        <img src="/woman_idea_page.png" class="feature-image" />
-        <div class="feature-content">
-            <h3>Donnez votre avis</h3>
-            <p>
-                Partagez vos retours et impressions sur chaque ressource,
-                afin d’aider la communauté à se repérer et à bénéficier de vos conseils.
-                En publiant un commentaire, vous participez à l’enrichissement continu
-                des contenus et contribuez à faire de Resources Relationnelles
-                un espace d’échange vivant et constructif.
-            </p>
-            <span class="feature-number">3</span>
-            <button>Se créer un compte</button>
-        </div>
-    </div>
-
-</section>
-
-
-<!-- TESTIMONIALS -->
-<section class="testimonials-section" id="testimonials" revealOnScroll>
-    <h2>Ils nous ont fait confiance</h2>
-    <div class="testimonials-container">
-        <div class="testimonial">
-            <div class="testimonial-content">
-                <div class="testimonial-user">
-                    <img src="https://randomuser.me/api/portraits/women/68.jpg">
-                    <p><strong>Amandine</strong></p>
-                </div>
-                <p class="testimonial-opinion">
-                    <span class="closing-opinion">“</span>
-                    J’ai découvert un tas d’astuces pour mieux communiquer avec mon ado. Un vrai soulagement !
-                    <span class="closing-opinion">”</span>
+        <div class="feature-block left" revealOnScroll="left">
+            <img src="/img/man_ordering_file.png" class="feature-image" />
+            <div class="feature-content">
+                <span class="feature-number">1</span>
+                <h3>Catalogue & Découverte</h3>
+                <p>
+                    Découvrez un large éventail d’articles, de vidéos et de défis thématiques,
+                    le tout soigneusement organisé pour vous aider à trouver rapidement
+                    l’inspiration dont vous avez besoin. Que vous souhaitiez améliorer votre
+                    communication familiale ou renforcer l’esprit d’équipe au travail, notre
+                    catalogue est pensé pour répondre aux besoins de chacun.
                 </p>
+
+                <button>Explorer le catalogue</button>
             </div>
         </div>
 
-        <div class="testimonial">
-            <div class="testimonial-content">
-                <div class="testimonial-user">
-                    <img src="https://randomuser.me/api/portraits/men/45.jpg">
-                    <p><strong>Julien</strong></p>
-                </div>
-                <p class="testimonial-opinion">
-                    <span class="closing-opinion">“</span>
-                    Les défis proposés sont hyper ludiques, et ça a vraiment rapproché toute notre équipe au bureau
-                    <span class="closing-opinion">”</span>
+        <div class="feature-block right" revealOnScroll="right">
+            <img src="/img/man_woman_sharing.png" class="feature-image" />
+            <div class="feature-content">
+                <span class="feature-number">2</span>
+                <h3>Créer & Partager</h3>
+                <p>
+                    Contribuez en publiant vos propres ressources : partagez vos expériences,
+                    vos outils et vos astuces pour inspirer la communauté. Chaque création
+                    validée et appréciée profite à tous, en enrichissant un espace vivant
+                    fondé sur l’entraide et la bienveillance.
                 </p>
+
+                <button>Proposer une ressource</button>
+            </div>
+
+        </div>
+
+        <div class="feature-block left" revealOnScroll="left">
+            <img src="/img/woman_idea_page.png" class="feature-image" />
+            <div class="feature-content">
+                <h3>Donnez votre avis</h3>
+                <p>
+                    Partagez vos retours et impressions sur chaque ressource,
+                    afin d’aider la communauté à se repérer et à bénéficier de vos conseils.
+                    En publiant un commentaire, vous participez à l’enrichissement continu
+                    des contenus et contribuez à faire de Resources Relationnelles
+                    un espace d’échange vivant et constructif.
+                </p>
+                <span class="feature-number">3</span>
+                <button>Se créer un compte</button>
             </div>
         </div>
 
-        <div class="testimonial">
-            <div class="testimonial-content">
-                <div class="testimonial-user">
-                    <img src="https://randomuser.me/api/portraits/women/75.jpg">
-                    <p><strong>Sarah</strong></p>
+    </section>
+
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section" id="testimonials" revealOnScroll>
+        <h2>Ils nous ont fait confiance</h2>
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <div class="testimonial-user">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg">
+                        <p><strong>Amandine</strong></p>
+                    </div>
+                    <p class="testimonial-opinion">
+                        <span class="closing-opinion">“</span>
+                        J’ai découvert un tas d’astuces pour mieux communiquer avec mon ado. Un vrai soulagement !
+                        <span class="closing-opinion">”</span>
+                    </p>
                 </div>
-                <p class="testimonial-opinion">
-                    <span class="closing-opinion">“</span>
-                    Créer mes propres ressources et les voir appréciées par d’autres, c’est super gratifiant
-                    <span class="closing-opinion">”</span>
-                </p>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <div class="testimonial-user">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg">
+                        <p><strong>Julien</strong></p>
+                    </div>
+                    <p class="testimonial-opinion">
+                        <span class="closing-opinion">“</span>
+                        Les défis proposés sont hyper ludiques, et ça a vraiment rapproché toute notre équipe au bureau
+                        <span class="closing-opinion">”</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <div class="testimonial-user">
+                        <img src="https://randomuser.me/api/portraits/women/75.jpg">
+                        <p><strong>Sarah</strong></p>
+                    </div>
+                    <p class="testimonial-opinion">
+                        <span class="closing-opinion">“</span>
+                        Créer mes propres ressources et les voir appréciées par d’autres, c’est super gratifiant
+                        <span class="closing-opinion">”</span>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- CTA FINAL -->
-<section class="cta-final">
-    <h2 revealOnScroll>Vous êtes partant ?</h2>
-    <p revealOnScroll>
-        Envie de faire partie d’une communauté bienveillante ? De renforcer vos relations, d’échanger des idées
-        et de trouver l’inspiration ? Rejoignez Resources Relationnelles dès aujourd’hui !
-    </p>
-    <button revealOnScroll>S'inscrire maintenant</button>
-</section>
+    <!-- CTA FINAL -->
+    <section class="cta-final">
+        <h2 revealOnScroll>Vous êtes partant ?</h2>
+        <p revealOnScroll>
+            Envie de faire partie d’une communauté bienveillante ? De renforcer vos relations, d’échanger des idées
+            et de trouver l’inspiration ? Rejoignez Resources Relationnelles dès aujourd’hui !
+        </p>
+        <button revealOnScroll>S'inscrire maintenant</button>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-    <p>&copy; 2023 Resources Relationnelles. Tous droits réservés.</p>
-    <p>
-        <a href="#">FAQ</a> |
-        <a href="#">Contact</a> |
-        <a href="#">Politique de Confidentialité</a> |
-        <a href="#">Conditions</a>
-    </p>
-</footer>
-</body>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const elementsToReveal = document.querySelectorAll('[revealOnScroll]');
-        const elementPositions = new Map();
-
-        // Stockage des positions Y+1 des éléments
-        elementsToReveal.forEach(element => {
-            elementPositions.set(element, element.getBoundingClientRect().top + window.scrollY + 1);
-            element.style.opacity = '0';
-            element.style.transition = 'opacity 1s, transform 1s';
-        });
-
-        function checkScroll() {
-            const scrollPosition = window.scrollY + window.innerHeight;
-
-            elementPositions.forEach((position, element) => {
-                if (scrollPosition > position) {
-                    const direction = element.getAttribute('revealOnScroll');
-
-                    if (direction === 'right' || direction === 'left') {
-                        element.style.transform = `translateX(${direction === 'right' ? '100%' : '-100%'})`;
-                        setTimeout(() => {
-                            element.style.opacity = '1';
-                            element.style.transform = 'translateX(0)';
-                        }, 50);
-                    } else {
-                        element.style.opacity = '1';
-                    }
-
-                    // Suppression de l'élément de la Map pour ne plus le vérifier
-                    elementPositions.delete(element);
-                }
-            });
-        }
-
-        window.addEventListener('scroll', checkScroll);
-        // Vérification initiale au cas où des éléments seraient déjà visibles
-        checkScroll();
-    });
-
-</script>
+    </main>
+    </body>
 
 </html>

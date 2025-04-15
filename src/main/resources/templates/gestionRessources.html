@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeLeaf/Layout">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesSupportPages.css}">
+    <link rel="stylesheet" href="/css/stylesSupportPages.css" />
 </head>
 <body>
+<main layout:fragment="content">
 <h1>Page de gestion des ressources</h1>
 <div class="Create_button_container">
 <button th:onclick="|window.location.href='/ressource/create'|" class="btn btn-edit"> Créer une nouvelle ressource </button>
@@ -73,13 +76,14 @@
 				  <td>Nom de l'auteur du commentaire</td>
 				  <td>
 				  	<div class="supportTools">
-					  	<button>Consulter</button>
-					  	<button>Suspendre</button>
+					  	<button class="btn btn-edit">Consulter</button>
+					  	<button class="btn btn-edit">Suspendre</button>
 				  	</div>
 				  </td>
 			  </tr>
 		  </tbody>
 		</table>
 </section>
+</main>
 </body>
 </html>
