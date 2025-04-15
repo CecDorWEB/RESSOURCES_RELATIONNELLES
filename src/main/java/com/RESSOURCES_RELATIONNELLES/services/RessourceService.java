@@ -33,12 +33,12 @@ public class RessourceService extends BaseService<Ressource, Long> {
 	}
 	
 	//Pour les utilisateurs connectés, on va également chercher les ressources privées
-	public List<Ressource> getAllRessourcesForConnectedUSer() {
-		return _resourceRepository.findAllRessourcesActivedAndPublished();
+	public List<Ressource> getAllRessourcesForConnectedUSer(Long userId) {
+		return _resourceRepository.findAllRessourcesActivedAndPublished(userId);
 	}
 
-	public List<Ressource> getFilteredRessources(Long relationTypeId, Long ressourceTypeId, String searchWord) {
-		return _resourceRepository.findRessourcesByFilters(relationTypeId, ressourceTypeId, searchWord);
+	public List<Ressource> getFilteredRessources(Long relationTypeId, Long ressourceTypeId, String searchWord, Long userId) {
+		return _resourceRepository.findRessourcesByFilters(relationTypeId, ressourceTypeId, searchWord, userId);
 	}
 
 	public Ressource SaveRessource(Ressource ressource) {

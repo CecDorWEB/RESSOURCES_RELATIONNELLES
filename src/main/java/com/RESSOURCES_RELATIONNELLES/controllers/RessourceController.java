@@ -70,15 +70,16 @@ public class RessourceController {
 			ressource = _ressourceService.getAllPublicRessources();
 			}
 		} else {
+			Long userId= user.getId();
 			if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
-				ressource = _ressourceService.getFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
+				ressource = _ressourceService.getFilteredRessources(relationTypeId,ressourceTypeId, searchWord, userId);
 			} else {
-			ressource = _ressourceService.getAllRessourcesForConnectedUSer();
+			ressource = _ressourceService.getAllRessourcesForConnectedUSer(userId);
 			}
 		}
 		
 		if (user != null) {
-		model.addAttribute("MyUser", user);
+		model.addAttribute("myUser", user);
 		}
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessourceType", ressourceType);
