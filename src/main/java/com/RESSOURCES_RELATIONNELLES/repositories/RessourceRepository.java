@@ -12,7 +12,7 @@ import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
 @Repository
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 	
-	@Query("SELECT res FROM Ressource res WHERE isPublished = true AND isActived=true AND status='public'")
+	@Query("SELECT res FROM Ressource res WHERE res.isPublished = true AND res.isActived=true AND res.status = 'public'")
 	List<Ressource> findAllPublicRessourcesActivedAndPublished();
 	
 	@Query("SELECT res FROM Ressource res WHERE isPublished = true AND isActived=true AND user.id= :userId")

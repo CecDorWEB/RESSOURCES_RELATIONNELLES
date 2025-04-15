@@ -141,3 +141,18 @@
         li {
         display :inline-block;margin: 0; padding-left: 0;
         }
+        
+        div.user_items_button_container{
+        display:flex;
+        justify-content: end;
+        gap:1rem;
+        }
+        
+        button.save_item_button{
+        all:unset;}
+        
+        button.save_item_button > img{
+        height:24px;
+        width: 24px;
+        }
+        

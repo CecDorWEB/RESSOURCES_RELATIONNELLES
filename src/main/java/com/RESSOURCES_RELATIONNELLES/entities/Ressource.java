@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "ressource")
@@ -34,17 +35,18 @@ public class Ressource {
 	@Column(name = "content",columnDefinition="TEXT", nullable = false)
 	private String content;
 
-	@Column(name = "publicationDate", nullable = false)
-	private Date publicationDate = Date.valueOf(LocalDate.now());
+	@Column(name = "publicationDate", nullable = true)
+	private Date publicationDate;
 
 	@Column(name = "updateDate", nullable = true)
-	private Date updateDate;
+	private Date updateDate = Date.valueOf(LocalDate.now());
 
 	@Column(name = "description", nullable = false)
 	private String description;
 
+	@Pattern(regexp = "Public|Private|Unlisted", message = "Le statut doit être Public, Private ou Unlisted")
 	@Column(name = "status", nullable = false)
-	private String status;
+	private String status = "Public";
 
 	@Column(name = "isPublished", nullable = false)
 	private Boolean isPublished = false;
@@ -74,11 +76,6 @@ public class Ressource {
 	@OneToMany(mappedBy="ressource")
 	private List<SaveToConsult> listSaveToConsult;
 
-
-	public Ressource() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public Ressource(String title, String headerImagePath, String filePath, String content, Date publicationDate,
 			Date updateDate, String description, String status, Boolean isPublished, Boolean isActived,
@@ -117,6 +114,10 @@ public class Ressource {
 
 	public void setListFavorite(List<Favorite> listFavorite) {
 		this.listFavorite = listFavorite;
+	}
+
+	public Ressource() {
+
 	}
 
 	public User getUser() {

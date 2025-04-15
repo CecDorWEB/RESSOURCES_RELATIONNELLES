@@ -88,7 +88,7 @@ public class UserController {
 
 	@GetMapping("/administrator/gestionRessources")
 	public String administraorGestionRessources(Model model) {
-		List<Ressource> ressources = ressourceService.getAllRessources();
+		List<Ressource> ressources = ressourceService.findAll();
 		model.addAttribute("ressources", ressources);
 		return "gestionRessources";
 	}
