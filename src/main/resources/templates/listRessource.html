@@ -65,6 +65,9 @@
 		<a class="ressourceCard_link" th:href="@{/ressource/{id}(id=${res.id})}" th:each="res : ${listRessource}">
 			<article class="ressourceCard">
 				<img th:src="${res.headerImagePath}"/>
+				<button type="submit" class="favorite_item_button" title="Ajouter aux favoris">
+					<img class="favorite_item" src="/img/heart.png" alt="Favori" />
+				</button>
 				<div class="list_of_relationType">
 					<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
 				</div>
