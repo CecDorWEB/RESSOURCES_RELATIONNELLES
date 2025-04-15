@@ -43,13 +43,21 @@ public class FavoriteController {
 	    Optional<Ressource> optionalRessource = _ressourceService.FindById(ressourceId);
 	    Ressource ressource = optionalRessource.get();
 	    
+	    //Vérifier si la ressource est déjà en favorie
+	    boolean isFavorite = _favoriteService.getFavoriteByUserAndRessourceId(user.getId(), ressourceId).isPresent();
+	   
+	    if(isFavorite) {
+	    	_favoriteService.deleteFavoriteByUserAndRessource(user.getId(), ressourceId);
+	    } else {
+	    
 	    Favorite favorite = new Favorite();
 	    favorite.setUser(user);
 	    favorite.setRessource(ressource);
 
 	    _favoriteService.save(favorite);
 	    
-	    return "redirect:/home" ;
+	    }
+	    return "redirect:/ressource/"+ressourceId ;
 	}
 	
 }

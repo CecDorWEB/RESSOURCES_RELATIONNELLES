@@ -65,7 +65,8 @@
 			<article class="ressourceCard">
 				<img th:src="${res.headerImagePath}"/>
 				<button th:if="${myUser != null}" type="submit" class="favorite_item_button" title="Ajouter aux favoris">
-					<img class="favorite_item" src="/img/heart.png" alt="Favoris" />
+					<img th:if="${favoriteIds == null or !favoriteIds.contains(res.id)}" class="favorite_item" src="/img/heart.png" alt="Favoris" />
+					<img th:if="${favoriteIds != null and favoriteIds.contains(res.id)}" class="favorite_item" src="/img/red_heart.png" alt="Favoris" />
 				</button>
 				<div class="list_of_relationType">
 					<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>

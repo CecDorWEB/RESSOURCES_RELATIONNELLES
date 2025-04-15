@@ -1,8 +1,10 @@
 package com.RESSOURCES_RELATIONNELLES.controllers;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.RESSOURCES_RELATIONNELLES.entities.Favorite;
 import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
 import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
 import com.RESSOURCES_RELATIONNELLES.entities.User;
+import com.RESSOURCES_RELATIONNELLES.services.FavoriteService;
 import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceTypeService;
@@ -29,12 +33,14 @@ public class RessourceController {
 	private final RessourceService _ressourceService;
 	private final RelationTypeService _relationTypeService;
 	private final RessourceTypeService _ressourceTypeService;
+	private final FavoriteService _favoriteService;
 
-	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, FavoriteService favoriteService) {
 
 		this._ressourceService = ressourceService;
 		this._relationTypeService = relationTypeService;
 		this._ressourceTypeService = ressourceTypeService;
+		this._favoriteService = favoriteService;
 	}
 	
 	@GetMapping("/ressources/getall")
@@ -50,7 +56,7 @@ public class RessourceController {
 		return "ressourceForm";
 	}
 
-	//Récupération des ressources PUBLIC pour les USERS non connectés, publiées et autorisées pour alimenter la liste des ressources
+	//Récupération des ressources PUBLIC pour les USERS non connectés, et PRIVE pour les users connectés publiées et autorisées pour alimenter la liste des ressources
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
 			@RequestParam(required = false) Long ressourceTypeId,
@@ -78,9 +84,14 @@ public class RessourceController {
 			}
 		}
 		
+		//Si user connecté je récupère la session et les favoris
 		if (user != null) {
 		model.addAttribute("myUser", user);
+		
+		Set<Long> favoriteIds = _favoriteService.getFavoriteByUserId(user.getId());
+	    model.addAttribute("favoriteIds", favoriteIds);
 		}
+		
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessourceType", ressourceType);
 		model.addAttribute("listRessource", ressource);
@@ -98,13 +109,16 @@ public class RessourceController {
 
 			if (user != null) {
 				model.addAttribute("myUser", user);
-				}
-			
+				
+				boolean isFavorite = _favoriteService.getFavoriteByUserAndRessourceId(user.getId(), id).isPresent();
+					model.addAttribute("isFavorite", isFavorite);
+			}
+	
 			model.addAttribute("paragraphs", paragraphs);
 			model.addAttribute("ressource", ressource.get());
 			return "ressource";
 		}
-		return "redirect:/home"; // Redirige si l'ID n'existe pas
+		return "redirect:/home";
 	}
 
 	@GetMapping("/ressource/edit/{id}")

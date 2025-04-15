@@ -1,10 +1,17 @@
 package com.RESSOURCES_RELATIONNELLES.services;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.RESSOURCES_RELATIONNELLES.entities.Favorite;
+import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.entities.User;
 import com.RESSOURCES_RELATIONNELLES.repositories.FavoriteRepository;
 
 @Service
@@ -15,6 +22,19 @@ public class FavoriteService extends BaseService<Favorite, Long> {
 	
 	protected FavoriteService(JpaRepository<Favorite, Long> baseRepository) {
 		super(baseRepository);
+	}
+	
+	public Set<Long> getFavoriteByUserId(Long userId) {
+		return new HashSet<>(_favoriteRepository.findFavoriteByUserId(userId));
+	}
+	
+	public Optional<Favorite> getFavoriteByUserAndRessourceId(Long userId, Long ressourceId) {
+		return _favoriteRepository.findIfIsFavorite(userId, ressourceId);
+	}
+	
+	public void deleteFavoriteByUserAndRessource(Long userId, Long ressourceId) {
+	    Optional<Favorite> favOpt = _favoriteRepository.findIfIsFavorite(userId, ressourceId);
+	    favOpt.ifPresent(_favoriteRepository::delete);
 	}
 }
 
