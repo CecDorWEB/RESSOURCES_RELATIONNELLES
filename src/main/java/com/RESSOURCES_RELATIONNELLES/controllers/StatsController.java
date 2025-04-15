@@ -2,8 +2,12 @@ package com.RESSOURCES_RELATIONNELLES.controllers;
 
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
 import com.RESSOURCES_RELATIONNELLES.entities.Statistic;
+import com.RESSOURCES_RELATIONNELLES.entities.User;
 import com.RESSOURCES_RELATIONNELLES.repositories.RessourceRepository;
+import com.RESSOURCES_RELATIONNELLES.services.UserService;
+
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +24,16 @@ public class StatsController {
     @Autowired
     private RessourceRepository ressourceRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/admin/stats")
-    public String showStats(Model model) {
+    public String showStats(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if (!userService.isAdmin(user)) {
+            return "redirect:/";
+        }
         // Récupération de toutes les ressources
         List<Ressource> ressources = ressourceRepository.findAll();
 
@@ -107,24 +119,33 @@ public class StatsController {
 
     @GetMapping("/admin/stats/export")
     public void exportCSV(HttpServletResponse response) throws IOException {
-        response.setContentType("text/csv");
+
+        response.setContentType("text/csv; charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=stats.csv");
 
+        // Écriture UTF-8 avec BOM pour compatibilité Excel
+        PrintWriter writer = new PrintWriter(response.getOutputStream(), true, java.nio.charset.StandardCharsets.UTF_8);
+        writer.write('\uFEFF'); // BOM UTF-8
+
+        // En-têtes de colonnes
+        writer.println("Titre;Catégorie;Consultations;Favoris;Exploitations;Commentaires");
+
         List<Ressource> ressources = ressourceRepository.findAll();
-        PrintWriter writer = response.getWriter();
-        writer.println("Titre,Categorie,Consultations,Favoris,Exploitations,Commentaires");
 
         for (Ressource r : ressources) {
-            String category = r.getCategory() != null ? r.getCategory().getName() : "-";
+            String titre = r.getTitle().replace(";", " ");
+            String categorie = r.getCategory() != null ? r.getCategory().getName().replace(";", " ") : "-";
             int consult = r.getStatistic() != null ? r.getStatistic().getNbConsult() : 0;
             int fav = r.getStatistic() != null ? r.getStatistic().getNbFav() : 0;
             int exploit = r.getStatistic() != null ? r.getStatistic().getNbExploit() : 0;
             int comment = r.getStatistic() != null ? r.getStatistic().getNbComment() : 0;
 
-            writer.printf("%s,%s,%d,%d,%d,%d\n", r.getTitle(), category, consult, fav, exploit, comment);
+            // Utilisation du point-virgule comme séparateur
+            writer.printf("%s;%s;%d;%d;%d;%d%n", titre, categorie, consult, fav, exploit, comment);
         }
 
         writer.flush();
         writer.close();
     }
+
 }

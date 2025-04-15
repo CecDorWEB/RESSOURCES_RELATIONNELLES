@@ -4,6 +4,7 @@ import com.RESSOURCES_RELATIONNELLES.entities.Role;
 import com.RESSOURCES_RELATIONNELLES.entities.User;
 import com.RESSOURCES_RELATIONNELLES.repositories.RoleRepository;
 import com.RESSOURCES_RELATIONNELLES.repositories.UserRepository;
+import com.RESSOURCES_RELATIONNELLES.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,19 +24,11 @@ public class SuperAdminController {
     @Autowired
     private RoleRepository roleRepository;
 
-    // Vérifie que l'utilisateur connecté est Super-Administrateur
-    private boolean isSuperAdmin(User user) {
-        System.out.println("👤 Utilisateur en session : " + user);
-        if (user != null && user.getRole() != null) {
-            System.out.println("🔐 Rôle trouvé : " + user.getRole().getName());
-        } else {
-            System.out.println("❌ Aucun rôle ou utilisateur null");
-        }
+    @Autowired
+    private UserService userService;
 
-        return user != null &&
-                user.getRole() != null &&
-                "Super-Administrateur".equalsIgnoreCase(user.getRole().getName());
-    }
+    // Vérifie que l'utilisateur connecté est Super-Administrateur
+
 
 
     // Liste complète des utilisateurs
@@ -46,7 +39,7 @@ public class SuperAdminController {
                               RedirectAttributes ra) {
         User user = (User) session.getAttribute("user");
 
-        if (!isSuperAdmin(user)) {
+        if (!userService.isSuperAdmin(user)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -69,7 +62,7 @@ public class SuperAdminController {
                                  RedirectAttributes ra) {
         User user = (User) session.getAttribute("user");
 
-        if (!isSuperAdmin(user)) {
+        if (!userService.isSuperAdmin(user)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -89,7 +82,7 @@ public class SuperAdminController {
                                    RedirectAttributes ra) {
         User user = (User) session.getAttribute("user");
 
-        if (!isSuperAdmin(user)) {
+        if (!userService.isSuperAdmin(user)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -109,7 +102,7 @@ public class SuperAdminController {
                                   RedirectAttributes ra) {
         User user = (User) session.getAttribute("user");
 
-        if (!isSuperAdmin(user)) {
+        if (!userService.isSuperAdmin(user)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -138,7 +131,7 @@ public class SuperAdminController {
     @GetMapping("/users/create")
     public String showCreateUserForm(Model model, HttpSession session, RedirectAttributes ra) {
         User currentUser = (User) session.getAttribute("user");
-        if (!isSuperAdmin(currentUser)) {
+        if (!userService.isSuperAdmin(currentUser)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -155,7 +148,7 @@ public class SuperAdminController {
                              RedirectAttributes ra,
                              HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
-        if (!isSuperAdmin(currentUser)) {
+        if (!userService.isSuperAdmin(currentUser)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -184,7 +177,7 @@ public class SuperAdminController {
                                    RedirectAttributes ra) {
         // Vérifie que le user connecté est un super-admin
         User currentUser = (User) session.getAttribute("user");
-        if (!isSuperAdmin(currentUser)) {
+        if (!userService.isSuperAdmin(currentUser)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -222,7 +215,7 @@ public class SuperAdminController {
 
         // Vérifie que le user connecté est un super-admin
         User currentUser = (User) session.getAttribute("user");
-        if (!isSuperAdmin(currentUser)) {
+        if (!userService.isSuperAdmin(currentUser)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }
@@ -261,7 +254,7 @@ public class SuperAdminController {
                              RedirectAttributes ra) {
         // Vérifie que le user connecté est un super-admin
         User currentUser = (User) session.getAttribute("user");
-        if (!isSuperAdmin(currentUser)) {
+        if (!userService.isSuperAdmin(currentUser)) {
             ra.addFlashAttribute("error", "Accès refusé.");
             return "redirect:/";
         }

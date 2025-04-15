@@ -1,6 +1,18 @@
 /* =======================
    RESET & BASE
    ======================= */
+.simple-filter {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+#filterInput {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+}
+
 * {
     margin: 0;
     padding: 0;
