@@ -18,7 +18,4 @@ public class RessourceTypeService extends BaseService<RessourceType, Long>{
 		super(baseRepository);
 	}
 
-	public List<RessourceType> getAllRessourceType() {
-		return ressourceTypeRepository.findAll();
-	}
 }
