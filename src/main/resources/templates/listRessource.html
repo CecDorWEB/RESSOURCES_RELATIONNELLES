@@ -61,7 +61,7 @@
     </form>
 	</article>
 <section class="ressource_card_container">
-		<a class="ressourceCard_link" th:href="@{/ressource/{id}(id=${res.id})}" th:each="res : ${listRessource}">
+		<a class="ressourceCard_link" th:href="@{/ressource/{id}(id=${res.id})}" th:each="res: ${listRessource}">
 			<article class="ressourceCard">
 				<img th:src="${res.headerImagePath}"/>
 				<button th:if="${myUser != null}" type="submit" class="favorite_item_button" title="Ajouter aux favoris">

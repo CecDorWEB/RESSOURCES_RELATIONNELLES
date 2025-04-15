@@ -11,9 +11,12 @@
 <div class="container">
     <div class="content-card">
     	<div class="user_items_button_container" th:if="${myUser != null}">
-	    	<button type="submit" class="save_item_button" title="Ajouter aux favoris">
-	    		<img class="favorite_item" src="/img/heart.png" alt="Favorie" />
-			</button>
+			<form th:action="@{/favorite/create}" method="post">
+			    <input type="hidden" th:name="ressourceId" th:value="${ressource.id}" />
+			    <button type="submit" class="save_item_button" title="Ajouter aux favoris">
+			        <img class="favorite_item" src="/img/heart.png" alt="Favori" />
+			    </button>
+			</form>
 	    	<button type="submit" class="save_item_button" title="Ajouter aux sources exploitées">
 	    		<img class="exploit_item" src="/img/exploit.png" alt="exploiter" />
 			</button>
