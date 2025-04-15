@@ -4,15 +4,24 @@
       layout:decorate="~{layouts/mainLayout}">
 
 <head>
-    <title>Mon Profil</title>
+    <title th:text="#{profile.page.title}">Mon Profil</title>
 </head>
 
 <body>
 <main layout:fragment="content">
     <section class="profile-section">
-        <h1>Bienvenue <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span> !</h1>
-        <p>Email : <span th:text="${user.email}"></span></p>
-        <p>Rôle : <span th:text="${user.role.name}"></span></p>
+        <h1>
+            <span th:text="#{profile.welcome}">Bienvenue</span>
+            <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span> !
+        </h1>
+        <p>
+            <span th:text="#{profile.email.label}">Email :</span>
+            <span th:text="${user.email}"></span>
+        </p>
+        <p>
+            <span th:text="#{profile.role.label}">Rôle :</span>
+            <span th:text="${user.role.name}"></span>
+        </p>
     </section>
 </main>
 </body>

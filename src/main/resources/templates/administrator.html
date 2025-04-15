@@ -3,144 +3,125 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layouts/mainLayout}">
 <head>
-	<title>Administration</title>
+	<title th:text="#{admin.title}">Administration</title>
 </head>
 <body>
 <main layout:fragment="content">
-<h1>Page Administrateur</h1>
-<button>Statistiques</button>
-<button>Gérer les utilisateurs</button>
-<button onclick="window.location.href='/administrator/gestionRessources'">Gérer les ressources</button>
 
+	<h1 th:text="#{admin.heading}">Page Administrateur</h1>
+	<button th:text="#{admin.btn.stats}">Statistiques</button>
+	<button th:text="#{admin.btn.manageUsers}">Gérer les utilisateurs</button>
+	<button onclick="window.location.href='/administrator/gestionRessources'" th:text="#{admin.btn.manageResources}">Gérer les ressources</button>
 
-	<h2>Tableau de bord des statistiques du site</h2>
+	<h2 th:text="#{admin.dashboard.title}">Tableau de bord des statistiques du site</h2>
 	<div class="tableauDeBord">
-	<section class="UserData">
-		<div class="UserDataTotal">
-		<h3>Nombre total d'utilisateur</h3>
-		<p>20</p>
-		</div>
-		<table border="1" class="UserDataTable">
-		  <thead>
-		    <tr>
-		      <th></th>
-		      <th>01/25</th>
-		      <th>02/25</th>
-		      <th>03/25</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-		      <td>Nb d'inscrits</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		    </tr>
-		    <tr>
-		      <td>Nb de connexions</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		    </tr>
-		  </tbody>
-		</table>
-		<button>Exporter les données</button>
-	</section>
-	<section class="RessourceData">
-	<div class="RessourceDataTotal">
-	<h3>Nombre total de ressource</h3>
-	<p>200</p>
-	</div>
-	<table border="1" class="RessourceDataTable">
-		  <thead>
-		    <tr>
-		      <th></th>
-		      <th>01/25</th>
-		      <th>02/25</th>
-		      <th>03/25</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-		      <td>Nb de ressources créés</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		    </tr>
-		    <tr>
-		      <td>Nb de consultation</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		    </tr>
-		     <tr>
-		      <td>Nb de resources exploitées</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		    </tr>
-		     <tr>
-		      <td>Nb de commentaires publiés</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		    </tr>
-		  </tbody>
-		</table>
-		<button>Exporter les données</button>
-	</section>
-	
-<!-- 
-	
-<section class="filters"> -->
-    <h2>Ajouter filtres :</h2>
-    <form>
-        <!-- Période -->
-        <label for="periode">Période :</label>
-        <select id="periode" name="periode">
-            <option value="">-- Sélectionner --</option>
-            <option value="jour">Dernier jour</option>
-            <option value="semaine">Dernière semaine</option>
-            <option value="mois">Dernier mois</option>
-            <option value="annee">Dernière année</option>
-        </select>
+		<section class="UserData">
+			<div class="UserDataTotal">
+				<h3 th:text="#{admin.total.users}">Nombre total d'utilisateur</h3>
+				<p>20</p>
+			</div>
+			<table border="1" class="UserDataTable">
+				<thead>
+				<tr>
+					<th></th>
+					<th>01/25</th>
+					<th>02/25</th>
+					<th>03/25</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td th:text="#{admin.stats.signup}">Nb d'inscrits</td>
+					<td></td><td></td><td></td>
+				</tr>
+				<tr>
+					<td th:text="#{admin.stats.logins}">Nb de connexions</td>
+					<td></td><td></td><td></td>
+				</tr>
+				</tbody>
+			</table>
+			<button th:text="#{btn.export}">Exporter les données</button>
+		</section>
 
-        <!-- Catégorie -->
-        <label for="categorie">Catégorie :</label>
-        <select id="categorie" name="categorie">
-            <option value="">-- Sélectionner --</option>
-            <option value="loisirs">Loisirs</option>
-            <option value="travail">Récupérer liste auto</option>
-        </select>
+		<section class="RessourceData">
+			<div class="RessourceDataTotal">
+				<h3 th:text="#{admin.total.resources}">Nombre total de ressource</h3>
+				<p>200</p>
+			</div>
+			<table border="1" class="RessourceDataTable">
+				<thead>
+				<tr>
+					<th></th>
+					<th>01/25</th>
+					<th>02/25</th>
+					<th>03/25</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td th:text="#{admin.stats.resourcesCreated}">Nb de ressources créés</td>
+					<td></td><td></td><td></td>
+				</tr>
+				<tr>
+					<td th:text="#{admin.stats.resourcesViewed}">Nb de consultation</td>
+					<td></td><td></td><td></td>
+				</tr>
+				<tr>
+					<td th:text="#{admin.stats.resourcesUsed}">Nb de resources exploitées</td>
+					<td></td><td></td><td></td>
+				</tr>
+				<tr>
+					<td th:text="#{admin.stats.commentsPosted}">Nb de commentaires publiés</td>
+					<td></td><td></td><td></td>
+				</tr>
+				</tbody>
+			</table>
+			<button th:text="#{btn.export}">Exporter les données</button>
+		</section>
 
-        <!-- Type de ressource -->
-        <label for="type-ressource">Type de ressource :</label>
-        <select id="type-ressource" name="type-ressource">
-            <option value="">-- Sélectionner --</option>
-            <option value="article">Article</option>
-            <option value="video">Récupérer liste auto</option>
-        </select>
+		<!-- Filtres -->
+		<h2 th:text="#{admin.filters.title}">Ajouter filtres :</h2>
+		<form>
+			<label for="periode" th:text="#{filter.period}">Période :</label>
+			<select id="periode" name="periode">
+				<option value="">-- Sélectionner --</option>
+				<option value="jour" th:text="#{filter.period.day}">Dernier jour</option>
+				<option value="semaine" th:text="#{filter.period.week}">Dernière semaine</option>
+				<option value="mois" th:text="#{filter.period.month}">Dernier mois</option>
+				<option value="annee" th:text="#{filter.period.year}">Dernière année</option>
+			</select>
 
-        <!-- Type de relation -->
-        <label for="relation">Type de relation :</label>
-        <select id="relation" name="relation">
-            <option value="">-- Sélectionner --</option>
-            <option value="famille">Famille</option>
-            <option value="amis">Récupérer liste auto</option>
-        </select>
+			<label for="categorie" th:text="#{filter.category}">Catégorie :</label>
+			<select id="categorie" name="categorie">
+				<option value="">-- Sélectionner --</option>
+				<option value="loisirs" th:text="#{filter.category.leisure}">Loisirs</option>
+				<option value="travail" th:text="#{filter.category.auto}">Récupérer liste auto</option>
+			</select>
 
-        <!-- Zone géographique -->
-        <label for="zone">Zone géographique :</label>
-        <select id="zone" name="zone">
-            <option value="">-- Sélectionner --</option>
-            <option value="local">Local</option>
-            <option value="national">National</option>
-            <option value="international">International</option>
-        </select>
+			<label for="type-ressource" th:text="#{filter.resourceType}">Type de ressource :</label>
+			<select id="type-ressource" name="type-ressource">
+				<option value="">-- Sélectionner --</option>
+				<option value="article" th:text="#{filter.resourceType.article}">Article</option>
+				<option value="video" th:text="#{filter.resourceType.auto}">Récupérer liste auto</option>
+			</select>
 
-        <!-- Bouton Appliquer -->
-        <button type="submit">Appliquer</button>
-    </form>
+			<label for="relation" th:text="#{filter.relationType}">Type de relation :</label>
+			<select id="relation" name="relation">
+				<option value="">-- Sélectionner --</option>
+				<option value="famille" th:text="#{filter.relationType.family}">Famille</option>
+				<option value="amis" th:text="#{filter.relationType.auto}">Récupérer liste auto</option>
+			</select>
+
+			<label for="zone" th:text="#{filter.zone}">Zone géographique :</label>
+			<select id="zone" name="zone">
+				<option value="">-- Sélectionner --</option>
+				<option value="local" th:text="#{filter.zone.local}">Local</option>
+				<option value="national" th:text="#{filter.zone.national}">National</option>
+				<option value="international" th:text="#{filter.zone.international}">International</option>
+			</select>
+
+			<button type="submit" th:text="#{btn.apply}">Appliquer</button>
+		</form>
 	</div>
 </main>
 </body>

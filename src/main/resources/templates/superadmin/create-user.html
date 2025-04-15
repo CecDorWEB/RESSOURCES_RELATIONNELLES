@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/mainLayout}">
 <head>
-    <title>Créer un compte</title>
+    <title th:text="#{user.create.title}">Créer un compte</title>
     <link rel="stylesheet" href="/css/home.css" />
     <style>
         .form-section {
@@ -89,38 +89,38 @@
 <main layout:fragment="content">
 
     <section class="form-section" revealOnScroll>
-        <h1>Créer un nouveau compte</h1>
+        <h1 th:text="#{user.create.heading}">Créer un nouveau compte</h1>
 
         <div class="form-container" revealOnScroll>
-            <h2>Remplissez les informations ci-dessous</h2>
+            <h2 th:text="#{user.create.subtitle}">Remplissez les informations ci-dessous</h2>
 
             <form th:action="@{/superadmin/users/create}" method="post" th:object="${user}">
-                <label>Prénom :</label>
+                <label th:text="#{form.firstname}">Prénom :</label>
                 <input type="text" th:field="*{firstName}" required>
 
-                <label>Nom :</label>
+                <label th:text="#{form.lastname}">Nom :</label>
                 <input type="text" th:field="*{lastName}" required>
 
-                <label>Email :</label>
+                <label th:text="#{form.email}">Email :</label>
                 <input type="email" th:field="*{email}" required>
 
-                <label>Mot de passe :</label>
+                <label th:text="#{form.password}">Mot de passe :</label>
                 <input type="password" th:field="*{password}" required>
 
-                <label>Rôle :</label>
+                <label th:text="#{form.role}">Rôle :</label>
                 <select name="roleId" required>
                     <option th:each="role : ${roles}"
                             th:value="${role.id}"
                             th:text="${role.name}"></option>
                 </select>
 
-                <button type="submit">Créer le compte</button>
+                <button type="submit" th:text="#{btn.create.account}">Créer le compte</button>
             </form>
 
             <p th:if="${error}" th:text="${error}" class="message error"></p>
             <p th:if="${success}" th:text="${success}" class="message success"></p>
 
-            <a href="/superadmin/users" class="back-link">← Retour</a>
+            <a href="/superadmin/users" class="back-link" th:text="#{btn.back}">← Retour</a>
         </div>
     </section>
 

@@ -2,7 +2,7 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Statistiques des Ressources</title>
+    <title th:text="#{stats.title}">Statistiques des Ressources</title>
 
     <!-- Lien vers la feuille de style externe -->
     <link rel="stylesheet" href="/css/stats.css">
@@ -21,58 +21,58 @@
 <header class="stats-header">
     <div class="header-content">
         <h1 th:text="#{stats.title}">Statistiques</h1>
-        <p>Vue d’ensemble et analyses détaillées</p>
-        <a href="/admin/stats/export" class="btn export-btn">Exporter en CSV</a>
+        <p th:text="#{stats.subtitle}">Vue d’ensemble et analyses détaillées</p>
+        <a href="/admin/stats/export" class="btn export-btn" th:text="#{btn.export}">Exporter en CSV</a>
     </div>
 </header>
 
 <!-- ZONE DE CONTENU PRINCIPAL -->
 <main class="main-container">
     <section class="simple-filter">
-        <input type="text" id="filterInput" placeholder="🔍 Rechercher dans les ressources..." />
+        <input type="text" id="filterInput" th:placeholder="#{filter.placeholder}" placeholder="🔍 Rechercher dans les ressources..." />
     </section>
     <!-- HIGHLIGHTS : cartes récapitulatives -->
     <section class="highlights">
         <div class="highlight-card">
-            <h2>Total Consultations</h2>
+            <h2 th:text="#{total.consult}">Total Consultations</h2>
             <p th:text="${totalConsultations}">0</p>
         </div>
         <div class="highlight-card">
-            <h2>Total Favoris</h2>
+            <h2 th:text="#{total.fav}">Total Favoris</h2>
             <p th:text="${totalFavoris}">0</p>
         </div>
         <div class="highlight-card">
-            <h2>Total Exploitations</h2>
+            <h2 th:text="#{total.exploit}">Total Exploitations</h2>
             <p th:text="${totalExploitations}">0</p>
         </div>
         <div class="highlight-card">
-            <h2>Total Commentaires</h2>
+            <h2 th:text="#{total.comment}">Total Commentaires</h2>
             <p th:text="${totalCommentaires}">0</p>
         </div>
     </section>
 
     <!-- TOP RESSOURCES (LA PLUS CONSULTÉE, ETC.) -->
     <section class="top-resources">
-        <h2>Ressources phares</h2>
+        <h2 th:text="#{top.title}">Ressources phares</h2>
         <div class="top-resource-card">
-            <h3>La plus consultée</h3>
+            <h3 th:text="#{top.mostConsulted}">La plus consultée</h3>
             <p>
                 <span th:text="${topConsultResource != null ? topConsultResource.title : 'Aucune'}"></span>
-                (<span th:text="${topConsultResource != null ? topConsultResource.statistic.nbConsult : 0}">0</span> consultations)
+                (<span th:text="${topConsultResource != null ? topConsultResource.statistic.nbConsult : 0}">0</span> <span th:text="#{table.col.consult}">consultations</span>)
             </p>
         </div>
         <div class="top-resource-card">
-            <h3>La plus mise en favori</h3>
+            <h3 th:text="#{top.mostFav}">La plus mise en favori</h3>
             <p>
                 <span th:text="${topFavoriResource != null ? topFavoriResource.title : 'Aucune'}"></span>
-                (<span th:text="${topFavoriResource != null ? topFavoriResource.statistic.nbFav : 0}">0</span> favoris)
+                (<span th:text="${topFavoriResource != null ? topFavoriResource.statistic.nbFav : 0}">0</span> <span th:text="#{table.col.fav}">favoris</span>)
             </p>
         </div>
         <div class="top-resource-card">
-            <h3>La plus exploitée</h3>
+            <h3 th:text="#{top.mostExploit}">La plus exploitée</h3>
             <p>
                 <span th:text="${topExploitResource != null ? topExploitResource.title : 'Aucune'}"></span>
-                (<span th:text="${topExploitResource != null ? topExploitResource.statistic.nbExploit : 0}">0</span> exploitations)
+                (<span th:text="${topExploitResource != null ? topExploitResource.statistic.nbExploit : 0}">0</span> <span th:text="#{table.col.exploit}">exploitations</span>)
             </p>
         </div>
     </section>
@@ -80,32 +80,32 @@
     <!-- GRAPHIQUES -->
     <section class="charts">
         <div class="chart-card">
-            <h2>Consultations par catégorie</h2>
+            <h2 th:text="#{chart.consult}">Consultations par catégorie</h2>
             <canvas id="chartConsult"></canvas>
         </div>
         <div class="chart-card">
-            <h2>Favoris par catégorie</h2>
+            <h2 th:text="#{chart.fav}">Favoris par catégorie</h2>
             <canvas id="chartFav"></canvas>
         </div>
         <div class="chart-card">
-            <h2>Exploitations par catégorie</h2>
+            <h2 th:text="#{chart.exploit}">Exploitations par catégorie</h2>
             <canvas id="chartExploit"></canvas>
         </div>
     </section>
 
     <!-- TABLEAU AVEC DATATABLES -->
     <section class="table-section">
-        <h2>Tableau des Ressources</h2>
+        <h2 th:text="#{table.title}">Tableau des Ressources</h2>
         <div class="table-wrapper">
             <table id="ressourcesTable" class="display">
                 <thead>
                 <tr>
-                    <th>Titre</th>
-                    <th>Catégorie</th>
-                    <th>Consultations</th>
-                    <th>Favoris</th>
-                    <th>Exploitations</th>
-                    <th>Commentaires</th>
+                    <th th:text="#{table.col.title}">Titre</th>
+                    <th th:text="#{table.col.cat}">Catégorie</th>
+                    <th th:text="#{table.col.consult}">Consultations</th>
+                    <th th:text="#{table.col.fav}">Favoris</th>
+                    <th th:text="#{table.col.exploit}">Exploitations</th>
+                    <th th:text="#{table.col.comment}">Commentaires</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -126,13 +126,10 @@
 
 <!-- JS - JQUERY + DATATABLES -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-        src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
 <!-- Script principal pour configurer les charts et le tableau -->
 <script th:inline="javascript">
-
-    // ---- Récupération des données depuis Thymeleaf ----
     const consultLabels = /*[[${consultLabels.stream().toList()}]]*/ [];
     const consultData = /*[[${consultData.stream().toList()}]]*/ [];
 
@@ -142,64 +139,44 @@
     const exploitLabels = /*[[${exploitLabels.stream().toList()}]]*/ [];
     const exploitData = /*[[${exploitData.stream().toList()}]]*/ [];
 
-    // ---- Initialisation des graphiques ----
-
-    // Consultations par catégorie (Bar chart)
     new Chart(document.getElementById('chartConsult'), {
         type: 'bar',
         data: {
             labels: consultLabels,
-            datasets: [{
-                label: 'Consultations',
-                data: consultData
-            }]
+            datasets: [{ label: 'Consultations', data: consultData }]
         },
         options: {
             responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            }
+            scales: { y: { beginAtZero: true } }
         }
     });
 
-    // Favoris par catégorie (Doughnut)
     new Chart(document.getElementById('chartFav'), {
         type: 'doughnut',
         data: {
             labels: favLabels,
-            datasets: [{
-                label: 'Favoris',
-                data: favData
-            }]
+            datasets: [{ label: 'Favoris', data: favData }]
         },
         options: {
             responsive: true,
-            cutout: '50%' // Ajuste l’aspect “donut”
+            cutout: '50%'
         }
     });
 
-    // Exploitations par catégorie (Line chart)
     new Chart(document.getElementById('chartExploit'), {
         type: 'line',
         data: {
             labels: exploitLabels,
-            datasets: [{
-                label: 'Exploitations',
-                data: exploitData
-            }]
+            datasets: [{ label: 'Exploitations', data: exploitData }]
         },
         options: {
             responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            }
+            scales: { y: { beginAtZero: true } }
         }
     });
 
-    // ---- Initialisation du tableau DataTables ----
     $(document).ready(function() {
         $('#ressourcesTable').DataTable({
-            // Configuration optionnelle
             paging: true,
             pageLength: 10,
             lengthChange: false,

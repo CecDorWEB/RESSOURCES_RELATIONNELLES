@@ -225,25 +225,24 @@
 <div class="container">
     <div class="content">
         <div class="icon">🔒</div>
-        <h2>Connexion</h2>
-        <!-- Affichage du message d'erreur en cas d'échec de connexion -->
-        <p th:if="${param.error}" class="error">Email ou mot de passe incorrect</p>
+        <h2 th:text="#{auth.login.title}">Connexion</h2>
+        <p th:if="${param.error}" class="error" th:text="#{auth.login.error}">Email ou mot de passe incorrect</p>
 
         <form th:action="@{/login}" th:object="${user}" method="post">
-            <label for="email">Email :</label>
-            <input type="text" id="email" th:field="*{email}" required />
+            <label for="email" th:text="#{form.email}">Email :</label>
+            <input type="text" id="email" th:field="*{email}" required th:placeholder="#{form.email}" />
 
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" th:field="*{password}" required />
+            <label for="password" th:text="#{form.password}">Mot de passe :</label>
+            <input type="password" id="password" th:field="*{password}" required th:placeholder="#{form.password}" />
 
-            <!-- Affichage d'un message d'erreur si besoin -->
             <p th:if="${error}" class="error" th:text="${error}"></p>
 
             <div class="buttons">
-                <button type="submit" class="btn-login">Se connecter</button>
-                <button type="button" class="btn-signup" onclick="window.location.href='/signup'">S'inscrire</button>
+                <button type="submit" class="btn-login" th:text="#{btn.login}">Se connecter</button>
+                <button type="button" class="btn-signup" onclick="window.location.href='/signup'" th:text="#{btn.signup}">S'inscrire</button>
             </div>
         </form>
+
     </div>
 </div>
 </body>

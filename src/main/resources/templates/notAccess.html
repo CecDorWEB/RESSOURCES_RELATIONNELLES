@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Accès refusé</title>
+    <title th:text="#{access.denied.page.title}">Accès refusé</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/notAccess.css" />
 </head>
@@ -17,10 +17,10 @@
 <div class="container">
     <div class="content">
         <div class="icon">🚫</div>
-        <h1>Accès Refusé</h1>
-        <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
-        <a th:href="@{/login}" class="btn">Se Connecter</a>
-        <div class="footer">© 2025 - Ressources Relationnelles</div>
+        <h1 th:text="#{access.denied.title}">Accès Refusé</h1>
+        <p th:text="#{access.denied.message}">Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+        <a th:href="@{/login}" class="btn" th:text="#{access.denied.login.button}">Se Connecter</a>
+        <div class="footer" th:text="#{access.denied.footer}">© 2025 - Ressources Relationnelles</div>
     </div>
 </div>
 </body>

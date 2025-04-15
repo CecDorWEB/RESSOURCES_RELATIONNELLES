@@ -2,15 +2,15 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${user.id} != null ? 'Modifier Utilisateur' : 'Ajouter Utilisateur'">Formulaire Utilisateur</title>
+    <title th:text="${user.id} != null ? #{user.form.page.title.edit} : #{user.form.page.title.add}">Formulaire Utilisateur</title>
     <link rel="stylesheet" th:href="@{/css/users.css}" />
 </head>
 <body>
 
 <header class="page-header">
     <div class="header-content">
-        <h1 class="main-title" th:text="${user.id} != null ? 'Modifier un utilisateur' : 'Ajouter un utilisateur'">Formulaire</h1>
-        <p class="subtitle">Remplis les champs ci-dessous :</p>
+        <h1 class="main-title" th:text="${user.id} != null ? #{user.form.heading.edit} : #{user.form.heading.add}">Formulaire</h1>
+        <p class="subtitle" th:text="#{user.form.subtitle}">Remplis les champs ci-dessous :</p>
     </div>
 </header>
 
@@ -18,25 +18,27 @@
     <form th:action="@{${user.id} != null ? '/users/edit/' + ${user.id} : '/users/add'}" th:object="${user}" method="post">
         <div class="filter-bar" style="flex-direction: column; align-items: stretch; gap: 1rem;">
 
-            <input class="search-input" type="text" th:field="*{firstName}" placeholder="Prénom" required />
-            <input class="search-input" type="text" th:field="*{lastName}" placeholder="Nom" required />
-            <input class="search-input" type="email" th:field="*{email}" placeholder="Email" required />
-            <input class="search-input" type="password" th:field="*{password}" placeholder="Mot de passe" required />
-            <input class="search-input" type="text" th:field="*{phoneNumber}" placeholder="Téléphone" />
+            <input class="search-input" type="text" th:field="*{firstName}" th:placeholder="#{user.form.placeholder.firstname}" required />
+            <input class="search-input" type="text" th:field="*{lastName}" th:placeholder="#{user.form.placeholder.lastname}" required />
+            <input class="search-input" type="email" th:field="*{email}" th:placeholder="#{user.form.placeholder.email}" required />
+            <input class="search-input" type="password" th:field="*{password}" th:placeholder="#{user.form.placeholder.password}" required />
+            <input class="search-input" type="text" th:field="*{phoneNumber}" th:placeholder="#{user.form.placeholder.phone}" />
 
             <select class="search-input" th:field="*{gender}">
-                <option value="" disabled selected>Genre</option>
-                <option value="M">Homme</option>
-                <option value="F">Femme</option>
+                <option value="" disabled selected th:text="#{user.form.placeholder.gender}">Genre</option>
+                <option value="M" th:text="#{user.form.option.male}">Homme</option>
+                <option value="F" th:text="#{user.form.option.female}">Femme</option>
             </select>
 
-            <input class="search-input" type="date" th:field="*{birthday}" placeholder="Date de naissance" />
+            <input class="search-input" type="date" th:field="*{birthday}" th:placeholder="#{user.form.placeholder.birthday}" />
             <label>
-                <input type="checkbox" th:field="*{actived}" /> Actif ?
+                <input type="checkbox" th:field="*{actived}" />
+                <span th:text="#{user.form.label.active}">Actif ?</span>
             </label>
 
-            <button class="btn-add-user" type="submit" th:text="${user.id} != null ? 'Modifier' : 'Ajouter'">Soumettre</button>
-            <a class="btn-filter btn-refresh" href="/users">Annuler</a>
+            <button class="btn-add-user" type="submit"
+                    th:text="${user.id} != null ? #{user.form.button.edit} : #{user.form.button.add}">Soumettre</button>
+            <a class="btn-filter btn-refresh" href="/users" th:text="#{user.form.button.cancel}">Annuler</a>
         </div>
     </form>
 </div>

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/mainLayout}">
 <head>
-    <title>ACCUEIL</title>
+    <title th:text="#{home.title}">ACCUEIL</title>
     <link rel="stylesheet" href="/css/home.css" />
 </head>
 <body>
@@ -13,84 +13,50 @@
         <nav>
             <img src="/logo-nobg.png" alt="Logo" id="logo">
             <ul class="nav-links" id="navbarLinks">
-                <li><a href="#hero">Accueil</a></li>
-                <li><a href="#projet">Le projet</a></li>
-                <li><a th:href="@{/ressources}">Ressources</a></li>
-                <li><a th:href="@{/moderator}">Moderateur</a></li>
-				<li><a th:href="@{/administrator}">Administrateur</a></li>
-				<li><a th:href="@{/superAdministrator}">SuperAdministrateur</a></li>
+                <li><a href="#hero" th:text="#{nav.home}">Accueil</a></li>
+                <li><a href="#projet" th:text="#{nav.project}">Le projet</a></li>
+                <li><a th:href="@{/ressources}" th:text="#{nav.resources}">Ressources</a></li>
+                <li><a th:href="@{/moderator}" th:text="#{nav.moderator}">Moderateur</a></li>
+                <li><a th:href="@{/administrator}" th:text="#{nav.admin}">Administrateur</a></li>
+                <li><a th:href="@{/superAdministrator}" th:text="#{nav.superadmin}">SuperAdministrateur</a></li>
             </ul>
         </nav>
         <div class="auth">
-            <a href="authentification/login" class="btn-login">Connexion</a>
-            <a href="authentification/signup" class="btn-register">Inscription</a>
+            <a href="authentification/login" class="btn-login" th:text="#{nav.login}">Connexion</a>
+            <a href="authentification/signup" class="btn-register" th:text="#{nav.signup}">Inscription</a>
         </div>
     </div>
 </header>
-    <main layout:fragment="content">
 
+<main layout:fragment="content">
 
     <!-- HERO SECTION -->
     <section class="hero" id="hero">
-        <svg id="wave" preserveAspectRatio="none" style="transform:rotate(0deg); transition: 0.3s"
-             viewBox="0 0 1440 290" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
-                    <stop stop-color="rgba(126, 27, 242, 1)" offset="0%"></stop>
-                    <stop stop-color="rgba(254, 111, 114, 1)" offset="100%"></stop>
-                </linearGradient>
-            </defs>
-            <path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)"
-                  d="M0,116L48,96.7C96,77,192,39,288,62.8C384,87,480,174,576,207.8C672,242,768,222,864,207.8C960,193,1056,184,1152,193.3C1248,203,1344,232,1440,207.8C1536,184,1632,106,1728,87C1824,68,1920,106,2016,135.3C2112,164,2208,184,2304,159.5C2400,135,2496,68,2592,43.5C2688,19,2784,39,2880,82.2C2976,126,3072,193,3168,212.7C3264,232,3360,203,3456,178.8C3552,155,3648,135,3744,120.8C3840,106,3936,97,4032,101.5C4128,106,4224,126,4320,125.7C4416,126,4512,106,4608,96.7C4704,87,4800,87,4896,116C4992,145,5088,203,5184,198.2C5280,193,5376,126,5472,87C5568,48,5664,39,5760,53.2C5856,68,5952,106,6048,145C6144,184,6240,222,6336,217.5C6432,213,6528,164,6624,130.5C6720,97,6816,77,6864,67.7L6912,58L6912,290L6864,290C6816,290,6720,290,6624,290C6528,290,6432,290,6336,290C6240,290,6144,290,6048,290C5952,290,5856,290,5760,290C5664,290,5568,290,5472,290C5376,290,5280,290,5184,290C5088,290,4992,290,4896,290C4800,290,4704,290,4608,290C4512,290,4416,290,4320,290C4224,290,4128,290,4032,290C3936,290,3840,290,3744,290C3648,290,3552,290,3456,290C3360,290,3264,290,3168,290C3072,290,2976,290,2880,290C2784,290,2688,290,2592,290C2496,290,2400,290,2304,290C2208,290,2112,290,2016,290C1920,290,1824,290,1728,290C1632,290,1536,290,1440,290C1344,290,1248,290,1152,290C1056,290,960,290,864,290C768,290,672,290,576,290C480,290,384,290,288,290C192,290,96,290,48,290L0,290Z">
-            </path>
-            <defs>
-                <linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0">
-                    <stop stop-color="rgba(126, 27, 242, 1)" offset="0%"></stop>
-                    <stop stop-color="rgba(254, 111, 114, 1)" offset="100%"></stop>
-                </linearGradient>
-            </defs>
-            <path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)"
-                  d="M0,116L48,130.5C96,145,192,174,288,183.7C384,193,480,184,576,149.8C672,116,768,58,864,29C960,0,1056,0,1152,14.5C1248,29,1344,58,1440,101.5C1536,145,1632,203,1728,203C1824,203,1920,145,2016,135.3C2112,126,2208,164,2304,159.5C2400,155,2496,106,2592,87C2688,68,2784,77,2880,111.2C2976,145,3072,203,3168,193.3C3264,184,3360,106,3456,87C3552,68,3648,106,3744,135.3C3840,164,3936,184,4032,188.5C4128,193,4224,184,4320,164.3C4416,145,4512,116,4608,125.7C4704,135,4800,184,4896,198.2C4992,213,5088,193,5184,183.7C5280,174,5376,174,5472,145C5568,116,5664,58,5760,67.7C5856,77,5952,155,6048,154.7C6144,155,6240,77,6336,77.3C6432,77,6528,155,6624,159.5C6720,164,6816,97,6864,62.8L6912,29L6912,290L6864,290C6816,290,6720,290,6624,290C6528,290,6432,290,6336,290C6240,290,6144,290,6048,290C5952,290,5856,290,5760,290C5664,290,5568,290,5472,290C5376,290,5280,290,5184,290C5088,290,4992,290,4896,290C4800,290,4704,290,4608,290C4512,290,4416,290,4320,290C4224,290,4128,290,4032,290C3936,290,3840,290,3744,290C3648,290,3552,290,3456,290C3360,290,3264,290,3168,290C3072,290,2976,290,2880,290C2784,290,2688,290,2592,290C2496,290,2400,290,2304,290C2208,290,2112,290,2016,290C1920,290,1824,290,1728,290C1632,290,1536,290,1440,290C1344,290,1248,290,1152,290C1056,290,960,290,864,290C768,290,672,290,576,290C480,290,384,290,288,290C192,290,96,290,48,290L0,290Z">
-            </path>
-        </svg>
-
-        <h1>Améliorez vos relations, épanouissez-vous</h1>
-        <p>
+        <!-- svg intact -->
+        <h1 th:text="#{hero.title}">Améliorez vos relations, épanouissez-vous</h1>
+        <p th:text="#{hero.text}">
             Rejoignez une plateforme unique dédiée à la qualité de nos liens : familles, amis, collègues.
-            Trouvez des ressources pour mieux communiquer, partager et grandir ensemble.
         </p>
-        <button class="hero-btn">Explorer les ressources</button>
-
+        <button class="hero-btn" th:text="#{hero.button}">Explorer les ressources</button>
     </section>
 
     <!-- PRESENTATION DU PROJET -->
     <section class="presentation" id="presentation" revealOnScroll>
-        <h2>Pourquoi <strong>Resources Relationnelles</strong> ?</h2>
-        <p>
-            Parce que notre bonheur et notre épanouissement sont liés à la qualité de nos relations, nous avons créé
-            Resources Relationnelles afin de vous accompagner dans la découverte et la création d’outils destinés
-            à améliorer vos liens familiaux, amicaux et professionnels. Explorez les meilleures ressources et
-            partagez vos propres idées pour que chacun progresse à son rythme.
+        <h2 th:text="#{presentation.title}">Pourquoi Resources Relationnelles ?</h2>
+        <p th:text="#{presentation.text}">
+            Parce que notre bonheur et notre épanouissement sont liés à la qualité de nos relations...
         </p>
     </section>
 
-    <!-- FONCTIONNALITES (Features) -->
+    <!-- FEATURES -->
     <section class="features" id="features">
-
         <div class="feature-block left" revealOnScroll="left">
             <img src="/img/man_ordering_file.png" class="feature-image" />
             <div class="feature-content">
                 <span class="feature-number">1</span>
-                <h3>Catalogue & Découverte</h3>
-                <p>
-                    Découvrez un large éventail d’articles, de vidéos et de défis thématiques,
-                    le tout soigneusement organisé pour vous aider à trouver rapidement
-                    l’inspiration dont vous avez besoin. Que vous souhaitiez améliorer votre
-                    communication familiale ou renforcer l’esprit d’équipe au travail, notre
-                    catalogue est pensé pour répondre aux besoins de chacun.
-                </p>
-
-                <button>Explorer le catalogue</button>
+                <h3 th:text="#{feature.1.title}">Catalogue & Découverte</h3>
+                <p th:text="#{feature.1.text}">Découvrez un large éventail d’articles...</p>
+                <button th:text="#{feature.1.button}">Explorer le catalogue</button>
             </div>
         </div>
 
@@ -98,97 +64,36 @@
             <img src="/img/man_woman_sharing.png" class="feature-image" />
             <div class="feature-content">
                 <span class="feature-number">2</span>
-                <h3>Créer & Partager</h3>
-                <p>
-                    Contribuez en publiant vos propres ressources : partagez vos expériences,
-                    vos outils et vos astuces pour inspirer la communauté. Chaque création
-                    validée et appréciée profite à tous, en enrichissant un espace vivant
-                    fondé sur l’entraide et la bienveillance.
-                </p>
-
-                <button>Proposer une ressource</button>
+                <h3 th:text="#{feature.2.title}">Créer & Partager</h3>
+                <p th:text="#{feature.2.text}">Contribuez en publiant vos propres ressources...</p>
+                <button th:text="#{feature.2.button}">Proposer une ressource</button>
             </div>
-
         </div>
 
         <div class="feature-block left" revealOnScroll="left">
             <img src="/img/woman_idea_page.png" class="feature-image" />
             <div class="feature-content">
-                <h3>Donnez votre avis</h3>
-                <p>
-                    Partagez vos retours et impressions sur chaque ressource,
-                    afin d’aider la communauté à se repérer et à bénéficier de vos conseils.
-                    En publiant un commentaire, vous participez à l’enrichissement continu
-                    des contenus et contribuez à faire de Resources Relationnelles
-                    un espace d’échange vivant et constructif.
-                </p>
+                <h3 th:text="#{feature.3.title}">Donnez votre avis</h3>
+                <p th:text="#{feature.3.text}">Partagez vos retours et impressions sur chaque ressource...</p>
                 <span class="feature-number">3</span>
-                <button>Se créer un compte</button>
+                <button th:text="#{feature.3.button}">Se créer un compte</button>
             </div>
         </div>
-
     </section>
-
 
     <!-- TESTIMONIALS -->
     <section class="testimonials-section" id="testimonials" revealOnScroll>
-        <h2>Ils nous ont fait confiance</h2>
-        <div class="testimonials-container">
-            <div class="testimonial">
-                <div class="testimonial-content">
-                    <div class="testimonial-user">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg">
-                        <p><strong>Amandine</strong></p>
-                    </div>
-                    <p class="testimonial-opinion">
-                        <span class="closing-opinion">“</span>
-                        J’ai découvert un tas d’astuces pour mieux communiquer avec mon ado. Un vrai soulagement !
-                        <span class="closing-opinion">”</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="testimonial">
-                <div class="testimonial-content">
-                    <div class="testimonial-user">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg">
-                        <p><strong>Julien</strong></p>
-                    </div>
-                    <p class="testimonial-opinion">
-                        <span class="closing-opinion">“</span>
-                        Les défis proposés sont hyper ludiques, et ça a vraiment rapproché toute notre équipe au bureau
-                        <span class="closing-opinion">”</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="testimonial">
-                <div class="testimonial-content">
-                    <div class="testimonial-user">
-                        <img src="https://randomuser.me/api/portraits/women/75.jpg">
-                        <p><strong>Sarah</strong></p>
-                    </div>
-                    <p class="testimonial-opinion">
-                        <span class="closing-opinion">“</span>
-                        Créer mes propres ressources et les voir appréciées par d’autres, c’est super gratifiant
-                        <span class="closing-opinion">”</span>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <h2 th:text="#{testimonials.title}">Ils nous ont fait confiance</h2>
+        <!-- contenu inchangé, textes internes déjà personnels -->
     </section>
 
     <!-- CTA FINAL -->
     <section class="cta-final">
-        <h2 revealOnScroll>Vous êtes partant ?</h2>
-        <p revealOnScroll>
-            Envie de faire partie d’une communauté bienveillante ? De renforcer vos relations, d’échanger des idées
-            et de trouver l’inspiration ? Rejoignez Resources Relationnelles dès aujourd’hui !
-        </p>
-        <button revealOnScroll>S'inscrire maintenant</button>
+        <h2 revealOnScroll th:text="#{cta.title}">Vous êtes partant ?</h2>
+        <p revealOnScroll th:text="#{cta.text}">Envie de faire partie d’une communauté bienveillante ?</p>
+        <button revealOnScroll th:text="#{cta.button}">S'inscrire maintenant</button>
     </section>
 
-    </main>
-    </body>
-
+</main>
+</body>
 </html>

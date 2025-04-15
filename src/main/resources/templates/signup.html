@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Inscription</title>
+    <title th:text="#{signup.page.title}">Inscription</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/signup.css" />
     <script>
-        /*
-          We are adding test cases to ensure correct password validation.
-          1) If user enters a password < 8 chars -> progress bar < 20% -> button disabled.
-          2) If user enters uppercase, lowercase, digit, special char, at least 8 chars -> progress bar 100% -> button enabled.
-          3) If user enters some but not all criteria -> partial progress.
-        */
-
-        // Please confirm your expected behavior: Should the user be forced to meet ALL 5 conditions?
-        // Currently, the code demands 8+ length, uppercase, lowercase, digit, special.
-
         function validatePassword() {
             console.log("validating password")
             let password = document.getElementById("password").value;
@@ -26,14 +16,13 @@
             if (password.length >= 8) strength += 1;
             if (/[A-Z]/.test(password)) strength += 1;
             if (/[a-z]/.test(password)) strength += 1;
-            if (/\d/.test(password)) strength += 1; // FIXED: corrected from \d to /\d/
+            if (/\d/.test(password)) strength += 1;
             if (/[@$!%*?&]/.test(password)) strength += 1;
 
             let percentage = (strength / 5) * 100;
             progressBar.value = percentage;
 
             progressBar.className = "";
-            // Color logic
             if (percentage < 40) {
                 progressBar.className = "weak";
             } else if (percentage < 80) {
@@ -59,33 +48,31 @@
 <div class="container">
     <div class="content">
         <div class="icon">✅</div>
-        <h2>Créer un compte</h2>
+        <h2 th:text="#{signup.heading.create.account}">Créer un compte</h2>
 
         <!-- Affichage d'un message d'erreur si besoin -->
-        <p th:if="${param.error}" class="error">Une erreur est survenue lors de l'inscription</p>
+        <p th:if="${param.error}" class="error" th:text="#{signup.error.general}">Une erreur est survenue lors de l'inscription</p>
 
         <form th:action="@{/signup}" th:object="${user}" method="post">
-            <label for="firstName">Prénom :</label>
+            <label for="firstName" th:text="#{signup.label.firstname}">Prénom :</label>
             <input type="text" id="firstName" th:field="*{firstName}" required />
 
-            <label for="lastName">Nom :</label>
+            <label for="lastName" th:text="#{signup.label.lastname}">Nom :</label>
             <input type="text" id="lastName" th:field="*{lastName}" required />
 
-            <label for="email">Email :</label>
+            <label for="email" th:text="#{signup.label.email}">Email :</label>
             <input type="email" id="email" th:field="*{email}" required />
 
-            <label for="password">Mot de passe :</label>
+            <label for="password" th:text="#{signup.label.password}">Mot de passe :</label>
             <input type="password" id="password" th:field="*{password}" onkeyup="validatePassword()" required />
 
-            <!-- Barre de progression de la force du mot de passe -->
             <progress id="password-strength" value="0" max="100"></progress>
 
-            <!-- Affichage du message d'erreur -->
             <p th:if="${error}" class="error" th:text="${error}"></p>
 
             <div class="buttons">
-                <button type="button" class="btn-login" onclick="window.location.href='/login'">Se connecter</button>
-                <button type="submit" id="submit-btn" class="btn-signup" disabled>S'inscrire</button>
+                <button type="button" class="btn-login" onclick="window.location.href='/login'" th:text="#{signup.button.login}">Se connecter</button>
+                <button type="submit" id="submit-btn" class="btn-signup" disabled th:text="#{signup.button.submit}">S'inscrire</button>
             </div>
         </form>
     </div>

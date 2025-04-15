@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layouts/mainLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
 <head>
-    <title>Contenu de la Ressource</title>
+    <title th:text="#{resource.content.page.title}">Contenu de la Ressource</title>
     <link rel="stylesheet" href="/css/myRessource.css" />
 </head>
 <body>
 <main layout:fragment="content">
-<div class="container">
-    <div class="content-card">
-        <h1 th:text="${ressource.title}"></h1>
+    <div class="container">
+        <div class="content-card">
+            <h1 th:text="${ressource.title}"></h1>
 
-        <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
-        <span th:text="${ressource.description}"></span>
-        <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
+            <img th:src="@{${ressource.headerImagePath}}" alt="#{resource.content.header.image.alt}" class="header-image" th:if="${ressource.headerImagePath != null}">
 
-            <span th:each="rr : ${ressource.listRelationTypes}">
-					        <span th:text="${rr.relationType.name}"></span>
-					    </span>
+            <span th:text="${ressource.description}"></span>
 
-            <strong> / Type :</strong> <span th:text="${ressource.ressourceType.name}"></span>
-        </p>
-        <p><strong>Publié le :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}">
-            </span><strong> / Dernière mise à jour :</strong> <span th:text="${#dates.format(ressource.updateDate, 'dd MMM yyyy')}"></span></p>
-        <p th:if="${#strings.isEmpty(ressource.filePath)}">
-            <span th:text="${ressource.content}"></span>
-        </p>
-        <p th:if="${not #strings.isEmpty(ressource.filePath)}">
-            <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
-        <h2 th:text="${ressource.content}"></h2>
-        </p>
+            <p>
+                <strong th:text="#{resource.content.label.category}">Catégorie :</strong>
+                <span th:text="${ressource.category.name}"></span>
+
+                <strong th:text="#{resource.content.label.relation.types}"> / Types de relation  :</strong>
+                <span th:each="rr : ${ressource.listRelationTypes}">
+                <span th:text="${rr.relationType.name}"></span>
+            </span>
+
+                <strong th:text="#{resource.content.label.type}"> / Type :</strong>
+                <span th:text="${ressource.ressourceType.name}"></span>
+            </p>
+
+            <p>
+                <strong th:text="#{resource.content.label.published.on}">Publié le :</strong>
+                <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}"></span>
+
+                <strong th:text="#{resource.content.label.updated.on}"> / Dernière mise à jour :</strong>
+                <span th:text="${#dates.format(ressource.updateDate, 'dd MMM yyyy')}"></span>
+            </p>
+
+            <p th:if="${#strings.isEmpty(ressource.filePath)}">
+                <span th:text="${ressource.content}"></span>
+            </p>
+
+            <p th:if="${not #strings.isEmpty(ressource.filePath)}">
+                <img th:src="@{${ressource.filePath}}" alt="#{resource.content.image.alt}" class="content-image" />
+            <h2 th:text="${ressource.content}"></h2>
+            </p>
+        </div>
     </div>
-</div>
 </main>
 </body>
 </html>

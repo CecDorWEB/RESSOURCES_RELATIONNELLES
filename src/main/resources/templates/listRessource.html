@@ -4,126 +4,115 @@
 	  layout:decorate="~{layouts/mainLayout}">
 <head>
 	<meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Ressources</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title th:text="#{ressource.list.pageTitle}">Ressources</title>
 	<link rel="stylesheet" href="/css/listRessource.css" />
 </head>
 <body>
 <main layout:fragment="content">
 	<section class="intro_listRessource">
-		<h1>Articles & Ressources relationnelles</h1>
-		<p>Accédez à nos ressources pour mieux comprendre et enrichir vos relations au quotidien.<br>
-		Chaque ressource est classée selon le type de relation et la nature du contenu.</p>
-	
-		<div class="relation_filter" >
-		    <a th:href="@{/ressources(ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
-		       th:class="'relation_filter_link' + (${param.relationTypeId} == null ? ' active' : '')"
-		       onclick="resetFilter(event, this)"
-		       data-reset="relationTypeId">
-		       Tous
-		    </a>
-		    <a th:each="relation : ${listRelation}"
-		       th:text="${relation.name}"
-		       th:href="@{/ressources(relationTypeId=${relation.id}, ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
-		       th:class="${param.relationTypeId != null and relation.id.toString() == param.relationTypeId.toString()} ? 'relation_filter_link active' : 'relation_filter_link'"
-		       onclick="updateFiltersType(event, this)">
-		    </a>
+		<h1 th:text="#{ressource.list.title}">Articles & Ressources relationnelles</h1>
+		<p th:text="#{ressource.list.intro}">
+			Accédez à nos ressources pour mieux comprendre et enrichir vos relations au quotidien.
+		</p>
+
+		<div class="relation_filter">
+			<a th:href="@{/ressources(ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
+			   th:class="'relation_filter_link' + (${param.relationTypeId} == null ? ' active' : '')"
+			   onclick="resetFilter(event, this)"
+			   data-reset="relationTypeId"
+			   th:text="#{ressource.filter.allRelations}">Tous</a>
+
+			<a th:each="relation : ${listRelation}"
+			   th:text="${relation.name}"
+			   th:href="@{/ressources(relationTypeId=${relation.id}, ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
+			   th:class="${param.relationTypeId != null and relation.id.toString() == param.relationTypeId.toString()} ? 'relation_filter_link active' : 'relation_filter_link'"
+			   onclick="updateFiltersType(event, this)">
+			</a>
 		</div>
-		<div class="ressourceType_filter" >
-		    <a th:href="@{/ressources(relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
-		       th:class="'ressourceType_filter_link' + (${param.ressourceTypeId} == null ? ' active' : '')"
-		       onclick="resetFilter(event, this)"
-		       data-reset="ressourceTypeId">
-		       Tous
-		    </a>
-		    <a th:each="ressourceType : ${listRessourceType}"
-		       th:text="${ressourceType.name}"
-		       th:href="@{/ressources(ressourceTypeId=${ressourceType.id}, relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
-		       th:class="${param.ressourceTypeId != null and ressourceType.id.toString() == param.ressourceTypeId.toString()} ? 'ressourceType_filter_link active' : 'ressourceType_filter_link'"
-		       onclick="updateFiltersType(event, this)">
-		    </a>
+
+		<div class="ressourceType_filter">
+			<a th:href="@{/ressources(relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
+			   th:class="'ressourceType_filter_link' + (${param.ressourceTypeId} == null ? ' active' : '')"
+			   onclick="resetFilter(event, this)"
+			   data-reset="ressourceTypeId"
+			   th:text="#{ressource.filter.allTypes}">Tous</a>
+
+			<a th:each="ressourceType : ${listRessourceType}"
+			   th:text="${ressourceType.name}"
+			   th:href="@{/ressources(ressourceTypeId=${ressourceType.id}, relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
+			   th:class="${param.ressourceTypeId != null and ressourceType.id.toString() == param.ressourceTypeId.toString()} ? 'ressourceType_filter_link active' : 'ressourceType_filter_link'"
+			   onclick="updateFiltersType(event, this)">
+			</a>
 		</div>
 	</section>
-	
+
 	<article class="search_ressource">
-		 <form id="searchForm" action="/ressources" method="get">
-        <input type="hidden" id="relationTypeId" name="relationTypeId" th:value="${param.relationTypeId}">
-        <input type="hidden" id="ressourceTypeId" name="ressourceTypeId" th:value="${param.ressourceTypeId}">
+		<form id="searchForm" action="/ressources" method="get">
+			<input type="hidden" id="relationTypeId" name="relationTypeId" th:value="${param.relationTypeId}">
+			<input type="hidden" id="ressourceTypeId" name="ressourceTypeId" th:value="${param.ressourceTypeId}">
 
-        <input class="search_input_ressource"
-               placeholder="Rechercher une ressource"
-               type="search"
-               id="search"
-               name="searchWord"
-               th:value="${param.searchWord}" />
+			<input class="search_input_ressource"
+				   th:placeholder="#{ressource.filter.searchPlaceholder}"
+				   type="search"
+				   id="search"
+				   name="searchWord"
+				   th:value="${param.searchWord}" />
 
-        <input type="submit" class="button-search w-button" value="Rechercher">
-    </form>
+			<input type="submit" class="button-search w-button" th:value="#{ressource.filter.searchButton}" value="Rechercher">
+		</form>
 	</article>
 
-<section class="ressource_card_container">
-	<article class="ressourceCard" th:each="res:${listRessource}">
-		<img th:src="${res.headerImagePath}"/>
-		<div class="list_of_relationType">
-			<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
-		</div>
-		<p th:text="${res.ressourceType != null ? res.ressourceType.name : 'Type inconnu'}"></p>
-		<h1 class="ressource_title" th:text="${res.title}"></h1>
-		<p th:text="${res.category != null ? res.category.name : 'Catégorie inconnue'}"></p>
-	</article>
-	
-	<script>
+	<section class="ressource_card_container">
+		<article class="ressourceCard" th:each="res : ${listRessource}">
+			<img th:src="${res.headerImagePath}" />
+			<div class="list_of_relationType">
+				<p class="relationType_item"
+				   th:each="relationType : ${res.listRelationTypes}"
+				   th:text="${relationType.relationType.name}"></p>
+			</div>
+			<p th:text="${res.ressourceType != null ? res.ressourceType.name : #{ressource.card.unknownType}}"></p>
+			<h1 class="ressource_title" th:text="${res.title}"></h1>
+			<p th:text="${res.category != null ? res.category.name : #{ressource.card.unknownCategory}}"></p>
+		</article>
+	</section>
+</main>
 
+<script>
 	function resetFilter(event, element) {
-	    event.preventDefault();
-
-	    const resetKey = element.dataset.reset;
-
-	    const currentUrl = new URL(window.location.href);
-	    const currentParams = new URLSearchParams(currentUrl.search);
-
-	    // Supprimer uniquement le paramètre à reset
-	    currentParams.delete(resetKey);
-
-	    // Garder les autres filtres
-	    const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
-	    window.location.href = newUrl;
+		event.preventDefault();
+		const resetKey = element.dataset.reset;
+		const currentUrl = new URL(window.location.href);
+		const currentParams = new URLSearchParams(currentUrl.search);
+		currentParams.delete(resetKey);
+		const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+		window.location.href = newUrl;
 	}
 
 	function updateFiltersType(event, element) {
-        event.preventDefault();
+		event.preventDefault();
+		const currentUrl = new URL(window.location.href);
+		const currentParams = new URLSearchParams(currentUrl.search);
+		const clickedUrl = new URL(element.href);
+		const clickedParams = new URLSearchParams(clickedUrl.search);
 
-        const currentUrl = new URL(window.location.href);
-        const currentParams = new URLSearchParams(currentUrl.search);
+		for (const [key, value] of clickedParams.entries()) {
+			currentParams.set(key, value);
+		}
 
-        const clickedUrl = new URL(element.href);
-        const clickedParams = new URLSearchParams(clickedUrl.search);
+		const searchInput = document.getElementById("search");
+		if (searchInput) {
+			const searchWord = searchInput.value.trim();
+			if (searchWord !== "") {
+				currentParams.set("searchWord", searchWord);
+			} else {
+				currentParams.delete("searchWord");
+			}
+		}
 
-        // Met à jour ou ajoute les paramètres cliqués
-        for (const [key, value] of clickedParams.entries()) {
-            currentParams.set(key, value);
-        }
-
-        // Récupère la valeur de la barre de recherche
-        const searchInput = document.getElementById("search");
-        if (searchInput) {
-            const searchWord = searchInput.value.trim();
-            if (searchWord !== "") {
-                currentParams.set("searchWord", searchWord);
-            } else {
-                currentParams.delete("searchWord");
-            }
-        }
-
-        // Redirige avec les paramètres combinés
-        const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
-        window.location.href = newUrl;
-    }
-	</script>
-	
-	
-</section>
-</main>
+		const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+		window.location.href = newUrl;
+	}
+</script>
 </body>
 </html>
-

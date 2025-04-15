@@ -3,79 +3,79 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layouts/mainLayout}">
 <head>
-	<title>Modération</title>
+	<title th:text="#{moderation.page.title}">Modération</title>
 </head>
 <body>
 <main layout:fragment="content">
-<h1>Page Moderateur</h1>
-<section>
-	<h2>Validation des ressources en attente de publication</h2>
-	<p>Liste des ressources en attente de publication :</p>
+	<h1 th:text="#{moderation.page.heading}">Page Moderateur</h1>
+	<section>
+		<h2 th:text="#{moderation.resources.validation.title}">Validation des ressources en attente de publication</h2>
+		<p th:text="#{moderation.resources.validation.description}">Liste des ressources en attente de publication :</p>
 		<table>
-		  <thead>
-		    <tr>
-		      <th scope="col">Id</th>
-		      <th scope="col">Title</th>
-		      <th scope="col">Date de création</th>
-		      <th scope="col">Description</th>
-		      <th scope="col">Type de ressource</th>
-		      <th scope="col">Catégorie</th>
-		      <th scope="col">Relation</th>
-		      <th scope="col">Statut</th>
-		      <th scope="col">Créateur</th>
-		      <th scope="col">Outils</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-			  <tr>
-				  <td>Id de l'article</td>
-				  <td>Titre de l'article</td>
-				  <td>date de création</td>
-				  <td>Introduction de l'article</td>
-				  <td>le type de ressource: ex: Article</td>
-				  <td>la catégorie: ex: Loisirs</td>
-				  <td>la relation: ex:Soi</td>
-				  <td>le statut : ex: publique</td>
-				  <td>Jean Michel</td>
-				  <td>
-				  	<div class="supportTools">
-					  	<button>Consulter</button>
-					  	<button>Publier</button>
-				  	</div>
-				  </td>
-			  </tr>
-		  </tbody>
+			<thead>
+			<tr>
+				<th scope="col" th:text="#{table.header.id}">Id</th>
+				<th scope="col" th:text="#{table.header.title}">Title</th>
+				<th scope="col" th:text="#{table.header.creationDate}">Date de création</th>
+				<th scope="col" th:text="#{table.header.description}">Description</th>
+				<th scope="col" th:text="#{table.header.resourceType}">Type de ressource</th>
+				<th scope="col" th:text="#{table.header.category}">Catégorie</th>
+				<th scope="col" th:text="#{table.header.relation}">Relation</th>
+				<th scope="col" th:text="#{table.header.status}">Statut</th>
+				<th scope="col" th:text="#{table.header.creator}">Créateur</th>
+				<th scope="col" th:text="#{table.header.tools}">Outils</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td th:text="#{table.row.resourceId}">Id de l'article</td>
+				<td th:text="#{table.row.resourceTitle}">Titre de l'article</td>
+				<td th:text="#{table.row.creationDate}">date de création</td>
+				<td th:text="#{table.row.resourceIntro}">Introduction de l'article</td>
+				<td th:text="#{table.row.resourceType}">le type de ressource: ex: Article</td>
+				<td th:text="#{table.row.category}">la catégorie: ex: Loisirs</td>
+				<td th:text="#{table.row.relation}">la relation: ex:Soi</td>
+				<td th:text="#{table.row.status}">le statut : ex: publique</td>
+				<td th:text="#{table.row.creatorName}">Jean Michel</td>
+				<td>
+					<div class="supportTools">
+						<button th:text="#{button.view}">Consulter</button>
+						<button th:text="#{button.publish}">Publier</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
 		</table>
-</section>
-<section>
-<h2>Gestion des commentaires</h2>
-	<p>Liste des commentaires signalés:</p>
-	<table>
-		  <thead>
-		    <tr>
-		      <th scope="col">Id</th>
-		      <th scope="col">Ressource</th>
-		      <th scope="col">Contenu</th>
-		      <th scope="col">Auteur</th>
-		      <th scope="col">Outils</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-			  <tr>
-				  <td>1</td>
-				  <td>Titre de la ressource où apparait le commentaire</td>
-				  <td>Ici le contenu du commentaire</td>
-				  <td>Nom de l'auteur du commentaire</td>
-				  <td>
-				  	<div class="supportTools">
-					  	<button>Consulter</button>
-					  	<button>Suspendre</button>
-				  	</div>
-				  </td>
-			  </tr>
-		  </tbody>
+	</section>
+	<section>
+		<h2 th:text="#{moderation.comments.title}">Gestion des commentaires</h2>
+		<p th:text="#{moderation.comments.description}">Liste des commentaires signalés:</p>
+		<table>
+			<thead>
+			<tr>
+				<th scope="col" th:text="#{table.header.id}">Id</th>
+				<th scope="col" th:text="#{table.header.resource}">Ressource</th>
+				<th scope="col" th:text="#{table.header.content}">Contenu</th>
+				<th scope="col" th:text="#{table.header.author}">Auteur</th>
+				<th scope="col" th:text="#{table.header.tools}">Outils</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>1</td>
+				<td th:text="#{table.row.commentResourceTitle}">Titre de la ressource où apparait le commentaire</td>
+				<td th:text="#{table.row.commentContent}">Ici le contenu du commentaire</td>
+				<td th:text="#{table.row.commentAuthor}">Nom de l'auteur du commentaire</td>
+				<td>
+					<div class="supportTools">
+						<button th:text="#{button.view}">Consulter</button>
+						<button th:text="#{button.suspend}">Suspendre</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
 		</table>
-</section>
+	</section>
 </main>
 </body>
 </html>

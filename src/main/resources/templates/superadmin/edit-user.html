@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/mainLayout}">
 <head>
-    <title>Modifier un utilisateur</title>
+    <title th:text="#{user.edit.title}">Modifier un utilisateur</title>
     <link rel="stylesheet" href="/css/home.css" />
     <style>
         .form-section {
@@ -76,25 +76,25 @@
 <main layout:fragment="content">
 
     <section class="form-section" revealOnScroll>
-        <h1>Modifier un utilisateur</h1>
+        <h1 th:text="#{user.edit.heading}">Modifier un utilisateur</h1>
 
         <div class="form-container" revealOnScroll>
-            <h2>Modifiez les informations ci-dessous</h2>
+            <h2 th:text="#{user.edit.subtitle}">Modifiez les informations ci-dessous</h2>
 
             <form th:action="@{'/superadmin/users/edit/' + ${user.id}}" method="post" th:object="${user}">
-                <label>Prénom :</label>
+                <label th:text="#{form.firstname}">Prénom :</label>
                 <input type="text" th:field="*{firstName}" required>
 
-                <label>Nom :</label>
+                <label th:text="#{form.lastname}">Nom :</label>
                 <input type="text" th:field="*{lastName}" required>
 
-                <label>Email :</label>
+                <label th:text="#{form.email}">Email :</label>
                 <input type="email" th:field="*{email}" required>
 
-                <label>Nouveau mot de passe :</label>
-                <input type="password" name="newPassword" placeholder="Laisser vide pour ne pas changer">
+                <label th:text="#{form.newPassword}">Nouveau mot de passe :</label>
+                <input type="password" name="newPassword" th:placeholder="#{form.noChangeIfEmpty}" placeholder="Laisser vide pour ne pas changer">
 
-                <label>Rôle :</label>
+                <label th:text="#{form.role}">Rôle :</label>
                 <select name="roleId" required>
                     <option th:each="role : ${roles}"
                             th:value="${role.id}"
@@ -103,10 +103,10 @@
                     </option>
                 </select>
 
-                <button type="submit">Enregistrer les modifications</button>
+                <button type="submit" th:text="#{btn.save}">Enregistrer les modifications</button>
             </form>
 
-            <a href="/superadmin/users" class="back-link">← Retour</a>
+            <a href="/superadmin/users" class="back-link" th:text="#{btn.back}">← Retour</a>
         </div>
     </section>
 

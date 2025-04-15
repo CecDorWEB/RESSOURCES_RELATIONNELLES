@@ -2,15 +2,15 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des utilisateurs - Admin</title>
+    <title th:text="#{superadmin.users.page.title}">Gestion des utilisateurs - Admin</title>
     <link rel="stylesheet" th:href="@{/css/superadmin.css}" />
 </head>
 <body>
 <header class="admin-header">
     <div class="container">
-        <h1>🎛️ Tableau de bord - Super Admin</h1>
-        <p>Gérez les utilisateurs, leurs rôles et leurs accès.</p>
-        <a href="/superadmin/users/create" class="btn-create-user">Créer un nouveau compte</a>
+        <h1 th:text="#{superadmin.dashboard.heading}">🎛️ Tableau de bord - Super Admin</h1>
+        <p th:text="#{superadmin.dashboard.subheading}">Gérez les utilisateurs, leurs rôles et leurs accès.</p>
+        <a href="/superadmin/users/create" class="btn-create-user" th:text="#{superadmin.dashboard.button.create}">Créer un nouveau compte</a>
     </div>
 </header>
 
@@ -19,16 +19,16 @@
     <!-- Filtres -->
     <section class="filters">
         <form method="get" th:action="@{/superadmin/users}">
-            <label for="roleId">Filtrer par rôle :</label>
+            <label for="roleId" th:text="#{superadmin.filters.role.label}">Filtrer par rôle :</label>
             <select name="roleId" id="roleId">
-                <option value="" th:selected="${selectedRoleId == null}">Tous les rôles</option>
+                <option value="" th:selected="${selectedRoleId == null}" th:text="#{superadmin.filters.role.all}">Tous les rôles</option>
                 <option th:each="r : ${roles}"
                         th:value="${r.id}"
                         th:text="${r.name}"
                         th:selected="${selectedRoleId != null and selectedRoleId == r.id}"></option>
             </select>
-            <button type="submit">Filtrer</button>
-            <a th:href="@{/superadmin/users}" class="btn-clear">Réinitialiser</a>
+            <button type="submit" th:text="#{superadmin.filters.button.filter}">Filtrer</button>
+            <a th:href="@{/superadmin/users}" class="btn-clear" th:text="#{superadmin.filters.button.reset}">Réinitialiser</a>
         </form>
     </section>
 
@@ -41,12 +41,12 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)" /></th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
+                    <th th:text="#{superadmin.table.header.lastname}">Nom</th>
+                    <th th:text="#{superadmin.table.header.firstname}">Prénom</th>
+                    <th th:text="#{superadmin.table.header.email}">Email</th>
+                    <th th:text="#{superadmin.table.header.role}">Rôle</th>
+                    <th th:text="#{superadmin.table.header.status}">Statut</th>
+                    <th th:text="#{superadmin.table.header.actions}">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,17 +56,17 @@
                     <td th:text="${user.firstName}">Prénom</td>
                     <td th:text="${user.email}">Email</td>
                     <td th:text="${user.role.name}">Rôle</td>
-                    <td th:text="${user.actived} ? '✅ Actif' : '🚫 Suspendu'"></td>
+                    <td th:text="${user.actived} ? #{superadmin.status.active} : #{superadmin.status.suspended}"></td>
                     <td>
                         <a th:href="@{'/superadmin/users/toggle-active/' + ${user.id}}"
-                           th:text="${user.actived} ? 'Suspendre' : 'Réactiver'"
+                           th:text="${user.actived} ? #{superadmin.action.suspend} : #{superadmin.action.reactivate}"
                            th:class="'btn-action ' + (${user.actived} ? 'danger' : 'success')"></a>
 
-                        <a th:href="@{'/superadmin/users/edit/' + ${user.id}}" class="btn-action">✏️ Modifier</a>
+                        <a th:href="@{'/superadmin/users/edit/' + ${user.id}}" class="btn-action" th:text="#{superadmin.action.edit}">✏️ Modifier</a>
 
                         <form th:action="@{'/superadmin/users/delete/' + ${user.id}}" method="post"
-                              th:onsubmit="return confirm('Supprimer cet utilisateur ?')" style="display:inline;">
-                            <button type="submit" class="btn-action danger">🗑️ Supprimer</button>
+                              th:onsubmit="return confirm('#{superadmin.confirm.delete}')" style="display:inline;">
+                            <button type="submit" class="btn-action danger" th:text="#{superadmin.action.delete}">🗑️ Supprimer</button>
                         </form>
                     </td>
                 </tr>
@@ -76,12 +76,12 @@
 
         <!-- Changement de rôle groupé -->
         <section class="batch-actions">
-            <label for="newRole">Changer le rôle des utilisateurs sélectionnés en :</label>
+            <label for="newRole" th:text="#{superadmin.batch.label.changeRole}">Changer le rôle des utilisateurs sélectionnés en :</label>
             <select id="newRole" name="newRoleId" required>
-                <option value="">-- Sélectionner un rôle --</option>
+                <option value="" th:text="#{superadmin.batch.placeholder.selectRole}">-- Sélectionner un rôle --</option>
                 <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.name}"></option>
             </select>
-            <button type="submit" class="btn-role">✅ Appliquer le changement de rôle</button>
+            <button type="submit" class="btn-role" th:text="#{superadmin.batch.button.apply}">✅ Appliquer le changement de rôle</button>
         </section>
     </form>
 </main>

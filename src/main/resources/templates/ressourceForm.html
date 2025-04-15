@@ -3,87 +3,88 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/mainLayout}">
 <head>
-    <title th:text="${title}">Création d'une ressource</title>
+    <title th:text="${title} ?: #{resource.form.page.title}">Création d'une ressource</title>
     <link rel="stylesheet" href="/css/ressourceForm.css" />
 </head>
 <body>
 <main layout:fragment="content">
-<!-- Décorations (shapes) : 2 SVG -->
 
-<div class="container">
-    <!-- Form Card -->
-    <div class="form-card">
-        <h1 th:text="${ressource.id == null ? 'Créer une ressource' : 'Modifier la ressource'}"></h1>
+    <!-- Décorations (shapes) : 2 SVG -->
 
-        <form th:action="@{/saveRessource}" method="post" th:object="${ressource}">
-            <!-- Champ caché pour l'ID -->
-            <input type="hidden" th:field="*{id}">
+    <div class="container">
+        <!-- Form Card -->
+        <div class="form-card">
+            <h1 th:text="${ressource.id == null ? #{resource.form.title.create} : #{resource.form.title.update}}">Créer une ressource</h1>
 
-            <div class="field">
-                <label for="title">Titre</label>
-                <input type="text" id="title" th:field="*{title}" required/>
-            </div>
+            <form th:action="@{/saveRessource}" method="post" th:object="${ressource}">
+                <!-- Champ caché pour l'ID -->
+                <input type="hidden" th:field="*{id}">
 
-            <div class="field">
-                <label for="description">Description</label>
-                <textarea id="description" rows="3" th:field="*{description}" required></textarea>
-            </div>
+                <div class="field">
+                    <label for="title" th:text="#{resource.form.label.title}">Titre</label>
+                    <input type="text" id="title" th:field="*{title}" required/>
+                </div>
 
-            <h2>Paragraphes</h2>
-            <div id="paragraphs-container">
-                <!-- Paragraphes existants -->
-                <th:block th:each="paragraph : ${paragraphs}">
-                    <textarea name="paragraphs" rows="5" required th:text="${paragraph}"></textarea>
-                </th:block>
+                <div class="field">
+                    <label for="description" th:text="#{resource.form.label.description}">Description</label>
+                    <textarea id="description" rows="3" th:field="*{description}" required></textarea>
+                </div>
 
-                <!-- S'il n'y a pas de paragraphes, on en met un vide -->
-                <th:block th:if="${paragraphs == null or paragraphs.isEmpty()}">
-                    <textarea name="paragraphs" rows="5" placeholder="Premier paragraphe..." required></textarea>
-                </th:block>
-            </div>
+                <h2 th:text="#{resource.form.section.paragraphs}">Paragraphes</h2>
+                <div id="paragraphs-container">
+                    <!-- Paragraphes existants -->
+                    <th:block th:each="paragraph : ${paragraphs}">
+                        <textarea name="paragraphs" rows="5" required th:text="${paragraph}"></textarea>
+                    </th:block>
 
-            <div class="btn-group">
-                <button type="button" onclick="addParagraph()">+ Ajouter un paragraphe</button>
-                <button type="button" id="removeParagraphBtn" onclick="removeParagraph()">- Supprimer un paragraphe</button>
-            </div>
+                    <!-- S'il n'y a pas de paragraphes, on en met un vide -->
+                    <th:block th:if="${paragraphs == null or paragraphs.isEmpty()}">
+                        <textarea name="paragraphs" rows="5" th:placeholder="#{resource.form.paragraph.placeholder.first}" required></textarea>
+                    </th:block>
+                </div>
 
-            <button id="submit-button" type="submit" th:text="${ressource.id == null ? 'Créer' : 'Mettre à jour'}"></button>
-        </form>
+                <div class="btn-group">
+                    <button type="button" onclick="addParagraph()" th:text="#{resource.form.button.addParagraph}">+ Ajouter un paragraphe</button>
+                    <button type="button" id="removeParagraphBtn" onclick="removeParagraph()" th:text="#{resource.form.button.removeParagraph}">- Supprimer un paragraphe</button>
+                </div>
+
+                <button id="submit-button" type="submit" th:text="${ressource.id == null ? #{resource.form.button.submit.create} : #{resource.form.button.submit.update}}">Créer</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-    function addParagraph() {
-        const container = document.getElementById('paragraphs-container');
-        let textarea = document.createElement('textarea');
-        textarea.name = 'paragraphs';
-        textarea.rows = 5;
-        textarea.placeholder = 'Nouveau paragraphe...';
-        textarea.required = true;
-        container.appendChild(textarea);
-        updateRemoveButton();
-    }
-
-    function removeParagraph() {
-        const container = document.getElementById('paragraphs-container');
-        if (container.children.length > 1) {
-            container.removeChild(container.lastChild);
+    <script>
+        function addParagraph() {
+            const container = document.getElementById('paragraphs-container');
+            let textarea = document.createElement('textarea');
+            textarea.name = 'paragraphs';
+            textarea.rows = 5;
+            textarea.placeholder = /*[[#{resource.form.paragraph.placeholder.new}]]*/ 'Nouveau paragraphe...';
+            textarea.required = true;
+            container.appendChild(textarea);
+            updateRemoveButton();
         }
-        updateRemoveButton();
-    }
 
-    function updateRemoveButton() {
-        const container = document.getElementById('paragraphs-container');
-        const removeBtn = document.getElementById('removeParagraphBtn');
-        if (container.children.length > 1) {
-            removeBtn.style.display = 'inline-block';
-        } else {
-            removeBtn.style.display = 'none';
+        function removeParagraph() {
+            const container = document.getElementById('paragraphs-container');
+            if (container.children.length > 1) {
+                container.removeChild(container.lastChild);
+            }
+            updateRemoveButton();
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', updateRemoveButton);
-</script>
+        function updateRemoveButton() {
+            const container = document.getElementById('paragraphs-container');
+            const removeBtn = document.getElementById('removeParagraphBtn');
+            if (container.children.length > 1) {
+                removeBtn.style.display = 'inline-block';
+            } else {
+                removeBtn.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateRemoveButton);
+    </script>
 
 </body>
 </html>
