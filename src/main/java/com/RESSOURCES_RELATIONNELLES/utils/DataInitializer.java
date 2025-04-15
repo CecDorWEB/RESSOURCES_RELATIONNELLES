@@ -27,7 +27,8 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (_ressourceTypeRepository.count() == 0) {
+
+        if (_categoryRepository.count() == 0) {
             List<String> ressourceCategories = List.of(
                     "Communication",
                     "Cultures",
@@ -49,7 +50,9 @@ public class DataInitializer implements CommandLineRunner {
                     _categoryRepository.save(new Category(name, null));
                 }
             }
+        }
 
+        if(_ressourceTypeRepository.count() == 0) {
 
             List<String> ressourceTypes = List.of(
                     "Activité / Jeu à réaliser",
@@ -59,14 +62,16 @@ public class DataInitializer implements CommandLineRunner {
                     "Exercice / Atelier",
                     "Fiche de lecture",
                     "Jeu en ligne",
-                    "Vidéo" );
+                    "Vidéo");
 
             for (String name : ressourceTypes) {
                 if (!_ressourceTypeRepository.existsByName(name)) {
                     _ressourceTypeRepository.save(new RessourceType(name, null));
                 }
             }
+        }
 
+        if(_relationTypeRepository.count() == 0) {
 
             List<String> relationTypes = List.of(
                     "Soi",
