@@ -89,11 +89,17 @@ public class RessourceController {
 
 	//Récupérer le contenu de la ressource par son id
 	@GetMapping("/ressource/{id}")
-	public String afficherRessource(@PathVariable Long id, Model model) {
+	public String afficherRessource(@PathVariable Long id, Model model,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		
 		Optional<Ressource> ressource = _ressourceService.findById(id);
 		if (ressource.isPresent()) {
 			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
 
+			if (user != null) {
+				model.addAttribute("myUser", user);
+				}
+			
 			model.addAttribute("paragraphs", paragraphs);
 			model.addAttribute("ressource", ressource.get());
 			return "ressource";
