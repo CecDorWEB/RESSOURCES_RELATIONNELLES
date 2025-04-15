@@ -110,71 +110,80 @@ div.ressourceType_filter a.ressourceType_filter_link.active {
 	color:black;
 }
 
-.ressource_card_container{
-	display:flex;
-	justify-content:center;
+.ressource_card_container {
+	display: flex;
+	justify-content: center;
 	flex-wrap: wrap;
-	gap:2em;
-	padding-top:2rem;
+	gap: 2em;
+	padding-top: 2rem;
 }
 
-.ressource_card_container > .ressourceCard{
-	display:flex;
-	flex-direction:column;
-	text-align:center;
-	gap:0.5rem;
-	width:250px;
-
-	border:1px solid rgba(128,128,128,0.2);
-	border-radius:1em;
+.ressourceCard {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	gap: 0.5rem;
+	width: 250px;
+	border: 1px solid rgba(128, 128, 128, 0.2);
+	border-radius: 1em;
 	box-shadow: 1px 1px 12px 2px #4141411a;
 	padding-bottom: 0.5rem;
-}
-
-.ressource_card_container > .ressourceCard > div.list_of_relationType{
-	display:flex;
-	justify-content: center;
-	gap: 0.5rem;
-}
-
-.ressource_card_container > .ressourceCard > div.list_of_relationType > p.relationType_item{
 	background-color: #fff;
-    color:#7e1bf2;
- 	border: 1px solid #7e1bf2;
-    border-radius: 10px;
-    padding: 0.3rem 0.5rem;
-    font-weight: 600;
-    transition: transform 0.2s;
-    width: fit-content;
+	transition: transform 0.2s, box-shadow 0.3s;
 }
 
+.ressourceCard:hover {
+	transform: translateY(-5px);
+	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.15);
+	cursor: pointer;
+}
 
-.ressource_card_container > .ressourceCard > img{
-	height:150px;
+.ressourceCard img {
+	height: 150px;
+	width: 100%;
 	filter: opacity(80%);
 	object-fit: cover;
-	border-radius:1em 1em 0 0;
+	border-radius: 1em 1em 0 0;
 }
 
-.ressource_card_container > .ressourceCard > h1.ressource_title{
-	 display: flex;
-    align-items: center;
-    justify-content: center;
-	height:100%;
+.ressourceCard h1.ressource_title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	padding: 0 0.3rem;
-	color:rgba(0,0,0,0.8);
+	color: rgba(0, 0, 0, 0.8);
+	font-size: 1.2rem;
+	margin:auto;
 }
 
-.ressource_card_container > .ressourceCard > p.ressource_type_item{
+.list_of_relationType {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.relationType_item {
+	background-color: #fff;
+	color: #4a90e2;
+	border: 1px solid #4a90e2;
+	border-radius: 10px;
+	padding: 0.3rem 0.5rem;
+	font-weight: 600;
+	transition: transform 0.2s;
+	width: fit-content;
+}
+
+.ressourceType_item {
+	background-color: #fff;
 	color: #cf25c7;
-    border: 1px solid #cf25c7;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 0.3rem 0.5rem;
-    font-weight: 600;
-    transition: transform 0.2s;
-    width: fit-content;
-    margin:auto;
+	border: 1px solid #cf25c7;
+	border-radius: 10px;
+	padding: 0.3rem 0.5rem;
+	font-weight: 600;
+	transition: transform 0.2s;
+	width: fit-content;
+	margin:0 auto;
 }
 
 @media screen and (min-width: 1024px) {
@@ -187,6 +196,9 @@ div.ressourceType_filter a.ressourceType_filter_link.active {
 	justify-content:space-around;
 	flex-wrap: wrap;
 	gap:2em;
+}
+.ressourceCard{
+	height: 350px;
 }
 .search_ressource > form {
 	gap:1rem;

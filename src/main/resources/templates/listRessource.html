@@ -63,18 +63,19 @@
 	</article>
 
 <section class="ressource_card_container">
-	<article class="ressourceCard" th:each="res:${listRessource}">
-		<img th:src="${res.headerImagePath}"/>
-		<div class="list_of_relationType">
-			<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
-		</div>
-		<p th:if="${res.ressourceType != null}" th:text="${res.ressourceType.name}"></p>
-		<h1 class="ressource_title" th:text="${res.title}"></h1>
-		<p th:if="${res.category != null}" th:text="${res.category.name}"></p>
-
-	</article>
+		<a class="ressourceCard_link" th:href="@{/ressource/{id}(id=${res.id})}" th:each="res : ${listRessource}">
+			<article class="ressourceCard">
+				<img th:src="${res.headerImagePath}"/>
+				<div class="list_of_relationType">
+					<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
+				</div>
+				<p class="ressourceType_item" th:if="${res.ressourceType != null}" th:text="${res.ressourceType.name}"></p>
+				<h1 class="ressource_title" th:text="${res.title}"></h1>
+				<p th:if="${res.category != null}" th:text="${res.category.name}"></p>
+			</article>
+		</a>
 	
-	<script>
+	<script> 
 	
 	function resetFilter(event, element) {
 	    event.preventDefault();
