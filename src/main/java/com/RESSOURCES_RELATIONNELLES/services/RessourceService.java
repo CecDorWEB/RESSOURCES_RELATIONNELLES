@@ -19,10 +19,6 @@ public class RessourceService extends BaseService<Ressource, Long> {
 		super(baseRepository);
 	}
 
-	public List<Ressource> getAllRessources() {
-		return _resourceRepository.findAll();
-	}
-	
 	public List<Ressource> getAllPublicRessources() {
 		return _resourceRepository.findAllPublicRessourcesActivedAndPublished();
 	}

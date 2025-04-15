@@ -82,6 +82,7 @@ public class DataInitializer implements CommandLineRunner {
                     _relationTypeRepository.save(new RelationType(name, null));
                 }
             }
+
         }
     }
 }
