@@ -10,8 +10,18 @@
 <main layout:fragment="content">
 <div class="container">
     <div class="content-card">
+    	<div class="user_items_button_container">
+	    	<button type="submit" class="save_item_button" title="Ajouter aux favoris">
+	    		<img class="favorite_item" src="/img/heart.png" alt="Favorie" />
+			</button>
+	    	<button type="submit" class="save_item_button" title="Ajouter aux sources exploitées">
+	    		<img class="exploit_item" src="/img/exploit.png" alt="exploiter" />
+			</button>
+    		<button type="submit" class="save_item_button" title="Ajouter aux sources à consulter">
+    			<img class="saveToConsult_item" src="/img/banniere.png" alt="consulter" />
+			</button>
+    	</div>
         <h1 th:text="${ressource.title}"></h1>
-
         <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
         <span th:text="${ressource.description}"></span>
         <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
