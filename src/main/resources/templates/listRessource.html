@@ -66,7 +66,7 @@
 			<article class="ressourceCard">
 				<img th:src="${res.headerImagePath}"/>
 				<button type="submit" class="favorite_item_button" title="Ajouter aux favoris">
-					<img class="favorite_item" src="/img/heart.png" alt="Favori" />
+					<img class="favorite_item" src="/img/heart.png" alt="Favoris" />
 				</button>
 				<div class="list_of_relationType">
 					<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
@@ -74,6 +74,7 @@
 				<p class="ressourceType_item" th:if="${res.ressourceType != null}" th:text="${res.ressourceType.name}"></p>
 				<h1 class="ressource_title" th:text="${res.title}"></h1>
 				<p th:if="${res.category != null}" th:text="${res.category.name}"></p>
+				<img th:if="${res.status} == 'private'" class="private_item"src="/img/private.png" alt="Favori"/>
 			</article>
 		</a>
 	

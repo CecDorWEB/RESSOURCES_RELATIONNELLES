@@ -203,6 +203,12 @@ img.favorite_item{
 	margin:0 auto;
 }
 
+img.private_item{
+	height:24px;
+	width:24px;
+	margin:auto;
+}
+
 @media screen and (min-width: 1024px) {
 	div.relation_filter a.relation_filter_link{
     padding: 0.6rem 1rem;

@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
 import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
+import com.RESSOURCES_RELATIONNELLES.entities.User;
 import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceTypeService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -52,18 +54,32 @@ public class RessourceController {
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
 			@RequestParam(required = false) Long ressourceTypeId,
-			@RequestParam(required = false) String searchWord) {
+			@RequestParam(required = false) String searchWord,
+			HttpSession session) {
+		
 		List<RelationType> relationType = _relationTypeService.getAllRelationType();
 		List<RessourceType> ressourceType = _ressourceTypeService.getAllRessourceType();
-
+		
+		User user = (User) session.getAttribute("user");
+		
 		List<Ressource> ressource;
-
-		if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
-			ressource = _ressourceService.getPublicFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
-		} else {
+		if (user == null) {
+			if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
+				ressource = _ressourceService.getPublicFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
+			} else {
 			ressource = _ressourceService.getAllPublicRessources();
+			}
+		} else {
+			if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
+				ressource = _ressourceService.getFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
+			} else {
+			ressource = _ressourceService.getAllRessourcesForConnectedUSer();
+			}
 		}
-
+		
+		if (user != null) {
+		model.addAttribute("MyUser", user);
+		}
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessourceType", ressourceType);
 		model.addAttribute("listRessource", ressource);
