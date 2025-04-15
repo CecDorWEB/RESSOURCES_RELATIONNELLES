@@ -49,14 +49,14 @@
 		 <form id="searchForm" action="/ressources" method="get">
         <input type="hidden" id="relationTypeId" name="relationTypeId" th:value="${param.relationTypeId}">
         <input type="hidden" id="ressourceTypeId" name="ressourceTypeId" th:value="${param.ressourceTypeId}">
-        
+
         <input class="search_input_ressource"
                placeholder="Rechercher une ressource"
                type="search"
                id="search"
                name="searchWord"
                th:value="${param.searchWord}" />
-               
+
         <input type="submit" class="button-search w-button" value="Rechercher">
     </form>
 	</article>
@@ -94,16 +94,16 @@
 	    const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
 	    window.location.href = newUrl;
 	}
-	
+
 	function updateFiltersType(event, element) {
-        event.preventDefault();  
-        
+        event.preventDefault();
+
         const currentUrl = new URL(window.location.href);
         const currentParams = new URLSearchParams(currentUrl.search);
 
         const clickedUrl = new URL(element.href);
         const clickedParams = new URLSearchParams(clickedUrl.search);
-        
+
         // Met à jour ou ajoute les paramètres cliqués
         for (const [key, value] of clickedParams.entries()) {
             currentParams.set(key, value);

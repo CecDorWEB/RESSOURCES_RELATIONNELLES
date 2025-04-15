@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+
+<head>
+    <title>Mon Profil</title>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <section class="profile-section">
+        <h1>Bienvenue <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span> !</h1>
+        <p>Email : <span th:text="${user.email}"></span></p>
+        <p>Rôle : <span th:text="${user.role.name}"></span></p>
+    </section>
+</main>
+</body>
+</html>

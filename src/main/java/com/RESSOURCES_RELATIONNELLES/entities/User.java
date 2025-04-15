@@ -4,15 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -54,7 +46,7 @@ public class User {
 	@OneToOne
 	@JoinColumn(name = "adresse_id", nullable = true)
 	private Adresse adresse;
-	
+
 	@OneToMany(mappedBy = "user")
 	private List<Ressource> listRessources;
 	
@@ -66,6 +58,10 @@ public class User {
 	
 	@OneToMany(mappedBy="user")
 	private List<Exploit> listExploit;
+
+	@ManyToOne
+	@JoinColumn(name = "role_id", nullable = false)
+	private Role role;
 
 	public User() {
 		super();
@@ -222,4 +218,11 @@ public class User {
 		this.adresse = adresse;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }

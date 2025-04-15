@@ -34,10 +34,23 @@ public class AuthentificationController {
         return "login";
     }
 
+    @GetMapping("/debug/session")
+    @ResponseBody
+    public String debugSession(HttpSession session) {
+        Object token = session.getAttribute("IsUserConnectedToken");
+        User user = (User) session.getAttribute("user");
+
+        if (token != null && user != null) {
+            return "Connecté en tant que : " + user.getFirstName() + " - Rôle : " + user.getRole().getName();
+        } else {
+            return "Non connecté ou session vide.";
+        }
+    }
+
     @GetMapping("/signup")
     public String signup(Model model) {
         if (this.securityService.isAuthenticated()) {
-            return "redirect:/home";
+            return "redirect:/";
         }
         model.addAttribute("user", new User());
         return "signup";
@@ -46,7 +59,7 @@ public class AuthentificationController {
     @GetMapping("/logout")
     public String logout() {
         this.securityService.removeAuthToken();
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     @PostMapping("/login")
@@ -55,11 +68,12 @@ public class AuthentificationController {
             return "redirect:/home";
         }
         boolean isAuth = this.securityService.login( user.getEmail() , user.getPassword());
-        if (isAuth) {
+        boolean isBanned = this.securityService.isBanned(user.getEmail());
+        if (isAuth && !isBanned) {
             this.securityService.setAuthToken();
             return "redirect:/home"; // Connexion réussie, redirection vers l'accueil
         } else {
-            model.addAttribute("error", "Identifiants incorrects !");
+            model.addAttribute("error", "Un problème est survenu lors de la connexion veuillez contacter le service utilisateur !");
             return "login"; // Retour à la page login avec un message d'erreur
         }
     }

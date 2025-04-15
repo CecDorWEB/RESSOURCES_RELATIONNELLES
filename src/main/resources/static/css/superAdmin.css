@@ -1,0 +1,125 @@
+
+.batch-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 20px;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+.btn-action.edit {
+    background-color: #007bff;
+    color: white;
+    margin-left: 5px;
+}
+
+.btn-action.delete {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 5px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.admin-header {
+    background: linear-gradient(to right, #5f2c82, #49a09d);
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.filters form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filters select, .filters button, .filters .btn-clear {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.btn-clear {
+    background: transparent;
+    border: none;
+    color: #999;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.user-table-wrapper {
+    overflow-x: auto;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.user-table th, .user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.user-table th {
+    background-color: #e9ecef;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.user-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.btn-role {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-action {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.btn-action.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-action.danger {
+    background-color: #dc3545;
+    color: white;
+}

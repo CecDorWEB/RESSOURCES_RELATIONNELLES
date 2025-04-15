@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des utilisateurs - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/superadmin.css}" />
+</head>
+<body>
+<header class="admin-header">
+    <div class="container">
+        <h1>🎛️ Tableau de bord - Super Admin</h1>
+        <p>Gérez les utilisateurs, leurs rôles et leurs accès.</p>
+        <a href="/superadmin/users/create" class="btn-create-user">Créer un nouveau compte</a>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Filtres -->
+    <section class="filters">
+        <form method="get" th:action="@{/superadmin/users}">
+            <label for="roleId">Filtrer par rôle :</label>
+            <select name="roleId" id="roleId">
+                <option value="" th:selected="${selectedRoleId == null}">Tous les rôles</option>
+                <option th:each="r : ${roles}"
+                        th:value="${r.id}"
+                        th:text="${r.name}"
+                        th:selected="${selectedRoleId != null and selectedRoleId == r.id}"></option>
+            </select>
+            <button type="submit">Filtrer</button>
+            <a th:href="@{/superadmin/users}" class="btn-clear">Réinitialiser</a>
+        </form>
+    </section>
+
+    <!-- Formulaire englobant pour sélection et batch-update -->
+    <form th:action="@{/superadmin/users/batch-update-role}" method="post">
+
+        <!-- Table utilisateurs -->
+        <section class="user-table-wrapper">
+            <table class="user-table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)" /></th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td><input type="checkbox" name="userIds" th:value="${user.id}" /></td>
+                    <td th:text="${user.lastName}">Nom</td>
+                    <td th:text="${user.firstName}">Prénom</td>
+                    <td th:text="${user.email}">Email</td>
+                    <td th:text="${user.role.name}">Rôle</td>
+                    <td th:text="${user.actived} ? '✅ Actif' : '🚫 Suspendu'"></td>
+                    <td>
+                        <a th:href="@{'/superadmin/users/toggle-active/' + ${user.id}}"
+                           th:text="${user.actived} ? 'Suspendre' : 'Réactiver'"
+                           th:class="'btn-action ' + (${user.actived} ? 'danger' : 'success')"></a>
+
+                        <a th:href="@{'/superadmin/users/edit/' + ${user.id}}" class="btn-action">✏️ Modifier</a>
+
+                        <form th:action="@{'/superadmin/users/delete/' + ${user.id}}" method="post"
+                              th:onsubmit="return confirm('Supprimer cet utilisateur ?')" style="display:inline;">
+                            <button type="submit" class="btn-action danger">🗑️ Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Changement de rôle groupé -->
+        <section class="batch-actions">
+            <label for="newRole">Changer le rôle des utilisateurs sélectionnés en :</label>
+            <select id="newRole" name="newRoleId" required>
+                <option value="">-- Sélectionner un rôle --</option>
+                <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.name}"></option>
+            </select>
+            <button type="submit" class="btn-role">✅ Appliquer le changement de rôle</button>
+        </section>
+    </form>
+</main>
+
+<script>
+    function toggleAll(source) {
+        let checkboxes = document.querySelectorAll('input[name="userIds"]');
+        checkboxes.forEach(cb => cb.checked = source.checked);
+    }
+</script>
+</body>
+</html>
