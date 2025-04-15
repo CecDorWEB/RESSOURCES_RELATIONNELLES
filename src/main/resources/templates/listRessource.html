@@ -25,10 +25,9 @@
 		    <a th:each="relation : ${listRelation}"
 		       th:text="${relation.name}"
 		       th:href="@{/ressources(relationTypeId=${relation.id}, ressourceTypeId=${param.ressourceTypeId}, searchWord=${param.searchWord})}"
-		       th:class="'relation_filter_link'"
+		       th:class="${param.relationTypeId != null and relation.id.toString() == param.relationTypeId.toString()} ? 'relation_filter_link active' : 'relation_filter_link'"
 		       onclick="updateFiltersType(event, this)">
 		    </a>
-		  
 		</div>
 		<div class="ressourceType_filter" >
 		    <a th:href="@{/ressources(relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
@@ -40,7 +39,7 @@
 		    <a th:each="ressourceType : ${listRessourceType}"
 		       th:text="${ressourceType.name}"
 		       th:href="@{/ressources(ressourceTypeId=${ressourceType.id}, relationTypeId=${param.relationTypeId}, searchWord=${param.searchWord})}"
-		       th:class="'ressourceType_filter_link'"
+		       th:class="${param.ressourceTypeId != null and ressourceType.id.toString() == param.ressourceTypeId.toString()} ? 'ressourceType_filter_link active' : 'ressourceType_filter_link'"
 		       onclick="updateFiltersType(event, this)">
 		    </a>
 		</div>

@@ -7,5 +7,5 @@ import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 
 @Repository
 public interface RelationTypeRepository extends JpaRepository<RelationType, Long> {
-
+    boolean existsByName(String name);
 }
