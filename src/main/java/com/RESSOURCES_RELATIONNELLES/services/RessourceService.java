@@ -32,4 +32,9 @@ public class RessourceService {
 	public Optional<Ressource> FindById(Long id) {
 		return _resourceRepository.findById(id);
 	}
+
+	public void DeleteRessource(Ressource ressource) {
+		_resourceRepository.delete(ressource);
+	}
+
 }
