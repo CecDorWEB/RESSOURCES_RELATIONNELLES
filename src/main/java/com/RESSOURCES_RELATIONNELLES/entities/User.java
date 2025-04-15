@@ -57,6 +57,15 @@ public class User {
 	
 	@OneToMany(mappedBy = "user")
 	private List<Ressource> listRessources;
+	
+	@OneToMany(mappedBy="user")
+	private List<Favorite> listFavorite;
+	
+	@OneToMany(mappedBy="user")
+	private List<SaveToConsult> listSaveToConsult;
+	
+	@OneToMany(mappedBy="user")
+	private List<Exploit> listExploit;
 
 	public User() {
 		super();
@@ -65,7 +74,7 @@ public class User {
 
 	public User(String email, String password, String firstName, String lastName, String phoneNumber, Character gender,
 			Date birthday, boolean isActived, Date creationDate, Date lastLoginDate, Adresse adresse,
-			List<Ressource> listRessources) {
+			List<Ressource> listRessources, List<Favorite> listFavorite, List<SaveToConsult> listSaveToConsult,List<Exploit> listExploit) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -79,6 +88,34 @@ public class User {
 		this.lastLoginDate = lastLoginDate;
 		this.adresse = adresse;
 		this.listRessources = listRessources;
+		this.listFavorite = listFavorite;
+		this.listSaveToConsult = listSaveToConsult;
+		this.listExploit = listExploit;
+	}
+
+	
+	public List<Exploit> getListExploit() {
+		return listExploit;
+	}
+
+	public void setListExploit(List<Exploit> listExploit) {
+		this.listExploit = listExploit;
+	}
+
+	public List<SaveToConsult> getListSaveToConsult() {
+		return listSaveToConsult;
+	}
+
+	public void setListSaveToConsult(List<SaveToConsult> listSaveToConsult) {
+		this.listSaveToConsult = listSaveToConsult;
+	}
+
+	public List<Favorite> getListFavorite() {
+		return listFavorite;
+	}
+
+	public void setListFavorite(List<Favorite> listFavorite) {
+		this.listFavorite = listFavorite;
 	}
 
 	public List<Ressource> getListRessources() {
