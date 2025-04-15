@@ -99,11 +99,9 @@ public class SecurityService {
             // 🔒 Encodage sécurisé du mot de passe
             String hashedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(hashedPassword);
-
             userRepository.save(user);
             return true;
         }
         return false;
     }
-
 }

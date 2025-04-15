@@ -1,6 +1,7 @@
 package com.RESSOURCES_RELATIONNELLES.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,8 +24,24 @@ public class RessourceService extends BaseService<Ressource, Long> {
 		return _resourceRepository.findAll();
 	}
 
-	public List<Ressource> getFilteredRessources(Long relationTypeId, String searchWord) {
-		return _resourceRepository.findByFilters(relationTypeId, searchWord);
+	public List<Ressource> getAllPublicRessources() {
+		return _resourceRepository.findAllPublicRessourcesActivedAndPublished();
+	}
+
+	public List<Ressource> getPublicFilteredRessources(Long relationTypeId, Long ressourceTypeId, String searchWord) {
+		return _resourceRepository.findPublicRessourcesByFilters(relationTypeId, ressourceTypeId, searchWord);
+	}
+
+	public Ressource SaveRessource(Ressource ressource) {
+		return _resourceRepository.save(ressource);
+	}
+
+	public Optional<Ressource> FindById(Long id) {
+		return _resourceRepository.findById(id);
+	}
+
+	public void DeleteRessource(Ressource ressource) {
+		_resourceRepository.delete(ressource);
 	}
 
 }

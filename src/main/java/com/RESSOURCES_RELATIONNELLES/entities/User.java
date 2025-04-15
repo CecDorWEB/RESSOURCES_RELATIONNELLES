@@ -2,6 +2,7 @@ package com.RESSOURCES_RELATIONNELLES.entities;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -46,6 +47,9 @@ public class User {
 	@JoinColumn(name = "adresse_id", nullable = true)
 	private Adresse adresse;
 
+	@OneToMany(mappedBy = "user")
+	private List<Ressource> listRessources;
+
 	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
@@ -56,7 +60,8 @@ public class User {
 	}
 
 	public User(String email, String password, String firstName, String lastName, String phoneNumber, Character gender,
-			Date birthday, boolean isActived, Date creationDate, Date lastLoginDate) {
+			Date birthday, boolean isActived, Date creationDate, Date lastLoginDate, Adresse adresse,
+			List<Ressource> listRessources) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -68,6 +73,16 @@ public class User {
 		this.isActived = isActived;
 		this.creationDate = creationDate;
 		this.lastLoginDate = lastLoginDate;
+		this.adresse = adresse;
+		this.listRessources = listRessources;
+	}
+
+	public List<Ressource> getListRessources() {
+		return listRessources;
+	}
+
+	public void setListRessources(List<Ressource> listRessources) {
+		this.listRessources = listRessources;
 	}
 
 	public void setId(Long id) {

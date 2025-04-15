@@ -70,6 +70,7 @@ public class AuthentificationController {
         boolean isAuth = this.securityService.login( user.getEmail() , user.getPassword());
         boolean isBanned = this.securityService.isBanned(user.getEmail());
         if (isAuth && !isBanned) {
+            this.securityService.setAuthToken();
             return "redirect:/home"; // Connexion réussie, redirection vers l'accueil
         } else {
             model.addAttribute("error", "Un problème est survenu lors de la connexion veuillez contacter le service utilisateur !");

@@ -14,7 +14,8 @@ body{
 	flex-direction: column;
 	text-align:center;
 	align-items: center;
-	gap:1em;
+	gap:2rem;
+	padding: 3rem 0 2rem 0;
 }
 
 .intro_listRessource > h1{
@@ -22,7 +23,7 @@ body{
 	font-size: 2rem;
 }
 
-div.relation_filter{
+div.relation_filter, div.ressourceType_filter{
 	display:flex;
 	flex-wrap:wrap;
 	align-items:center;
@@ -30,7 +31,7 @@ div.relation_filter{
 	gap:1em;
 }
 
-div.relation_filter a.relation_filter_link{
+div.relation_filter a.relation_filter_link, div.ressourceType_filter a.ressourceType_filter_link{
 	text-decoration:none;
 	background-color: #fff;
     color:#7e1bf2;
@@ -41,7 +42,6 @@ div.relation_filter a.relation_filter_link{
     transition: transform 0.2s;
     width: fit-content;
     font-size: 1rem;
-    max-width:120px;
     cursor:pointer;
 }
 
@@ -49,7 +49,34 @@ div.relation_filter a.relation_filter_link:hover {
         transform: scale(1.05);
         background-color: #7e1bf2;
         color: #fff;
-    }
+}
+
+div.relation_filter a.relation_filter_link.active{
+        background-color: #7e1bf2;
+        color: #fff;
+}
+
+div.relation_filter a.relation_filter_link.not_active{
+        background-color: aqua;
+        color: #fff;
+}
+   
+    
+div.ressourceType_filter a.ressourceType_filter_link {
+    color: #cf25c7;
+    border: 1px solid #cf25c7;
+}
+
+div.ressourceType_filter a.ressourceType_filter_link:hover {
+    transform: scale(1.05);
+    background-color: #cf25c7;
+    color: #fff;
+}
+
+div.ressourceType_filter a.ressourceType_filter_link.active {
+    background-color: #cf25c7;
+    color: #fff;
+}
 
 .ressource_card_container * {
 	margin:0;
@@ -59,7 +86,6 @@ div.relation_filter a.relation_filter_link:hover {
  display: flex;
  align-items: center;
  justify-content: center;
-
 }
 
 .search_ressource > form {
@@ -89,6 +115,7 @@ div.relation_filter a.relation_filter_link:hover {
 	justify-content:center;
 	flex-wrap: wrap;
 	gap:2em;
+	padding-top:2rem;
 }
 
 .ressource_card_container > .ressourceCard{
@@ -97,7 +124,7 @@ div.relation_filter a.relation_filter_link:hover {
 	text-align:center;
 	gap:0.5rem;
 	width:250px;
-	height:300px;
+
 	border:1px solid rgba(128,128,128,0.2);
 	border-radius:1em;
 	box-shadow: 1px 1px 12px 2px #4141411a;
@@ -136,6 +163,18 @@ div.relation_filter a.relation_filter_link:hover {
 	height:100%;
 	padding: 0 0.3rem;
 	color:rgba(0,0,0,0.8);
+}
+
+.ressource_card_container > .ressourceCard > p.ressource_type_item{
+	color: #cf25c7;
+    border: 1px solid #cf25c7;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0.3rem 0.5rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    width: fit-content;
+    margin:auto;
 }
 
 @media screen and (min-width: 1024px) {

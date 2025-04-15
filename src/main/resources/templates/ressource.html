@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
 <head>
     <title>Contenu de la Ressource</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/myRessource.css}">
+    <link rel="stylesheet" href="/css/myRessource.css" />
 </head>
 <body>
+<main layout:fragment="content">
 <div class="container">
     <div class="content-card">
         <h1 th:text="${ressource.title}"></h1>
 
-        <!--   <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}"> -->
+        <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
         <span th:text="${ressource.description}"></span>
         <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
 
@@ -30,5 +33,6 @@
         </p>
     </div>
 </div>
+</main>
 </body>
 </html>

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
 import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
+import com.RESSOURCES_RELATIONNELLES.services.RessourceTypeService;
 
 import jakarta.validation.Valid;
 
@@ -24,12 +26,20 @@ import jakarta.validation.Valid;
 public class RessourceController {
 	private final RessourceService _ressourceService;
 	private final RelationTypeService _relationTypeService;
+	private final RessourceTypeService _ressourceTypeService;
 
-	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService) {
 
 		this._ressourceService = ressourceService;
 		this._relationTypeService = relationTypeService;
+		this._ressourceTypeService = ressourceTypeService;
 	}
+	
+	@GetMapping("/ressources/getall")
+	public List<Ressource> getAllRessources() {
+		return _ressourceService.getAllRessources();
+	}
+
 
 	@GetMapping("/ressource/create")
 	public String openCreateForm(Model model) {
@@ -38,24 +48,29 @@ public class RessourceController {
 		return "ressourceForm";
 	}
 
+	//Récupération des ressources PUBLIC pour les USERS non connectés, publiées et autorisées pour alimenter la liste des ressources
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
+			@RequestParam(required = false) Long ressourceTypeId,
 			@RequestParam(required = false) String searchWord) {
 		List<RelationType> relationType = _relationTypeService.getAllRelationType();
+		List<RessourceType> ressourceType = _ressourceTypeService.getAllRessourceType();
 
 		List<Ressource> ressource;
 
-		if (relationTypeId != null || searchWord != null) {
-			ressource = _ressourceService.getFilteredRessources(relationTypeId, searchWord);
+		if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
+			ressource = _ressourceService.getPublicFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
 		} else {
-			ressource = _ressourceService.getAllRessources();
+			ressource = _ressourceService.getAllPublicRessources();
 		}
 
 		model.addAttribute("listRelation", relationType);
+		model.addAttribute("listRessourceType", ressourceType);
 		model.addAttribute("listRessource", ressource);
 		return "listRessource";
 	}
 
+	//Récupérer le contenu de la ressource par son id
 	@GetMapping("/ressource/{id}")
 	public String afficherRessource(@PathVariable Long id, Model model) {
 		Optional<Ressource> ressource = _ressourceService.findById(id);
@@ -119,4 +134,18 @@ public class RessourceController {
 				.filter(p -> !p.isEmpty()) // Enlever les vides
 				.toList(); // Convertir en liste
 	}
+
+	@GetMapping("/ressource/delete/{id}")
+	public String deleteRessource(@PathVariable Long id, Model model) {
+		Optional<Ressource> ressource = _ressourceService.FindById(id);
+
+		if (ressource.isPresent()) {
+			_ressourceService.DeleteRessource(ressource.get());
+		} else {
+			model.addAttribute("errorMessage", "Ressource non trouvée");
+		}
+
+		return "redirect:/administrator/gestionRessources";
+	}
+
 }
