@@ -1,3 +1,22 @@
+div.Create_button_container>button {
+	background-color: #7e1bf2;
+    color:#fff;
+ 	border: 1px solid #7e1bf2;
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    width: fit-content;
+    font-size: 1rem;
+	float : right;
+}
+
+div.Create_button_container>button:hover {
+        transform: scale(1.05);
+        background-color: #fff;
+        color: #7e1bf2;
+    }
+
 /* Style des tableaux */
 table {
   width: 100%;
@@ -56,7 +75,7 @@ tbody tr:hover {
 }
 
 /* Style des boutons */
-.supportTools button {
+.supportTools>button {
     background: linear-gradient(90deg, #4A628B, #6BAEFF); /* Bleu plus clair */
     color: white;
     border: none;

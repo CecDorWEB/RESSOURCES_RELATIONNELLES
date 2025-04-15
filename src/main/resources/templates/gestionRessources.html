@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/mainLayout}">
+<head>
+    <link rel="stylesheet" href="/css/stylesSupportPages.css" />
+</head>
+<body>
+<main layout:fragment="content">
+<h1>Page de gestion des ressources</h1>
+<div class="Create_button_container">
+<button th:onclick="|window.location.href='/ressource/create'|" class="btn btn-edit"> Créer une nouvelle ressource </button>
+
+</div>
+<section>
+	<h2>Ressources publiées</h2>
+	
+	<p>Liste des ressources publiées :</p>
+		<table>
+		  <thead>
+		    <tr>
+		      <th scope="col">Id</th>
+		      <th scope="col">Titre</th>
+		      <th scope="col">Date de création</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Type de ressource</th>
+		      <th scope="col">Catégorie</th>
+		      <th scope="col">Relation</th>
+		      <th scope="col">Statut</th>
+		      <th scope="col">Créateur</th>
+		      <th scope="col">Outils</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			  <tr th:each="ressource : ${ressources}">
+                <td th:text="${ressource.id}"></td>
+                <td th:text="${ressource.title}"></td>
+                <td th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}"></td>
+                <td th:text="${ressource.description}"></td>
+                <td th:text="${ressource.ressourceType.name}"></td>
+                <td th:text="${ressource.category.name}"></td>
+                <td>
+                	<span th:each="rr : ${ressource.listRelationTypes}">
+					<span th:text="${rr.relationType.name}"></span>
+				</span></td>
+				<td th:text="${ressource.status}"></td>
+				<td></td>	
+				  <td>
+				  	<div class="supportTools">
+					  	<button th:onclick="|window.location.href='/ressource/' + ${ressource.id}|" class="btn btn-edit">Consulter</button>
+					  	<button th:onclick="|if(confirm('Supprimer cette ressource ?')) window.location.href='/ressource/delete/${ressource.id}'|" class="btn btn-edit">Supprimer</button>
+				  	</div>
+				  </td>
+			  </tr>
+		  </tbody>
+		</table>
+</section>
+<section>
+<h2>Gestion des commentaires</h2>
+	<p>Liste des commentaires signalés:</p>
+	<table>
+		  <thead>
+		    <tr>
+		      <th scope="col">Id</th>
+		      <th scope="col">Ressource</th>
+		      <th scope="col">Contenu</th>
+		      <th scope="col">Auteur</th>
+		      <th scope="col">Outils</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			  <tr>
+				  <td>1</td>
+				  <td>Titre de la ressource où apparait le commentaire</td>
+				  <td>Ici le contenu du commentaire</td>
+				  <td>Nom de l'auteur du commentaire</td>
+				  <td>
+				  	<div class="supportTools">
+					  	<button class="btn btn-edit">Consulter</button>
+					  	<button class="btn btn-edit">Suspendre</button>
+				  	</div>
+				  </td>
+			  </tr>
+		  </tbody>
+		</table>
+</section>
+</main>
+</body>
+</html>

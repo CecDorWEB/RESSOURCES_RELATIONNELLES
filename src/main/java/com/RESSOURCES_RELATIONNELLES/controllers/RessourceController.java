@@ -134,4 +134,18 @@ public class RessourceController {
 				.filter(p -> !p.isEmpty()) // Enlever les vides
 				.toList(); // Convertir en liste
 	}
+
+	@GetMapping("/ressource/delete/{id}")
+	public String deleteRessource(@PathVariable Long id, Model model) {
+		Optional<Ressource> ressource = _ressourceService.FindById(id);
+
+		if (ressource.isPresent()) {
+			_ressourceService.DeleteRessource(ressource.get());
+		} else {
+			model.addAttribute("errorMessage", "Ressource non trouvée");
+		}
+
+		return "redirect:/administrator/gestionRessources";
+	}
+
 }
