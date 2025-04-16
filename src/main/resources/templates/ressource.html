@@ -1,15 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layouts/mainLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenu de la Ressource</title>
+    
     <link rel="stylesheet" type="text/css" href="/css/ressource.css">
+     <link rel="stylesheet" type="text/css" href="/css/MyRessource.css">
+      <script>
+	   document.addEventListener("DOMContentLoaded", function () {
+	    console.log("DOM complètement chargé"); // Ajoute ce log pour vérifier l'exécution
+	    document.querySelectorAll(".reply-toggle-btn").forEach(function (btn) {
+	        btn.addEventListener("click", function () {
+	            const commentId = btn.getAttribute("data-comment-id");
+	            const form = document.getElementById("reply-form-" + commentId);
+	            console.log("Formulaire trouvé pour le commentaire ID:", commentId); // Ajoute ce log pour vérifier la cible
+	            if (form) {
+	                if (form.style.display === "none" || form.style.display === "") {
+	                    form.style.display = "block";
+	                } else {
+	                    form.style.display = "none";
+		               }
+		            }
+		        });
+		    });
+		});
+	
+	</script>
 </head>
 <body>
 <main layout:fragment="content">
 <div class="container">
     <div class="content-card">
+        
+        <!-- Affichage du contenu ou du fichier -->
+
     	<div class="user_items_button_container" th:if="${myUser != null}">
 			<form th:action="@{/favorite/create}" method="post">
 			    <input type="hidden" th:name="ressourceId" th:value="${ressource.id}" />
@@ -35,28 +62,108 @@
 			</button>
 			</form>
     	</div>
-        <h1 th:text="${ressource.title}"></h1>
+    	
+    	
         <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
+        <h1 th:text="${ressource.title}"></h1>
+                <div class="content-container">
+           		 <p th:if="${#strings.isEmpty(ressource.filePath)}">
+                <span th:text="${ressource.content}"></span>
+            </p>
+            
+             <p th:if="${not #strings.isEmpty(ressource.filePath)}">
+    <strong>Lien du fichier :</strong> 
+    <a th:href="${ressource.filePath}" target="_blank">Télécharger le fichier</a>
+</p>
         <span th:text="${ressource.description}"></span>
         <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
 
-            <span th:each="rr : ${ressource.listRelationTypes}">
-					        <span th:text="${rr.relationType.name}"></span>
-					    </span>
+              
+           
+        </div>
 
-            <strong> / Type :</strong> <span th:text="${ressource.ressourceType.name}"></span>
-        </p>
-        <p><strong>Publié le :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}">
-            </span><strong> / Dernière mise à jour :</strong> <span th:text="${#dates.format(ressource.updateDate, 'dd MMM yyyy')}"></span></p>
-        <p th:if="${#strings.isEmpty(ressource.filePath)}">
-            <span th:text="${ressource.content}"></span>
-        </p>
-        <p th:if="${not #strings.isEmpty(ressource.filePath)}">
-            <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
-        <h2 th:text="${ressource.content}"></h2>
-        </p>
-    </div>
-</div>
+	<!-- Section des commentaires -->
+	<section class="comment-section">
+	    <h2>Écris ton commentaire :</h2>
+	
+	    <!-- Si l'utilisateur est connecté -->
+	    <div th:if="${myUser != null}">
+	        <form th:action="@{/ajouter_commentaire/{ressourceId}(ressourceId=${ressource.id})}" method="get">
+	            <textarea class="styled-textarea" rows="6" placeholder="Ton commentaire..." name="content" required></textarea>
+	            <br />
+	            <button type="submit" class="submit" aria-label="Soumettre ton commentaire">Soumettre</button>
+	        </form>
+	    </div>
+	
+	    <!-- Si l'utilisateur n'est pas connecté -->
+	    <div th:if="${myUser == null}">
+
+	        <p>Tu dois être <a th:href="@{/login}">connecté(e)</a> pour écrire un commentaire.</p>
+	    </div>
+	</section>
+
+
+
+
+       <!-- Affichage des commentaires existants -->
+<section class="existing-comments">
+    <h3>Commentaires :</h3>
+
+    <div th:each="comment : ${comments}" class="comment-item">
+
+        <!-- En-tête du commentaire -->
+        <div class="comment-header">
+            <strong th:text="${comment.name != null ? comment.name : 'Anonymous'}">Auteur</strong>
+            <strong> : </strong>
+            <p th:text="${comment.content}">Contenu du commentaire</p>
+
+            <div th:if="${myUser != null}">
+                <button th:attr="data-comment-id=${comment.id}" class="btn btn-reply reply-toggle-btn">
+                    Répondre
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulaire de réponse -->
+        <div th:id="'reply-form-' + ${comment.id}" class="reply-form" style="display:none;">
+            <form th:action="@{/commenter/reponse/{id}(id=${comment.id})}" method="get">
+                <textarea name="content" rows="2" placeholder="Ta réponse..." required></textarea>
+                <br />
+                <button type="submit" class="reply">Envoyer la réponse</button>
+            </form>
+        </div>
+
+        <!-- Réponses -->
+        <div th:each="reply : ${comment.replies}" class="reply-item">
+            <div class="reply-header">
+                <strong th:text="${reply.name}">Répondant</strong>
+                <span> : </span>
+                <p th:text="${reply.content}">Contenu de la réponse</p>
+
+                <div th:if="${myUser != null}">
+                    <button th:attr="data-comment-id=${reply.id}" class="btn btn-reply reply-toggle-btn">
+                        Répondre
+                    </button>
+                </div>
+            </div>
+
+            <div th:id="'reply-form-' + ${reply.id}" class="reply-form" style="display:none;">
+                <form th:action="@{/commenter/reponse/{id}(id=${reply.id})}" method="get">
+                    <textarea name="content" rows="2" placeholder="Ta réponse..." required></textarea>
+                    <br />
+                    <button type="submit" class="btn btn-reply">Envoyer la réponse</button>
+                </form>
+            </div>
+        </div>
+
+    </div> <!-- fin de comment-item -->
+    
+        
+   
+    
+</section>
+
 </main>
+
 </body>
 </html>

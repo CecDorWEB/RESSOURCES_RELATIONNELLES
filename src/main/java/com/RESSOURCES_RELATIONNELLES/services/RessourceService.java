@@ -23,21 +23,23 @@ public class RessourceService extends BaseService<Ressource, Long> {
 	public List<Ressource> getAllRessources() {
 		return _resourceRepository.findAll();
 	}
-	
+
 	public List<Ressource> getAllPublicRessources() {
 		return _resourceRepository.findAllPublicRessourcesActivedAndPublished();
 	}
-	
+
 	public List<Ressource> getPublicFilteredRessources(Long relationTypeId, Long ressourceTypeId, String searchWord) {
 		return _resourceRepository.findPublicRessourcesByFilters(relationTypeId, ressourceTypeId, searchWord);
 	}
-	
-	//Pour les utilisateurs connectés, on va également chercher les ressources privées
+
+	// Pour les utilisateurs connectés, on va également chercher les ressources
+	// privées
 	public List<Ressource> getAllRessourcesForConnectedUSer(Long userId) {
 		return _resourceRepository.findAllRessourcesActivedAndPublished(userId);
 	}
 
-	public List<Ressource> getFilteredRessources(Long relationTypeId, Long ressourceTypeId, String searchWord, Long userId) {
+	public List<Ressource> getFilteredRessources(Long relationTypeId, Long ressourceTypeId, String searchWord,
+			Long userId) {
 		return _resourceRepository.findRessourcesByFilters(relationTypeId, ressourceTypeId, searchWord, userId);
 	}
 
