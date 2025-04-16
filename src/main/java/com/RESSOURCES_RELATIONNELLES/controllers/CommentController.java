@@ -16,6 +16,8 @@ import com.RESSOURCES_RELATIONNELLES.services.CommentService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
 import com.RESSOURCES_RELATIONNELLES.services.SecurityService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class CommentController {
 
@@ -33,7 +35,9 @@ public class CommentController {
 
 	// Ajouter un commentaire à une ressource
 	@GetMapping("/ajouter_commentaire/{ressourceId}")
-	public String ajouterCommentaire(@PathVariable Long ressourceId, @RequestParam("content") String content) {
+	public String ajouterCommentaire(@PathVariable Long ressourceId, @RequestParam("content") String content,
+			HttpSession session) {
+		User user = (User) session.getAttribute("user");
 
 		Optional<Ressource> ressourceOptional = ressourceService.findById(ressourceId);
 		if (!ressourceOptional.isPresent()) {
@@ -42,31 +46,25 @@ public class CommentController {
 
 		Ressource ressource = ressourceOptional.get();
 
-		if (securityService.isAuthenticated()) {
-			User currentUser = securityService.getCurrentUser();
+		if (user != null) {
 
-			if (currentUser != null) {
-				System.out.println("👤 Utilisateur connecté : " + currentUser.getEmail());
+			// ✅ Créer et configurer le commentaire
+			Comment newComment = new Comment();
+			newComment.setName(user.getFirstName());
 
-				// ✅ Créer et configurer le commentaire
-				Comment newComment = new Comment();
-				newComment.setName(currentUser.getFirstName());
+			newComment.setContent(content);
+			newComment.setActivated(true);
+			newComment.setReported(false);
+			newComment.setRessource(ressource);
 
-				newComment.setContent(content);
-				newComment.setActivated(true);
-				newComment.setReported(false);
-				newComment.setRessource(ressource);
-
-				commentService.save(newComment);
-			} else {
-				System.out.println("❌ currentUser est null même si authenticated !");
-			}
+			commentService.save(newComment);
 		} else {
-			System.out.println("🚫 Utilisateur non connecté");
+			System.out.println("❌ currentUser est null même si authenticated !");
 		}
 
 		// Redirection vers la page de la ressource, que l'user soit connecté ou pas
 		return "redirect:/ressource/" + ressourceId;
+
 	}
 
 	@GetMapping("/supprimer_commentaire/{ressourceId}/{commentId}")

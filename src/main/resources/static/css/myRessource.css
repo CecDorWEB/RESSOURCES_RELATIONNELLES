@@ -242,3 +242,18 @@
             transform: translateY(-3px) scale(1.03);
 }
 	
+        div.user_items_button_container{
+	        display: flex;
+	        justify-content:end;
+	        gap:1rem;
+        }
+        
+        button.save_item_button{
+        all:unset;
+        cursor:pointer;
+        }
+        
+        button.save_item_button > img{
+        height:24px;
+        width:24px;
+        }

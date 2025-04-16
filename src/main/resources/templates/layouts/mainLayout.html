@@ -20,8 +20,20 @@
             </ul>
         </nav>
         <div class="auth">
-            <a href="login" class="btn-login">Connexion</a>
-            <a href="signup" class="btn-register">Inscription</a>
+            <div th:if="${session.user != null and session.user.role.name == 'Super-Administrateur'}">
+                <a href="/superadmin/users" class="btn-users">Utilisateurs</a>
+            </div>
+            <div th:if="${session.user == null}">
+                <a href="/login" class="btn-login">Connexion</a>
+                <a href="/signup" class="btn-register">Inscription</a>
+            </div>
+
+            <div th:if="${session.user != null}">
+                <a href="/users/profile" class="btn-profile">
+                    Mon profil
+                </a>
+            </div>
+
         </div>
     </div>
 </header>

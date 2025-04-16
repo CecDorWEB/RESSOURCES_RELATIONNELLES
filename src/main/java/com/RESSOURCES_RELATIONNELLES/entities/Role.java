@@ -24,8 +24,7 @@ public class Role {
 	@Column(length = 255, nullable = true)
 	private String description;
 
-	@OneToMany
-	@JoinColumn(name = "role_id")
+	@OneToMany(mappedBy = "role")
 	private List<User> listeDeUser;
 
 	public Role() {
