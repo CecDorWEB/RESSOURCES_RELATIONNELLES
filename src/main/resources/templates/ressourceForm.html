@@ -9,61 +9,151 @@
 <body>
 <main layout:fragment="content">
 
-    <!-- Décorations (shapes) : 2 SVG -->
-
     <div class="container">
         <!-- Form Card -->
         <div class="form-card">
-            <h1 th:text="${ressource.id == null ? #{resource.form.title.create} : #{resource.form.title.update}}">Créer une ressource</h1>
+            <h1 th:text="${ressource.id == null ? 'Créer une ressource' : 'Modifier la ressource'}"></h1>
 
-            <form th:action="@{/saveRessource}" method="post" th:object="${ressource}">
+            <form th:action="@{/saveRessource}" method="post" th:object="${ressource}" enctype="multipart/form-data">
                 <!-- Champ caché pour l'ID -->
-                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{id}" />
 
+                <!-- Titre -->
                 <div class="field">
-                    <label for="title" th:text="#{resource.form.label.title}">Titre</label>
-                    <input type="text" id="title" th:field="*{title}" required/>
+                    <label for="title">Titre</label>
+                    <input type="text" id="title" th:field="*{title}" required />
                 </div>
 
+                <!-- Description -->
                 <div class="field">
-                    <label for="description" th:text="#{resource.form.label.description}">Description</label>
+                    <label for="description">Description</label>
                     <textarea id="description" rows="3" th:field="*{description}" required></textarea>
                 </div>
 
-                <h2 th:text="#{resource.form.section.paragraphs}">Paragraphes</h2>
+                <!-- Image -->
+                <div class="field">
+                    <label for="imageFile">Image</label>
+                    <div class="file-upload-wrapper" style="flex-wrap: nowrap !important;">
+                        <label class="file-upload-btn" for="imageFile" style="width: 165px !important;">Choisir un fichier</label>
+                        <input type="file" id="imageFile"
+                               name="imageFile"
+                               accept="image/*"
+                               onchange="showSelectedFileName(event)"
+                               style="display:none" />
+                        <span id="file-selected-name" th:if="${ressource.headerImagePath == null}">Aucun fichier sélectionné</span>
+                        <span id="file-selected-name" th:if="${ressource.headerImagePath != null}" th:text="${#strings.substringAfter(ressource.headerImagePath, '_')}"></span>
+                    </div>
+
+                    <!-- Aperçu de l’image existante -->
+                    <img id="previewImage"
+                         th:if="${ressource.headerImagePath != null}"
+                         th:src="@{${ressource.headerImagePath}}"
+                         alt="Aperçu" />
+
+                    <!-- Image vide (cas création sans sélection) -->
+                    <img id="previewImage"
+                         th:if="${ressource.headerImagePath == null}"
+                         src="#"
+                         alt="Aperçu"
+                         style="display: none;" />
+                </div>
+
+                <!-- Types de relations -->
+                <div class="field">
+                    <label>Types de Relation</label>
+                    <div class="checkbox-group">
+                        <th:block th:each="type : ${relationTypes}">
+                            <label class="checkbox-label">
+                                <input type="checkbox"
+                                       name="relationTypeIds"
+                                       th:value="${type.id}"
+                                       th:checked="${ressource.listRelationTypes != null and #lists.contains(ressource.listRelationTypes.?[relationType != null].![relationType.id], type.id)}">
+                                <span th:text="${type.name}"></span>
+                            </label>
+                        </th:block>
+                    </div>
+                </div>
+
+                <!-- Type de ressource -->
+                <div class="field">
+                    <label for="ressourceType">Type de ressource</label>
+                    <select id="ressourceType" name="ressourceTypeId" required>
+                        <option value="">-- Sélectionner --</option>
+                        <th:block th:each="type : ${ressourceTypes}">
+                            <option th:value="${type.id}" th:text="${type.name}"
+                                    th:selected="${ressource.ressourceType != null and ressource.ressourceType.id == type.id}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+                <!-- Catégorie -->
+                <div class="field">
+                    <label for="category">Catégorie</label>
+                    <select id="category" name="categoryId" required>
+                        <option value="">-- Sélectionner --</option>
+                        <th:block th:each="cat : ${categories}">
+                            <option th:value="${cat.id}" th:text="${cat.name}"
+                                    th:selected="${ressource.category != null and ressource.category.id == cat.id}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+                <!-- Statut -->
+                <div class="field">
+                    <label>Statut</label>
+                    <div class="checkbox-group status-group">
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="Public"
+                                   th:checked="${ressource.status == 'Public'}" />
+                            <span>Publique</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="Private"
+                                   th:checked="${ressource.status == 'Private'}" />
+                            <span>Privée</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="Unlisted"
+                                   th:checked="${ressource.status == 'Unlisted'}" />
+                            <span>Non répertoriée</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Paragraphes -->
+                <h2>Paragraphes</h2>
                 <div id="paragraphs-container">
-                    <!-- Paragraphes existants -->
                     <th:block th:each="paragraph : ${paragraphs}">
                         <textarea name="paragraphs" rows="5" required th:text="${paragraph}"></textarea>
                     </th:block>
-
-                    <!-- S'il n'y a pas de paragraphes, on en met un vide -->
                     <th:block th:if="${paragraphs == null or paragraphs.isEmpty()}">
-                        <textarea name="paragraphs" rows="5" th:placeholder="#{resource.form.paragraph.placeholder.first}" required></textarea>
+                        <textarea name="paragraphs" rows="5" required placeholder="Premier paragraphe..."></textarea>
                     </th:block>
                 </div>
 
                 <div class="btn-group">
-                    <button type="button" onclick="addParagraph()" th:text="#{resource.form.button.addParagraph}">+ Ajouter un paragraphe</button>
-                    <button type="button" id="removeParagraphBtn" onclick="removeParagraph()" th:text="#{resource.form.button.removeParagraph}">- Supprimer un paragraphe</button>
+                    <button type="button" onclick="addParagraph()">+ Ajouter un paragraphe</button>
+                    <button type="button" id="removeParagraphBtn" onclick="removeParagraph()">- Supprimer un paragraphe</button>
                 </div>
 
-                <button id="submit-button" type="submit" th:text="${ressource.id == null ? #{resource.form.button.submit.create} : #{resource.form.button.submit.update}}">Créer</button>
+                <button id="submit-button" type="submit"
+                        th:text="${ressource.id == null ? 'Créer' : 'Mettre à jour'}"></button>
             </form>
+
         </div>
     </div>
 
-    <script>
-        function addParagraph() {
-            const container = document.getElementById('paragraphs-container');
-            let textarea = document.createElement('textarea');
-            textarea.name = 'paragraphs';
-            textarea.rows = 5;
-            textarea.placeholder = /*[[#{resource.form.paragraph.placeholder.new}]]*/ 'Nouveau paragraphe...';
-            textarea.required = true;
-            container.appendChild(textarea);
-            updateRemoveButton();
-        }
+<script>
+    function addParagraph() {
+        const container = document.getElementById('paragraphs-container');
+        let textarea = document.createElement('textarea');
+        textarea.name = 'paragraphs';
+        textarea.rows = 5;
+        textarea.placeholder = 'Nouveau paragraphe...';
+        textarea.required = true;
+        container.appendChild(textarea);
+        updateRemoveButton();
+    }
 
         function removeParagraph() {
             const container = document.getElementById('paragraphs-container');
@@ -84,7 +174,47 @@
         }
 
         document.addEventListener('DOMContentLoaded', updateRemoveButton);
-    </script>
 
+        function showSelectedFileName(e) {
+            const fileSpan = document.getElementById('file-selected-name');
+            const fileInput = e.target;
+            const previewImg = document.getElementById('previewImage');
+
+            if (fileInput.files && fileInput.files.length > 0) {
+                const selectedFile = fileInput.files[0];
+                const maxFileSize = 5 * 1024 * 1024; // Exemple : 2Mo
+
+                if (selectedFile.size > maxFileSize) {
+                    // Afficher un message d'erreur
+                    alert("Le fichier dépasse la taille maximale autorisée (5Mo).");
+
+                    // Réinitialiser l'input file pour éviter d’envoyer le fichier trop volumineux
+                    fileInput.value = "";
+                    fileSpan.textContent = "Aucun fichier sélectionné";
+                    previewImg.style.display = 'none';
+                    previewImg.src = "#";
+                } else {
+                    fileSpan.textContent = selectedFile.name;
+                    // Optionnel : Aperçu
+                    previewImg.style.display = 'block';
+                    previewImg.src = URL.createObjectURL(selectedFile);
+                }
+            } else {
+                fileSpan.textContent = 'Aucun fichier sélectionné';
+                previewImg.style.display = 'none';
+                previewImg.src = "#";
+            }
+        }
+
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const checkboxes = document.querySelectorAll("input[name='relationTypeIds']:checked");
+            if (checkboxes.length === 0) {
+            e.preventDefault();
+            alert("Veuillez sélectionner au moins un type de relation.");
+        }
+        });
+
+    </script>
+</main>
 </body>
 </html>

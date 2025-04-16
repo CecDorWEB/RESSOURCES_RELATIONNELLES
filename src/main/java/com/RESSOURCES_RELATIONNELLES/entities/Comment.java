@@ -1,11 +1,17 @@
 package com.RESSOURCES_RELATIONNELLES.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,9 +20,6 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(name = "name", nullable = false)
-	private String name;
 
 	@Column(name = "content", nullable = false)
 	private String content;
@@ -36,7 +39,39 @@ public class Comment {
 	}
 
 	@ManyToOne
+	@JoinColumn(name = "ressource_id")
 	private Ressource ressource;
+
+	@JoinColumn(name = "user_id")
+	private String name;
+
+	@ManyToOne
+	@JoinColumn(name = "parent_id")
+	private Comment parent;
+
+	public Comment getParent() {
+		return parent;
+	}
+
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+	private List<Comment> replies = new ArrayList<>();
+
+	public List<Comment> getReplies() {
+		return replies;
+	}
+
+	public void setReplies(List<Comment> replies) {
+		this.replies = replies;
+	}
+
+	public void setParent(Comment parent) {
+		this.parent = parent;
+	}
+
+	public Ressource jkgetRessource() {
+		return ressource;
+	}
+
 
 	public Long getId() {
 		return id;

@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "ressource")
@@ -31,26 +32,35 @@ public class Ressource {
 	@Column(name = "filePath", nullable = true)
 	private String filePath;
 
-	@Column(name = "content",columnDefinition="TEXT", nullable = false)
+	@Column(name = "content", columnDefinition = "TEXT", nullable = false)
 	private String content;
 
-	@Column(name = "publicationDate", nullable = false)
-	private Date publicationDate = Date.valueOf(LocalDate.now());
+	@Column(name = "publicationDate", nullable = true)
+	private Date publicationDate;
 
 	@Column(name = "updateDate", nullable = true)
-	private Date updateDate;
+	private Date updateDate = Date.valueOf(LocalDate.now());
 
 	@Column(name = "description", nullable = false)
 	private String description;
 
+	@Pattern(regexp = "public|private|unlisted", message = "Le statut doit être public, private ou unlisted")
 	@Column(name = "status", nullable = false)
-	private String status;
+	private String status = "Public";
 
 	@Column(name = "isPublished", nullable = false)
 	private Boolean isPublished = false;
 
 	@Column(name = "isActived", nullable = false)
 	private Boolean isActived = true;
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 
 	@OneToOne
 	@JoinColumn(name = "statistic_id")
@@ -61,22 +71,27 @@ public class Ressource {
 
 	@ManyToOne
 	private RessourceType ressourceType;
-	
+
 	@ManyToOne
 	private User user;
 
 	@OneToMany(mappedBy = "ressource")
 	private List<HaveRelationType> listRelationTypes;
 
-	public Ressource() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	@OneToMany(mappedBy = "ressource")
+	private List<Favorite> listFavorite;
+
+	@OneToMany(mappedBy = "ressource")
+	private List<SaveToConsult> listSaveToConsult;
+
+	@OneToMany(mappedBy = "ressource")
+	private List<Comment> comments;
 
 	public Ressource(String title, String headerImagePath, String filePath, String content, Date publicationDate,
 			Date updateDate, String description, String status, Boolean isPublished, Boolean isActived,
 			Statistic statistic, Category category, RessourceType ressourceType, User user,
-			List<HaveRelationType> listRelationTypes) {
+			List<HaveRelationType> listRelationTypes, List<Favorite> listFavorite,
+			List<SaveToConsult> listSaveToConsult) {
 		super();
 		this.title = title;
 		this.headerImagePath = headerImagePath;
@@ -93,6 +108,27 @@ public class Ressource {
 		this.ressourceType = ressourceType;
 		this.user = user;
 		this.listRelationTypes = listRelationTypes;
+		this.listSaveToConsult = listSaveToConsult;
+	}
+
+	public List<SaveToConsult> getListSaveToConsult() {
+		return listSaveToConsult;
+	}
+
+	public void setListSaveToConsult(List<SaveToConsult> listSaveToConsult) {
+		this.listSaveToConsult = listSaveToConsult;
+	}
+
+	public List<Favorite> getListFavorite() {
+		return listFavorite;
+	}
+
+	public void setListFavorite(List<Favorite> listFavorite) {
+		this.listFavorite = listFavorite;
+	}
+
+	public Ressource() {
+
 	}
 
 	public User getUser() {
