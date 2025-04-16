@@ -14,8 +14,7 @@
         <nav>
             <img src="/img/logo-nobg.png" alt="Logo" id="logo">
             <ul class="nav-links" id="navbarLinks">
-                <li><a href="/home#hero" th:text="#{nav.home}">Accueil</a></li>
-                <li><a href="/home#projet" th:text="#{nav.project}">Le projet</a></li>
+                <li><a href="/ressource/create" >Créer une ressource</a></li>
                 <li><a href="/ressources" th:text="#{nav.resources}">Ressources</a></li>
             </ul>
         </nav>
@@ -41,6 +40,8 @@
 
             <div th:if="${session.user != null}">
                 <a href="/users/profile" class="btn-profile" th:text="#{nav.profile}">Mon profil</a>
+                <a href="/logout" class="btn-profile">Se déconnecter</a>
+
             </div>
         </div>
     </div>

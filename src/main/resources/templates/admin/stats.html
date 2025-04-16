@@ -4,20 +4,16 @@
     <meta charset="UTF-8">
     <title th:text="#{stats.title}">Statistiques des Ressources</title>
 
-    <!-- Lien vers la feuille de style externe -->
     <link rel="stylesheet" href="/css/stats.css">
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- DataTables CSS -->
     <link rel="stylesheet"
           href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 </head>
 <body>
 
 
-<!-- HEADER PRINCIPAL -->
 <header class="stats-header">
     <div class="header-content">
         <h1 th:text="#{stats.title}">Statistiques</h1>
@@ -26,7 +22,6 @@
     </div>
 </header>
 
-<!-- ZONE DE CONTENU PRINCIPAL -->
 <main class="main-container">
     <section class="simple-filter">
         <input type="text" id="filterInput" th:placeholder="#{filter.placeholder}" placeholder="🔍 Rechercher dans les ressources..." />
@@ -51,7 +46,6 @@
         </div>
     </section>
 
-    <!-- TOP RESSOURCES (LA PLUS CONSULTÉE, ETC.) -->
     <section class="top-resources">
         <h2 th:text="#{top.title}">Ressources phares</h2>
         <div class="top-resource-card">
@@ -77,7 +71,6 @@
         </div>
     </section>
 
-    <!-- GRAPHIQUES -->
     <section class="charts">
         <div class="chart-card">
             <h2 th:text="#{chart.consult}">Consultations par catégorie</h2>
@@ -93,7 +86,6 @@
         </div>
     </section>
 
-    <!-- TABLEAU AVEC DATATABLES -->
     <section class="table-section">
         <h2 th:text="#{table.title}">Tableau des Ressources</h2>
         <div class="table-wrapper">
@@ -124,7 +116,6 @@
 
 </main>
 
-<!-- JS - JQUERY + DATATABLES -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
