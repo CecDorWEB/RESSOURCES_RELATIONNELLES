@@ -69,11 +69,18 @@ public class Ressource {
 
 	@OneToMany(mappedBy = "ressource")
 	private List<HaveRelationType> listRelationTypes;
+	
+	@OneToMany(mappedBy="ressource")
+	private List<Favorite> listFavorite;
+	
+	@OneToMany(mappedBy="ressource")
+	private List<SaveToConsult> listSaveToConsult;
+
 
 	public Ressource(String title, String headerImagePath, String filePath, String content, Date publicationDate,
-					 Date updateDate, String description, String status, Boolean isPublished, Boolean isActived,
-					 Statistic statistic, Category category, RessourceType ressourceType, User user,
-					 List<HaveRelationType> listRelationTypes) {
+			Date updateDate, String description, String status, Boolean isPublished, Boolean isActived,
+			Statistic statistic, Category category, RessourceType ressourceType, User user,
+			List<HaveRelationType> listRelationTypes, List<Favorite> listFavorite, List<SaveToConsult> listSaveToConsult) {
 		super();
 		this.title = title;
 		this.headerImagePath = headerImagePath;
@@ -90,6 +97,23 @@ public class Ressource {
 		this.ressourceType = ressourceType;
 		this.user = user;
 		this.listRelationTypes = listRelationTypes;
+		this.listSaveToConsult = listSaveToConsult;
+	}
+
+	public List<SaveToConsult> getListSaveToConsult() {
+		return listSaveToConsult;
+	}
+
+	public void setListSaveToConsult(List<SaveToConsult> listSaveToConsult) {
+		this.listSaveToConsult = listSaveToConsult;
+	}
+
+	public List<Favorite> getListFavorite() {
+		return listFavorite;
+	}
+
+	public void setListFavorite(List<Favorite> listFavorite) {
+		this.listFavorite = listFavorite;
 	}
 
 	public Ressource() {

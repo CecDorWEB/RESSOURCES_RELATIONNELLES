@@ -1,5 +1,10 @@
 package com.RESSOURCES_RELATIONNELLES.controllers;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -20,6 +25,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.RESSOURCES_RELATIONNELLES.entities.Favorite;
+import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
+import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
+import com.RESSOURCES_RELATIONNELLES.entities.User;
+import com.RESSOURCES_RELATIONNELLES.services.FavoriteService;
+import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
+import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
+import com.RESSOURCES_RELATIONNELLES.services.RessourceTypeService;
+
+import jakarta.servlet.http.HttpSession;
+
 import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,14 +48,27 @@ public class RessourceController {
 	private final CategoryService _categoryService;
 	private final HaveRelationTypeService _haveRelationTypeService;
 
-	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, CategoryService categoryService, HaveRelationTypeService haveRelationTypeService) {
+	private final FavoriteService _favoriteService;
+	private final ExploitService _exploitService;
+	private final saveToConsultService _saveToConsultService;
 
-		_ressourceService = ressourceService;
-		_relationTypeService = relationTypeService;
-		_ressourceTypeService = ressourceTypeService;
-        _categoryService = categoryService;
-        _haveRelationTypeService = haveRelationTypeService;
-    }
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, FavoriteService favoriteService, CategoryService categoryService, HaveRelationTypeService haveRelationTypeService, ExploitService exploitService,saveToConsultService saveToConsultService) {
+
+		this._ressourceService = ressourceService;
+		this._relationTypeService = relationTypeService;
+		this._ressourceTypeService = ressourceTypeService;
+		this._favoriteService = favoriteService;
+		this._categoryService = categoryService;
+        this._haveRelationTypeService = haveRelationTypeService;
+        this._exploitService = exploitService;
+        this._saveToConsultService = saveToConsultService;
+	}
+	
+	
+	@GetMapping("/ressources/getall")
+	public List<Ressource> getAllRessources() {
+		return _ressourceService.getAllRessources();
+	}
 
 	@GetMapping("/ressource/create")
 	public String openCreateForm(Model model) {
@@ -51,22 +81,42 @@ public class RessourceController {
 		return "ressourceForm";
 	}
 
-	//Récupération des ressources PUBLIC pour les USERS non connectés, publiées et autorisées pour alimenter la liste des ressources
+	//Récupération des ressources PUBLIC pour les USERS non connectés, et PRIVE pour les users connectés publiées et autorisées pour alimenter la liste des ressources
 	@GetMapping("/ressources")
 	public String consultAllRessources(Model model, @RequestParam(required = false) Long relationTypeId,
 			@RequestParam(required = false) Long ressourceTypeId,
-			@RequestParam(required = false) String searchWord) {
+			@RequestParam(required = false) String searchWord,
+			HttpSession session) {
+		
+		User user = (User) session.getAttribute("user");
+		
 		List<RelationType> relationType = _relationTypeService.findAll();
 		List<RessourceType> ressourceType = _ressourceTypeService.findAll();
 
 		List<Ressource> ressource;
-
-		if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
-			ressource = _ressourceService.getPublicFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
-		} else {
+		if (user == null) {
+			if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
+				ressource = _ressourceService.getPublicFilteredRessources(relationTypeId,ressourceTypeId, searchWord);
+			} else {
 			ressource = _ressourceService.getAllPublicRessources();
+			}
+		} else {
+			Long userId= user.getId();
+			if (relationTypeId != null || ressourceTypeId != null || searchWord != null) {
+				ressource = _ressourceService.getFilteredRessources(relationTypeId,ressourceTypeId, searchWord, userId);
+			} else {
+			ressource = _ressourceService.getAllRessourcesForConnectedUSer(userId);
+			}
 		}
-
+		
+		//Si user connecté je récupère la session, les favoris, les ressources exploitées
+		if (user != null) {
+		model.addAttribute("myUser", user);
+		
+		Set<Long> favoriteIds = _favoriteService.getFavoriteByUserId(user.getId());
+	    model.addAttribute("favoriteIds", favoriteIds);
+		}
+		
 		model.addAttribute("listRelation", relationType);
 		model.addAttribute("listRessourceType", ressourceType);
 		model.addAttribute("listRessource", ressource);
@@ -75,11 +125,26 @@ public class RessourceController {
 
 	//Récupérer le contenu de la ressource par son id
 	@GetMapping("/ressource/{id}")
-	public String afficherRessource(@PathVariable Long id, Model model) {
+	public String afficherRessource(@PathVariable Long id, Model model,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		
 		Optional<Ressource> ressource = _ressourceService.findById(id);
 		if (ressource.isPresent()) {
 			List<String> paragraphs = extractParagraphs(ressource.get().getContent());
 
+			if (user != null) {
+				model.addAttribute("myUser", user);
+				
+				boolean isFavorite = _favoriteService.getFavoriteByUserAndRessourceId(user.getId(), id).isPresent();
+					model.addAttribute("isFavorite", isFavorite);
+					
+				boolean isExploit = _exploitService.getExploitByUserAndRessourceId(user.getId(), id).isPresent();
+					model.addAttribute("isExploit", isExploit);
+					
+				boolean isSaveToConsult = _saveToConsultService.getSaveToConsultByUserAndRessourceId(user.getId(), id).isPresent();
+					model.addAttribute("isSaveToConsult", isSaveToConsult);
+			}
+	
 			model.addAttribute("paragraphs", paragraphs);
 			model.addAttribute("ressource", ressource.get());
 			model.addAttribute("relationTypes", _relationTypeService.findAll());
@@ -87,7 +152,7 @@ public class RessourceController {
 			model.addAttribute("categories", _categoryService.findAll());
 			return "ressource";
 		}
-		return "redirect:/home"; // Redirige si l'ID n'existe pas
+		return "redirect:/home";
 	}
 
 	@GetMapping("/ressource/edit/{id}")
