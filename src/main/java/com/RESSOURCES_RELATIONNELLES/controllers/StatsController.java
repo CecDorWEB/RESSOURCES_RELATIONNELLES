@@ -48,7 +48,7 @@ public class StatsController {
         int totalExploitations = 0;
         int totalCommentaires = 0;
 
-        // Pour trouver la “top resource” la plus consultée, favorite, etc.
+        // Pour trouver la “top resource” la plus consultée, favorite etc
         Ressource topConsultRessource = null;
         Ressource topFavoriRessource = null;
         Ressource topExploitRessource = null;
@@ -123,9 +123,8 @@ public class StatsController {
         response.setContentType("text/csv; charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=stats.csv");
 
-        // Écriture UTF-8 avec BOM pour compatibilité Excel
         PrintWriter writer = new PrintWriter(response.getOutputStream(), true, java.nio.charset.StandardCharsets.UTF_8);
-        writer.write('\uFEFF'); // BOM UTF-8
+        writer.write('\uFEFF'); // BOM UTF-8 pour compatibilité csv
 
         // En-têtes de colonnes
         writer.println("Titre;Catégorie;Consultations;Favoris;Exploitations;Commentaires");

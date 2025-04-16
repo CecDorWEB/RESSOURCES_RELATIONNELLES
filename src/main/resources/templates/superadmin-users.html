@@ -16,7 +16,6 @@
 
 <main class="container">
 
-    <!-- Filtres -->
     <section class="filters">
         <form method="get" th:action="@{/superadmin/users}">
             <label for="roleId" th:text="#{superadmin.filters.role.label}">Filtrer par rôle :</label>
@@ -32,10 +31,8 @@
         </form>
     </section>
 
-    <!-- Formulaire englobant pour sélection et batch-update -->
     <form th:action="@{/superadmin/users/batch-update-role}" method="post">
 
-        <!-- Table utilisateurs -->
         <section class="user-table-wrapper">
             <table class="user-table">
                 <thead>
@@ -74,7 +71,6 @@
             </table>
         </section>
 
-        <!-- Changement de rôle groupé -->
         <section class="batch-actions">
             <label for="newRole" th:text="#{superadmin.batch.label.changeRole}">Changer le rôle des utilisateurs sélectionnés en :</label>
             <select id="newRole" name="newRoleId" required>

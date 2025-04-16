@@ -2,7 +2,7 @@ package com.RESSOURCES_RELATIONNELLES.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.LocaleResolver; // Attention : celui-ci est de Spring !
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,7 +23,7 @@ public class LocaleConfig implements WebMvcConfigurer{
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang"); // ex: ?lang=en
+        lci.setParamName("lang");
         return lci;
     }
 

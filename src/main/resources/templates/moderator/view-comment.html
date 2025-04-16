@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail Commentaire</title>
+    <link rel="stylesheet" href="/css/moderation-view.css" />
+</head>
+<body>
+<div class="view-container">
+    <div class="card">
+        <h1>Détail du commentaire</h1>
+        <div class="row"><strong>ID :</strong> <span th:text="${comment.id}">1</span></div>
+        <div class="row"><strong>Auteur :</strong> <span th:text="${comment.name}">Auteur</span></div>
+        <div class="row"><strong>Contenu :</strong> <p th:text="${comment.content}">Contenu du commentaire</p></div>
+        <div class="row"><strong>Ressource liée :</strong>
+            <span th:text="${comment.ressource != null ? comment.ressource.title : 'Ressource inconnue'}">Titre</span>
+        </div>
+        <div class="row"><strong>Activé ?</strong>
+            <span th:text="${comment['isActivated'] ? 'Oui' : 'Non'}">Oui</span>
+        </div>
+        <div class="row"><strong>Signalé ?</strong>
+            <span th:text="${comment['isReported'] ? 'Oui' : 'Non'}">Non</span>
+        </div>
+        <a href="/moderator" class="btn-back">← Retour à la modération</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,80 +1,105 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layouts/mainLayout}">
 <head>
 	<title th:text="#{moderation.page.title}">Modération</title>
+	<link rel="stylesheet" href="/css/moderateur.css"/>
 </head>
 <body>
-<main layout:fragment="content">
-	<h1 th:text="#{moderation.page.heading}">Page Moderateur</h1>
-	<section>
-		<h2 th:text="#{moderation.resources.validation.title}">Validation des ressources en attente de publication</h2>
-		<p th:text="#{moderation.resources.validation.description}">Liste des ressources en attente de publication :</p>
-		<table>
-			<thead>
-			<tr>
-				<th scope="col" th:text="#{table.header.id}">Id</th>
-				<th scope="col" th:text="#{table.header.title}">Title</th>
-				<th scope="col" th:text="#{table.header.creationDate}">Date de création</th>
-				<th scope="col" th:text="#{table.header.description}">Description</th>
-				<th scope="col" th:text="#{table.header.resourceType}">Type de ressource</th>
-				<th scope="col" th:text="#{table.header.category}">Catégorie</th>
-				<th scope="col" th:text="#{table.header.relation}">Relation</th>
-				<th scope="col" th:text="#{table.header.status}">Statut</th>
-				<th scope="col" th:text="#{table.header.creator}">Créateur</th>
-				<th scope="col" th:text="#{table.header.tools}">Outils</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td th:text="#{table.row.resourceId}">Id de l'article</td>
-				<td th:text="#{table.row.resourceTitle}">Titre de l'article</td>
-				<td th:text="#{table.row.creationDate}">date de création</td>
-				<td th:text="#{table.row.resourceIntro}">Introduction de l'article</td>
-				<td th:text="#{table.row.resourceType}">le type de ressource: ex: Article</td>
-				<td th:text="#{table.row.category}">la catégorie: ex: Loisirs</td>
-				<td th:text="#{table.row.relation}">la relation: ex:Soi</td>
-				<td th:text="#{table.row.status}">le statut : ex: publique</td>
-				<td th:text="#{table.row.creatorName}">Jean Michel</td>
-				<td>
-					<div class="supportTools">
-						<button th:text="#{button.view}">Consulter</button>
-						<button th:text="#{button.publish}">Publier</button>
-					</div>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+<main layout:fragment="content" class="container">
+
+	<div class="admin-header">
+		<h1 th:text="#{moderation.page.heading}">Espace Modérateur</h1>
+	</div>
+
+	<section class="moderation-section">
+		<h2 th:text="#{moderation.resources.validation.title}">Ressources en attente</h2>
+		<div class="user-table-wrapper">
+			<table class="user-table">
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>Titre</th>
+					<th>Type</th>
+					<th>Catégorie</th>
+					<th>Relation</th>
+					<th>Statut</th>
+					<th>Création</th>
+					<th>Créateur</th>
+					<th>Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="res : ${ressources}">
+					<td th:text="${res.id}">1</td>
+					<td th:text="${res.title}">Titre</td>
+					<td th:text="${res.ressourceType.name}">Type</td>
+					<td th:text="${res.category.name}">Catégorie</td>
+					<td th:text="${#lists.isEmpty(res.listRelationTypes) ? 'Non précisée' : res.listRelationTypes[0].relationType.name}">Relation</td>
+					<td>
+						<span th:text="${res.status}" th:classappend="${res.status == 'Publique'} ? 'badge badge-success' : 'badge badge-warning'">Statut</span>
+					</td>
+					<td th:text="${#dates.format(res.publicationDate, 'dd/MM/yyyy')}">12/04/2024</td>
+					<td th:text="${res.user != null ? res.user.lastName + ' ' + res.user.firstName : 'Auteur inconnu'}">Auteur</td>
+					<td>
+						<div class="batch-actions">
+							<a th:href="@{'/moderator/ressource/' + ${res.id}}" class="btn-action success">Consulter</a>
+							<form th:action="@{'/moderator/ressource/' + ${res.id} + '/publish'}" method="post" style="display:inline;">
+								<button type="submit" class="btn-action btn-role">Publier</button>
+							</form>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
 	</section>
-	<section>
-		<h2 th:text="#{moderation.comments.title}">Gestion des commentaires</h2>
-		<p th:text="#{moderation.comments.description}">Liste des commentaires signalés:</p>
-		<table>
-			<thead>
-			<tr>
-				<th scope="col" th:text="#{table.header.id}">Id</th>
-				<th scope="col" th:text="#{table.header.resource}">Ressource</th>
-				<th scope="col" th:text="#{table.header.content}">Contenu</th>
-				<th scope="col" th:text="#{table.header.author}">Auteur</th>
-				<th scope="col" th:text="#{table.header.tools}">Outils</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>1</td>
-				<td th:text="#{table.row.commentResourceTitle}">Titre de la ressource où apparait le commentaire</td>
-				<td th:text="#{table.row.commentContent}">Ici le contenu du commentaire</td>
-				<td th:text="#{table.row.commentAuthor}">Nom de l'auteur du commentaire</td>
-				<td>
-					<div class="supportTools">
-						<button th:text="#{button.view}">Consulter</button>
-						<button th:text="#{button.suspend}">Suspendre</button>
-					</div>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+
+	<section class="moderation-section">
+		<h2 th:text="#{moderation.comments.title}">Commentaires signalés</h2>
+		<div class="user-table-wrapper">
+			<table class="user-table">
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>Ressource liée</th>
+					<th>Auteur</th>
+					<th>Contenu</th>
+					<th>Statut</th>
+					<th>Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="comment : ${comments}">
+					<td th:text="${comment.id}">1</td>
+					<td th:text="${comment.ressource != null ? comment.ressource.title : 'Non liée'}">Titre ressource</td>
+					<td th:text="${comment.name}">Auteur</td>
+					<td th:text="${comment.content}">Contenu</td>
+					<td>
+						<span th:text="${comment['isActivated'] ? 'Actif' : 'Suspendu'}"
+							  th:classappend="${comment['isActivated'] ? 'badge badge-success' : 'badge badge-danger'}">
+							Statut
+						</span>
+					</td>
+					<td>
+						<div class="batch-actions">
+							<a th:href="@{'/moderator/comment/' + ${comment.id}}" class="btn-action success">Consulter</a>
+
+							<form th:if="${comment.isActivated}" th:action="@{'/moderator/comment/' + ${comment.id} + '/suspend'}" method="post" style="display:inline;">
+								<button type="submit" class="btn-action danger">Suspendre</button>
+							</form>
+
+							<form th:if="${!comment.isActivated}" th:action="@{'/moderator/comment/' + ${comment.id} + '/activate'}" method="post" style="display:inline;">
+								<button type="submit" class="btn-action btn-role">Réactiver</button>
+							</form>
+						</div>
+					</td>
+
+
+				</tr>
+				</tbody>
+			</table>
+		</div>
 	</section>
 </main>
 </body>

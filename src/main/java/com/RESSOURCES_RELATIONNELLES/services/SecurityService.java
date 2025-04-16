@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service // ✅ Ajout de l'annotation @Service pour que Spring puisse gérer ce service
+@Service
 public class SecurityService {
 
     private final HttpSession session;
@@ -17,7 +17,7 @@ public class SecurityService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-    private static final String AUTH_TOKEN = "IsUserConnectedToken"; // ✅ Uniformisation du token
+    private static final String AUTH_TOKEN = "IsUserConnectedToken";
 
     public SecurityService(HttpSession session, UserRepository userRepository, PasswordEncoder passwordEncoder,RoleRepository roleRepository) {
         this.session = session;
@@ -26,34 +26,17 @@ public class SecurityService {
         this.roleRepository = roleRepository;
     }
 
-    // ✅ Vérifie si l'utilisateur est connecté
     public boolean isAuthenticated() {
         return Boolean.TRUE.equals(session.getAttribute(AUTH_TOKEN));
     }
 
 
-
-    public boolean hasAccess(Long idUser, String expectedRole) {
-        // Récupère l'utilisateur en BDD
-        User user = userRepository.findById(idUser).orElse(null);
-
-        if (user == null || user.getRole() == null) {
-            return false;
-        }
-
-        String userRoleName = user.getRole().getName();
-
-        return expectedRole.equalsIgnoreCase(userRoleName);
-    }
-
-    // ✅ Définit le token d'authentification
     public void setAuthToken(){
         if (!isAuthenticated()){
             session.setAttribute(AUTH_TOKEN, true);
         }
     }
 
-    // ✅ Supprime le token d'authentification
     public void removeAuthToken(){
         if (isAuthenticated()){
             session.invalidate();
@@ -64,10 +47,10 @@ public class SecurityService {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            return !user.isActived(); // true si désactivé
+            return !user.isActived();
         }
 
-        return false; // pas trouvé = pas banni
+        return false;
     }
 
 

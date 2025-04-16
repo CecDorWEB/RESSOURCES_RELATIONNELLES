@@ -7,13 +7,11 @@
 </head>
 <body>
 
-<!-- Messages Flash -->
 <div class="flash-messages" style="max-width: 800px; margin: 1rem auto; text-align: center;">
     <div th:if="${success}" class="flash flash-success" th:text="${success}"></div>
     <div th:if="${error}" class="flash flash-error" th:text="${error}"></div>
 </div>
 
-<!-- Header -->
 <header class="page-header">
     <div class="header-content">
         <h1 class="main-title" th:text="#{user.list.header.title}">User Management</h1>
@@ -23,7 +21,6 @@
     </div>
 </header>
 
-<!-- Search / Filter -->
 <form class="filter-bar" method="get" th:action="@{/users}">
     <input type="text" name="search" class="search-input" th:placeholder="#{user.list.search.placeholder}"
            th:value="${search}" />
@@ -33,7 +30,6 @@
             onclick="window.location.href='/users/add'" th:text="#{user.list.button.add}">+ Add User</button>
 </form>
 
-<!-- Table -->
 <div class="table-container">
     <table class="user-table">
         <thead>
@@ -79,7 +75,6 @@
     </table>
 </div>
 
-<!-- Pagination -->
 <div class="pagination-bar">
     <button class="btn-page" disabled th:text="#{user.list.pagination.prev}">&laquo; Prev</button>
     <button class="btn-page selected">1</button>

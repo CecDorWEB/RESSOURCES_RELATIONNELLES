@@ -27,7 +27,6 @@ public class SuperAdminController {
     @Autowired
     private UserService userService;
 
-    // Vérifie que l'utilisateur connecté est Super-Administrateur
 
 
 
@@ -75,7 +74,6 @@ public class SuperAdminController {
         return "redirect:/superadmin/users";
     }
 
-    // Toggle activation
     @GetMapping("/users/toggle-active/{id}")
     public String toggleActivation(@PathVariable Long id,
                                    HttpSession session,
@@ -193,18 +191,11 @@ public class SuperAdminController {
         model.addAttribute("user", userToEdit);
         model.addAttribute("roles", roles);
 
-        // Retourne la vue Thymeleaf (ton HTML pour "Modifier un utilisateur")
+        // Retourne la vue edit user
         return "superadmin/edit-user";
     }
 
-    /**
-     * Traite le formulaire d’édition
-     *
-     * Remarque : on récupère l’ID dans l’URL et un objet User
-     *            comme “binding” pour les champs du formulaire.
-     *            On gère également l’option de modifier (ou non)
-     *            le mot de passe via “newPassword”.
-     */
+
     @PostMapping("/users/edit/{id}")
     public String editUser(@PathVariable Long id,
                            @ModelAttribute("user") User formUser,
@@ -224,12 +215,12 @@ public class SuperAdminController {
         User userToUpdate = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Utilisateur introuvable"));
 
-        // Mets à jour les champs (Nom, Prénom, Email, etc.)
+        // Mets à jour les champs
         userToUpdate.setFirstName(formUser.getFirstName());
         userToUpdate.setLastName(formUser.getLastName());
         userToUpdate.setEmail(formUser.getEmail());
 
-        // Si un nouveau mot de passe est spécifié, on le hash et on l’enregistre
+        // Si nouveau mot de passe, on le hash et on l’enregistre
         if (newPassword != null && !newPassword.trim().isEmpty()) {
             String hashedPassword = org.springframework.security.crypto.bcrypt.BCrypt
                     .hashpw(newPassword, org.springframework.security.crypto.bcrypt.BCrypt.gensalt());

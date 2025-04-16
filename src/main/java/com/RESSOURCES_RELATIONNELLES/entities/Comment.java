@@ -27,6 +27,14 @@ public class Comment {
 	@Column(name = "isReported", nullable = true)
 	private boolean isReported;
 
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
+
 	@ManyToOne
 	private Ressource ressource;
 

@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 2rem;
+}
+
+.view-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.card h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #5f2c82;
+}
+
+.row {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.row strong {
+    width: 200px;
+    display: inline-block;
+    font-weight: 600;
+    color: #444;
+}
+
+.row p {
+    margin-top: 0.3rem;
+    margin-left: 1.5rem;
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 2rem;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #005bb5;
+}

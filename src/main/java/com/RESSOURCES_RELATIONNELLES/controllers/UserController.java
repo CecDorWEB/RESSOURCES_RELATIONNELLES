@@ -44,15 +44,6 @@ public class UserController {
 		return "redirect:/users";
 	}
 
-	// Formulaire de modification
-
-
-	// Soumission du formulaire de modification
-
-
-
-
-
 	@GetMapping("/toggle/{id}")
 	public String toggleUserActivation(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 		Optional<User> optionalUser = userRepository.findById(id);
@@ -71,11 +62,6 @@ public class UserController {
 		return "redirect:/users";
 	}
 
-
-
-
-
-	// (Pages futures)
 	@GetMapping("/moderator")
 	public String moderatorHome() {
 		return "moderator";

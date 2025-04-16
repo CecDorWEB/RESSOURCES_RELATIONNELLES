@@ -9,6 +9,34 @@
     --surface-color: #fff;
     --surface-shadow: 0 4px 16px rgba(0,0,0,0.05);
 }
+
+.btn-superadmin {
+    background-color: #1f2937; /* gris foncé */
+    color: #fff;
+}
+
+.btn-superadmin:hover {
+    background-color: #111827;
+}
+
+.btn-admin {
+    background-color: #2563eb; /* bleu */
+    color: white;
+}
+
+.btn-admin:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-moderator {
+    background-color: #059669; /* vert */
+    color: white;
+}
+
+.btn-moderator:hover {
+    background-color: #047857;
+}
+
 .auth {
     display: flex;
     align-items: center;

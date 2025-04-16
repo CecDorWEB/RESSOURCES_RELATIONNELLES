@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/css/home.css" />
 </head>
 <body>
-<!-- HEADER / NAVBAR -->
 <header>
     <div class="nav-container">
         <nav>
@@ -30,9 +29,7 @@
 
 <main layout:fragment="content">
 
-    <!-- HERO SECTION -->
     <section class="hero" id="hero">
-        <!-- svg intact -->
         <h1 th:text="#{hero.title}">Améliorez vos relations, épanouissez-vous</h1>
         <p th:text="#{hero.text}">
             Rejoignez une plateforme unique dédiée à la qualité de nos liens : familles, amis, collègues.
@@ -40,7 +37,6 @@
         <button class="hero-btn" th:text="#{hero.button}">Explorer les ressources</button>
     </section>
 
-    <!-- PRESENTATION DU PROJET -->
     <section class="presentation" id="presentation" revealOnScroll>
         <h2 th:text="#{presentation.title}">Pourquoi Resources Relationnelles ?</h2>
         <p th:text="#{presentation.text}">
@@ -48,7 +44,6 @@
         </p>
     </section>
 
-    <!-- FEATURES -->
     <section class="features" id="features">
         <div class="feature-block left" revealOnScroll="left">
             <img src="/img/man_ordering_file.png" class="feature-image" />
@@ -81,13 +76,11 @@
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
     <section class="testimonials-section" id="testimonials" revealOnScroll>
         <h2 th:text="#{testimonials.title}">Ils nous ont fait confiance</h2>
         <!-- contenu inchangé, textes internes déjà personnels -->
     </section>
 
-    <!-- CTA FINAL -->
     <section class="cta-final">
         <h2 revealOnScroll th:text="#{cta.title}">Vous êtes partant ?</h2>
         <p revealOnScroll th:text="#{cta.text}">Envie de faire partie d’une communauté bienveillante ?</p>

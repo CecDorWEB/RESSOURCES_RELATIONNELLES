@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail Ressource</title>
+    <link rel="stylesheet" href="/css/moderation-view.css" />
+</head>
+<body>
+<div class="view-container">
+    <div class="card">
+        <h1>Détail de la ressource</h1>
+        <div class="row"><strong>ID :</strong> <span th:text="${ressource.id}">1</span></div>
+        <div class="row"><strong>Titre :</strong> <span th:text="${ressource.title}">Titre</span></div>
+        <div class="row"><strong>Description :</strong> <span th:text="${ressource.description}">Description</span></div>
+        <div class="row"><strong>Contenu :</strong> <p th:text="${ressource.content}">Contenu</p></div>
+        <div class="row"><strong>Catégorie :</strong> <span th:text="${ressource.category.name}">Catégorie</span></div>
+        <div class="row"><strong>Type :</strong> <span th:text="${ressource.ressourceType.name}">Type</span></div>
+        <div class="row"><strong>Relation :</strong>
+            <span th:text="${#lists.isEmpty(ressource.listRelationTypes) ? 'Non précisée' : ressource.listRelationTypes[0].relationType.name}">Relation</span>
+        </div>
+        <div class="row"><strong>Date de publication :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd/MM/yyyy')}">12/04/2024</span></div>
+        <div class="row"><strong>Statut :</strong> <span th:text="${ressource.status}">Statut</span></div>
+        <div class="row"><strong>Publié ?</strong> <span th:text="${ressource['isPublished'] ? 'Oui' : 'Non'}">Oui</span></div>
+        <div class="row"><strong>Créateur :</strong>
+            <span th:text="${ressource.user != null ? ressource.user.lastName + ' ' + ressource.user.firstName : 'Auteur inconnu'}">Auteur</span>
+        </div>
+        <a href="/moderator" class="btn-back">← Retour à la modération</a>
+    </div>
+</div>
+</body>
+</html>

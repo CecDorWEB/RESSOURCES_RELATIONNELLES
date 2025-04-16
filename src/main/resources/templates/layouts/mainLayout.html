@@ -21,7 +21,18 @@
         </nav>
         <div class="auth">
             <div th:if="${session.user != null and session.user.role.name == 'Super-Administrateur'}">
-                <a href="/superadmin/users" class="btn-users" th:text="#{nav.users}">Utilisateurs</a>
+                <a href="/superadmin/users" class=" btn-superadmin" th:text="#{nav.superadmin}">Super-Administrateur</a>
+                <a href="/admin/stats" class=" btn-admin" th:text="#{nav.admin}">Administrateur</a>
+                <a href="/moderator" class="btn-moderator" th:text="#{nav.moderator}">Modérateur</a>
+            </div>
+
+            <div th:if="${session.user != null and session.user.role.name == 'Administrateur'}">
+                <a href="/admin/stats" class="btn-users" th:text="#{nav.admin}">Administrateur</a>
+                <a href="/moderator" class="btn-users" th:text="#{nav.moderator}">Modérateur</a>
+            </div>
+
+            <div th:if="${session.user != null and session.user.role.name == 'Modérateur'}">
+                <a href="/moderator" class="btn-users" th:text="#{nav.moderator}">Modérateur</a>
             </div>
             <div th:if="${session.user == null}">
                 <a href="/login" class="btn-login" th:text="#{nav.login}">Connexion</a>
