@@ -50,8 +50,9 @@ public class RessourceController {
 
 	private final FavoriteService _favoriteService;
 	private final ExploitService _exploitService;
+	private final saveToConsultService _saveToConsultService;
 
-	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, FavoriteService favoriteService, CategoryService categoryService, HaveRelationTypeService haveRelationTypeService, ExploitService exploitService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, FavoriteService favoriteService, CategoryService categoryService, HaveRelationTypeService haveRelationTypeService, ExploitService exploitService,saveToConsultService saveToConsultService) {
 
 		this._ressourceService = ressourceService;
 		this._relationTypeService = relationTypeService;
@@ -60,6 +61,7 @@ public class RessourceController {
 		this._categoryService = categoryService;
         this._haveRelationTypeService = haveRelationTypeService;
         this._exploitService = exploitService;
+        this._saveToConsultService = saveToConsultService;
 	}
 	
 	
@@ -138,6 +140,9 @@ public class RessourceController {
 					
 				boolean isExploit = _exploitService.getExploitByUserAndRessourceId(user.getId(), id).isPresent();
 					model.addAttribute("isExploit", isExploit);
+					
+				boolean isSaveToConsult = _saveToConsultService.getSaveToConsultByUserAndRessourceId(user.getId(), id).isPresent();
+					model.addAttribute("isSaveToConsult", isSaveToConsult);
 			}
 	
 			model.addAttribute("paragraphs", paragraphs);
