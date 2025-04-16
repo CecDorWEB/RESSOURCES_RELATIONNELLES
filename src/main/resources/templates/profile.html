@@ -5,15 +5,62 @@
 
 <head>
     <title>Mon Profil</title>
+    <link rel="stylesheet" href="/css/profile.css" />
 </head>
 
 <body>
-<main layout:fragment="content">
-    <section class="profile-section">
-        <h1>Bienvenue <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span> !</h1>
-        <p>Email : <span th:text="${user.email}"></span></p>
-        <p>Rôle : <span th:text="${user.role.name}"></span></p>
-    </section>
+<main layout:fragment="content" >
+	<div class="profile-section">
+	    <section class="profile_container">
+		    <div class="profile_section_title">
+			    <img alt="coeur" src="/img/red_heart.png">
+				<h1>Vos Favoris</h1>
+			</div>
+			<div class="profile_card_container">
+				<article class="profile_card" th:each="favorite : ${listFavorite}">
+					<img alt="photo" th:src="${favorite.ressource.headerImagePath}">
+					<h2 th:text="${favorite.ressource.title}"></h2>
+					<form th:action="@{/favorite/create}" method="post">
+						<input type="hidden" th:name="ressourceId" th:value="${favorite.ressource.id}" />
+						<button class="delete_button">Supprimer</button>
+					</form>
+				</article>
+			</div>
+		</section>
+		
+		<section class="profile_container">
+		 	<div class="profile_section_title">
+			    <img alt="banniere" src="/img/banniere_purple.png">
+				<h1>A consulter</h1>
+			</div>
+			<div class="profile_card_container">
+				<article class="profile_card" th:each="saveToConsult : ${listSaveToConsult}">
+					<img alt="photo" th:src="${saveToConsult.ressource.headerImagePath}">
+					<h2 th:text="${saveToConsult.ressource.title}"></h2>
+					<form th:action="@{/savetoconsult/create}" method="post">
+						<input type="hidden" th:name="ressourceId" th:value="${saveToConsult .ressource.id}" />
+						<button class="delete_button">Supprimer</button>
+					</form>
+				</article>
+			</div>
+		</section>
+		<section class="profile_container">
+		 	<div class="profile_section_title">
+			    <img alt="exploit" src="/img/exploit_green.png">
+				<h1>Déjà exploité</h1>
+			</div>
+			<div class="profile_card_container">
+				<article class="profile_card" th:each="exploit : ${listExploit}">
+					<img alt="photo" th:src="${exploit.ressource.headerImagePath}">
+					<h2 th:text="${exploit.ressource.title}"></h2>
+					<form th:action="@{/exploit/create}" method="post">
+						<input type="hidden" th:name="ressourceId" th:value="${exploit.ressource.id}" />
+						<button class="delete_button">Supprimer</button>
+					</form>
+				</article>
+			</div>
+		</section>
+	</div>
 </main>
 </body>
 </html>

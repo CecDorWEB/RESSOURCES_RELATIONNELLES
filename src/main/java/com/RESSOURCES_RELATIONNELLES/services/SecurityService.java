@@ -1,107 +1,115 @@
 package com.RESSOURCES_RELATIONNELLES.services;
 
-import com.RESSOURCES_RELATIONNELLES.entities.User;
-import com.RESSOURCES_RELATIONNELLES.entities.Role;
-import com.RESSOURCES_RELATIONNELLES.repositories.UserRepository;
-import com.RESSOURCES_RELATIONNELLES.repositories.RoleRepository;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.RESSOURCES_RELATIONNELLES.entities.Role;
+import com.RESSOURCES_RELATIONNELLES.entities.User;
+import com.RESSOURCES_RELATIONNELLES.repositories.RoleRepository;
+import com.RESSOURCES_RELATIONNELLES.repositories.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service // ✅ Ajout de l'annotation @Service pour que Spring puisse gérer ce service
 public class SecurityService {
 
-    private final HttpSession session;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
+	private final HttpSession session;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final RoleRepository roleRepository;
 
-    private static final String AUTH_TOKEN = "IsUserConnectedToken"; // ✅ Uniformisation du token
+	private static final String AUTH_TOKEN = "IsUserConnectedToken"; // ✅ Uniformisation du token
 
-    public SecurityService(HttpSession session, UserRepository userRepository, PasswordEncoder passwordEncoder,RoleRepository roleRepository) {
-        this.session = session;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
-    }
+	public SecurityService(HttpSession session, UserRepository userRepository, PasswordEncoder passwordEncoder,
+			RoleRepository roleRepository) {
+		this.session = session;
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.roleRepository = roleRepository;
+	}
 
-    // ✅ Vérifie si l'utilisateur est connecté
-    public boolean isAuthenticated() {
-        return Boolean.TRUE.equals(session.getAttribute(AUTH_TOKEN));
-    }
+	// ✅ Vérifie si l'utilisateur est connecté
+	public boolean isAuthenticated() {
+		return Boolean.TRUE.equals(session.getAttribute(AUTH_TOKEN));
+	}
 
+	// ✅ Définit le token d'authentification
+	public void setAuthToken() {
+		if (!isAuthenticated()) {
+			session.setAttribute(AUTH_TOKEN, true);
+		}
+	}
 
+	public boolean hasAccess(Long idUser, String expectedRole) {
+		// Récupère l'utilisateur en BDD
+		User user = userRepository.findById(idUser).orElse(null);
 
-    public boolean hasAccess(Long idUser, String expectedRole) {
-        // Récupère l'utilisateur en BDD
-        User user = userRepository.findById(idUser).orElse(null);
+		if (user == null || user.getRole() == null) {
+			return false;
+		}
 
-        if (user == null || user.getRole() == null) {
-            return false;
-        }
+		String userRoleName = user.getRole().getName();
 
-        String userRoleName = user.getRole().getName();
+		return expectedRole.equalsIgnoreCase(userRoleName);
+	}
 
-        return expectedRole.equalsIgnoreCase(userRoleName);
-    }
+	// ✅ Définit le token d'authentification
 
-    // ✅ Définit le token d'authentification
-    public void setAuthToken(){
-        if (!isAuthenticated()){
-            session.setAttribute(AUTH_TOKEN, true);
-        }
-    }
+	// ✅ Supprime le token d'authentification
+	public void removeAuthToken() {
+		if (isAuthenticated()) {
+			session.invalidate();
+		}
+	}
 
-    // ✅ Supprime le token d'authentification
-    public void removeAuthToken(){
-        if (isAuthenticated()){
-            session.invalidate();
-        }
-    }
+	public boolean isBanned(String email) {
+		User user = userRepository.findByEmail(email);
 
-    public boolean isBanned(String email) {
-        User user = userRepository.findByEmail(email);
+		if (user != null) {
+			return !user.isActived(); // true si désactivé
+		}
 
-        if (user != null) {
-            return !user.isActived(); // true si désactivé
-        }
+		return false; // pas trouvé = pas banni
+	}
 
-        return false; // pas trouvé = pas banni
-    }
+	// ✅ Vérifie si un utilisateur existe déjà en base
+	public boolean userAlreadyExists(String email) {
+		return userRepository.findByEmail(email) != null;
+	}
 
+	public boolean login(String email, String password) {
+		User user = userRepository.findByEmail(email);
+		if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+			setAuthToken();
+			session.setAttribute("user", user); // ✅ AJOUT INDISPENSABLE
+			return true;
+		}
+		return false;
+	}
 
+	public boolean signUpUser(User user) {
+		if (!userAlreadyExists(user.getEmail())) {
+			// 🛡️ Attribution d’un rôle par défaut
+			Role defaultRole = roleRepository.findByName("Utilisateur");
+			if (defaultRole == null) {
+				throw new RuntimeException("Rôle par défaut 'Utilisateur' introuvable en base !");
+			}
+			user.setRole(defaultRole);
 
-    // ✅ Vérifie si un utilisateur existe déjà en base
-    public boolean userAlreadyExists(String email) {
-        return userRepository.findByEmail(email) != null;
-    }
-
-    public boolean login(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            setAuthToken();
-            session.setAttribute("user", user); // ✅ AJOUT INDISPENSABLE
-            return true;
-        }
-        return false;
-    }
-
-    public boolean signUpUser(User user) {
-        if (!userAlreadyExists(user.getEmail())) {
-            // 🛡️ Attribution d’un rôle par défaut
-            Role defaultRole = roleRepository.findByName("Utilisateur");
-            if (defaultRole == null) {
-                throw new RuntimeException("Rôle par défaut 'Utilisateur' introuvable en base !");
-            }
-            user.setRole(defaultRole);
-
-            // 🔒 Encodage sécurisé du mot de passe
-            String hashedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(hashedPassword);
-            userRepository.save(user);
-            return true;
-        }
-        return false;
-    }
+			// 🔒 Encodage sécurisé du mot de passe
+			String hashedPassword = passwordEncoder.encode(user.getPassword());
+			user.setPassword(hashedPassword);
+			userRepository.save(user);
+			return true;
+		}
+		return false;
+	}
+	
+	public User getCurrentUser() {
+		Object email = session.getAttribute("userEmail"); // tu dois stocker ça lors de la connexion
+		if (email != null) {
+			return userRepository.findByEmail((String) email);
+		}
+		return null;
+	}
 }

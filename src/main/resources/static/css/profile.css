@@ -1,0 +1,91 @@
+div.profile-section{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:3rem;
+	margin-top : 6rem;
+	margin-bottom : 2rem;
+	font-family:"Poppins", sans-serif;
+}
+
+section.profile_container {
+	display: flex;
+	flex-direction: column;
+	gap:1rem;
+}
+
+div.profile_section_title{
+	display: flex;
+	flex-wrap:wrap;
+	gap:1rem;
+}
+
+article.profile_card{
+	display:flex;
+	flex-direction: column;
+	align-items:center;
+	text-align:center;
+	border:1px solid rgba(128, 128, 128, 0.2);
+	border-radius: 1rem;
+	width: 200px;
+	gap:0.5rem;
+	box-shadow: 1px 1px 12px 2px #4141411a;
+	transition: transform 0.2s;
+}
+
+article.profile_card:hover {
+        transform: scale(1.05);
+}
+
+
+article.profile_card > h2{
+	display:flex;
+	height: 100%;
+	align-items: center;
+	font-size: 20px;
+}
+
+article.profile_card > form{
+	width: 100%;
+}
+
+button.delete_button{
+	all:unset;
+	font-family:"Poppins", sans-serif;
+	font-weight:bold;
+	font-size:16px;
+	color:white;
+	background-color: rgb(126, 27, 242,0.8);
+	width:100%;
+	padding: 0.5rem 0;
+	border-radius: 0 0 1rem 1rem;
+	cursor:pointer;
+}
+
+div.profile_card_container{
+	display: flex;
+	flex-direction: column;
+	gap : 2rem;
+}
+
+article.profile_card > img{
+	width: 200px;
+	height:120px;
+	border-radius: 1rem 1rem 0rem 0rem;
+}
+
+@media screen and (min-width: 1024px) {
+	div.profile-section{
+	display:flex;
+	align-items:flex-start;
+	flex-direction:column;
+	margin : 2rem 5rem;
+	margin-top:7rem;
+	font-family:"Poppins", sans-serif;
+}
+
+	div.profile_card_container{
+	display: flex;
+	flex-direction: row;
+}
+}

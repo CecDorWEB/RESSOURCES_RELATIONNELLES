@@ -1,13 +1,13 @@
 package com.RESSOURCES_RELATIONNELLES.repositories;
 
-import com.RESSOURCES_RELATIONNELLES.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.RESSOURCES_RELATIONNELLES.entities.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Role findByName(String name);
 
     boolean existsByName(String name);
+
 }

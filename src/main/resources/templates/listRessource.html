@@ -60,20 +60,26 @@
         <input type="submit" class="button-search w-button" value="Rechercher">
     </form>
 	</article>
-
 <section class="ressource_card_container">
-	<article class="ressourceCard" th:each="res:${listRessource}">
-		<img th:src="${res.headerImagePath}"/>
-		<div class="list_of_relationType">
-			<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
-		</div>
-		<p th:text="${res.ressourceType != null ? res.ressourceType.name : 'Type inconnu'}"></p>
-		<h1 class="ressource_title" th:text="${res.title}"></h1>
-		<p th:text="${res.category != null ? res.category.name : 'Catégorie inconnue'}"></p>
-	</article>
+		<a class="ressourceCard_link" th:href="@{/ressource/{id}(id=${res.id})}" th:each="res: ${listRessource}">
+			<article class="ressourceCard">
+				<img th:src="${res.headerImagePath}"/>
+				<button th:if="${myUser != null}" type="submit" class="favorite_item_button" title="Ajouter aux favoris">
+					<!--<img th:if="${favoriteIds == null or !favoriteIds.contains(res.id)}" class="favorite_item" src="/img/heart.png" alt="Favoris" /> -->
+					<img th:if="${favoriteIds != null and favoriteIds.contains(res.id)}" class="favorite_item" src="/img/red_heart.png" alt="Favoris" />
+				</button>
+				<div class="list_of_relationType">
+					<p class="relationType_item" th:each="relationType:${res.listRelationTypes}" th:text="${relationType.relationType.name}"></p>
+				</div>
+				<p class="ressourceType_item" th:if="${res.ressourceType != null}" th:text="${res.ressourceType.name}"></p>
+				<h1 class="ressource_title" th:text="${res.title}"></h1>
+				<p th:if="${res.category != null}" th:text="${res.category.name}"></p>
+				<img th:if="${res.status} == 'private'" class="private_item"src="/img/private.png" alt="Favoris"/>
+			</article>
+		</a>
 	
-	<script>
-
+	<script> 
+	
 	function resetFilter(event, element) {
 	    event.preventDefault();
 
@@ -120,7 +126,6 @@
         window.location.href = newUrl;
     }
 	</script>
-	
 	
 </section>
 </main>

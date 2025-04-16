@@ -4,6 +4,7 @@
 	  layout:decorate="~{layouts/mainLayout}">
 <head>
 	<title>Modération</title>
+	<link rel="stylesheet" href="/css/stylesSupportPages.css" />
 </head>
 <body>
 <main layout:fragment="content">
@@ -27,20 +28,24 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-			  <tr>
-				  <td>Id de l'article</td>
-				  <td>Titre de l'article</td>
-				  <td>date de création</td>
-				  <td>Introduction de l'article</td>
-				  <td>le type de ressource: ex: Article</td>
-				  <td>la catégorie: ex: Loisirs</td>
-				  <td>la relation: ex:Soi</td>
-				  <td>le statut : ex: publique</td>
-				  <td>Jean Michel</td>
+			   <tr th:each="ressource : ${ressources}">
+				  <td th:text="${ressource.id}"></td>
+				  <td th:text="${ressource.title}"></td>
+				  <td th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}"></td>
+                <td th:text="${ressource.description}"></td>
+                <td th:text="${ressource.ressourceType.name}"></td>
+                <td th:text="${ressource.category.name}"></td>
+                <td>
+                	<span th:each="rr : ${ressource.listRelationTypes}">
+					<span th:text="${rr.relationType.name}"></span>
+				</span></td>
+                <td th:text="${ressource.status}"></td>
+                <td>Exemple</td>
+                
 				  <td>
 				  	<div class="supportTools">
-					  	<button>Consulter</button>
-					  	<button>Publier</button>
+					  	<button th:onclick="|window.location.href='/ressource/' + ${ressource.id}|" class="btn btn-edit">Consulter</button>
+					  	<button class = "btn btn-edit">Publier</button>
 				  	</div>
 				  </td>
 			  </tr>
@@ -48,34 +53,36 @@
 		</table>
 </section>
 <section>
-<h2>Gestion des commentaires</h2>
-	<p>Liste des commentaires signalés:</p>
-	<table>
-		  <thead>
-		    <tr>
-		      <th scope="col">Id</th>
-		      <th scope="col">Ressource</th>
-		      <th scope="col">Contenu</th>
-		      <th scope="col">Auteur</th>
-		      <th scope="col">Outils</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-			  <tr>
-				  <td>1</td>
-				  <td>Titre de la ressource où apparait le commentaire</td>
-				  <td>Ici le contenu du commentaire</td>
-				  <td>Nom de l'auteur du commentaire</td>
-				  <td>
-				  	<div class="supportTools">
-					  	<button>Consulter</button>
-					  	<button>Suspendre</button>
-				  	</div>
-				  </td>
-			  </tr>
-		  </tbody>
-		</table>
+    <h2>Gestion des commentaires</h2>
+    <p>Liste des commentaires signalés :</p>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Ressource</th>
+                <th scope="col">Contenu</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Outils</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="comment : ${commentaires}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.ressource.title}"></td>
+                <td th:text="${comment.content}"></td>
+                <td th:text="${comment.name}"></td>
+                <td>
+                    <div class="supportTools">
+                        <button th:onclick="|window.location.href='/ressource/' + ${comment.ressource.id}|" class="btn btn-edit">Consulter</button>
+    <button th:onclick="|if(confirm('Supprimer ce commentaire ?')) window.location.href='/supprimer_commentaire/' + ${comment.ressource.id} + '/' + ${comment.id}|" class="btn btn-edit">Suspendre</button>
+				  	
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
+
 </main>
 </body>
 </html>
