@@ -18,9 +18,15 @@
 			        <img class="favorite_item"  th:if=${isFavorite} src="/img/red_heart.png" alt="Favori" />
 			    </button>
 			</form>
-	    	<button type="submit" class="save_item_button" title="Ajouter aux sources exploitées">
-	    		<img class="exploit_item" src="/img/exploit.png" alt="exploiter" />
-			</button>
+			
+			<form th:action="@{/exploit/create}" method="post">
+				<input type="hidden" th:name="ressourceId" th:value="${ressource.id}" />
+		    	<button type="submit" class="save_item_button" title="Ajouter aux sources exploitées">
+		    		<img class="exploit_item" th:if=${!isExploit} src="/img/exploit.png" alt="exploité" />
+		    		<img class="exploit_item" th:if=${isExploit} src="/img/exploit_green.png" alt="A exploiter" />
+				</button>
+			</form>
+			
     		<button type="submit" class="save_item_button" title="Ajouter aux sources à consulter">
     			<img class="saveToConsult_item" src="/img/banniere.png" alt="consulter" />
 			</button>

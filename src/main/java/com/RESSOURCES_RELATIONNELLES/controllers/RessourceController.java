@@ -49,8 +49,9 @@ public class RessourceController {
 	private final HaveRelationTypeService _haveRelationTypeService;
 
 	private final FavoriteService _favoriteService;
+	private final ExploitService _exploitService;
 
-	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, FavoriteService favoriteService, CategoryService categoryService, HaveRelationTypeService haveRelationTypeService) {
+	public RessourceController(RessourceService ressourceService, RelationTypeService relationTypeService, RessourceTypeService ressourceTypeService, FavoriteService favoriteService, CategoryService categoryService, HaveRelationTypeService haveRelationTypeService, ExploitService exploitService) {
 
 		this._ressourceService = ressourceService;
 		this._relationTypeService = relationTypeService;
@@ -58,6 +59,7 @@ public class RessourceController {
 		this._favoriteService = favoriteService;
 		this._categoryService = categoryService;
         this._haveRelationTypeService = haveRelationTypeService;
+        this._exploitService = exploitService;
 	}
 	
 	
@@ -105,7 +107,7 @@ public class RessourceController {
 			}
 		}
 		
-		//Si user connecté je récupère la session et les favoris
+		//Si user connecté je récupère la session, les favoris, les ressources exploitées
 		if (user != null) {
 		model.addAttribute("myUser", user);
 		
@@ -133,6 +135,9 @@ public class RessourceController {
 				
 				boolean isFavorite = _favoriteService.getFavoriteByUserAndRessourceId(user.getId(), id).isPresent();
 					model.addAttribute("isFavorite", isFavorite);
+					
+				boolean isExploit = _exploitService.getExploitByUserAndRessourceId(user.getId(), id).isPresent();
+					model.addAttribute("isExploit", isExploit);
 			}
 	
 			model.addAttribute("paragraphs", paragraphs);

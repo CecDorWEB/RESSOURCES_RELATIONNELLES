@@ -149,10 +149,12 @@
         }
         
         button.save_item_button{
-        all:unset;}
+        all:unset;
+        cursor:pointer;
+        }
         
         button.save_item_button > img{
         height:24px;
-        width: 24px;s
+        width: 24px;
         }
         
