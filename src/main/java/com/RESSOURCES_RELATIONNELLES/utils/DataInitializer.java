@@ -9,6 +9,8 @@ import com.RESSOURCES_RELATIONNELLES.entities.Category;
 import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
 import com.RESSOURCES_RELATIONNELLES.entities.Role;
+import com.RESSOURCES_RELATIONNELLES.repositories.*;
+
 import com.RESSOURCES_RELATIONNELLES.repositories.CategoryRepository;
 import com.RESSOURCES_RELATIONNELLES.repositories.RelationTypeRepository;
 import com.RESSOURCES_RELATIONNELLES.repositories.RessourceTypeRepository;
@@ -16,18 +18,17 @@ import com.RESSOURCES_RELATIONNELLES.repositories.RoleRepository;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-	private final RoleRepository _roleRepository;
-	private final RessourceTypeRepository _ressourceTypeRepository;
-	private final CategoryRepository _categoryRepository;
-	private final RelationTypeRepository _relationTypeRepository;
+    private final RessourceTypeRepository _ressourceTypeRepository;
+    private final CategoryRepository _categoryRepository;
+    private final RelationTypeRepository _relationTypeRepository;
+    private final RoleRepository _roleRepository;
 
-	public DataInitializer(RessourceTypeRepository ressourceTypeRepository, CategoryRepository categoryRepository,
-			RelationTypeRepository relationTypeRepository, RoleRepository roleRepository) {
-		_roleRepository = roleRepository;
-		_ressourceTypeRepository = ressourceTypeRepository;
-		_categoryRepository = categoryRepository;
-		_relationTypeRepository = relationTypeRepository;
-	}
+    public DataInitializer(RessourceTypeRepository ressourceTypeRepository, CategoryRepository categoryRepository, RelationTypeRepository relationTypeRepository, RoleRepository roleRepository) {
+        _ressourceTypeRepository = ressourceTypeRepository;
+        _categoryRepository = categoryRepository;
+        _relationTypeRepository = relationTypeRepository;
+        _roleRepository = roleRepository;
+    }
 
 	@Override
 	public void run(String... args) {
@@ -67,20 +68,17 @@ public class DataInitializer implements CommandLineRunner {
 				}
 			}
 
-		}
-		if (_roleRepository.count() == 0) {
-			if (!_roleRepository.existsByName("Utilisateur"))
-				_roleRepository.save(new Role("Utilisateur",
-						"Rôle de base pour les utilisateurs inscrits sur la plateforme.", null));
-			if (!_roleRepository.existsByName("Utilisateur"))
-				_roleRepository.save(new Role("Modérateur",
-						"Rôle ayant accès à la modération des ressources et des commentaires.", null));
-			if (!_roleRepository.existsByName("Utilisateur"))
-				_roleRepository.save(
-						new Role("Administrateur", "Rôle ayant accès à l’administration et aux statistiques.", null));
-			if (!_roleRepository.existsByName("Utilisateur"))
-				_roleRepository.save(new Role("Super-Administrateur",
-						"Rôle ayant tous les droits, y compris la gestion des utilisateurs.", null));
-		}
-	}
+        }
+
+        if(_roleRepository.count() == 0) {
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Utilisateur", "Rôle de base pour les utilisateurs inscrits sur la plateforme.", null));
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Modérateur", "Rôle ayant accès à la modération des ressources et des commentaires.", null));
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Administrateur", "Rôle ayant accès à l’administration et aux statistiques.", null));
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Super-Administrateur", "Rôle ayant tous les droits, y compris la gestion des utilisateurs.", null));
+        }
+    }
 }

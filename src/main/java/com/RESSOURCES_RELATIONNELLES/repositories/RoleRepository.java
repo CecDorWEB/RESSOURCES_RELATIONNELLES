@@ -6,7 +6,8 @@ import com.RESSOURCES_RELATIONNELLES.entities.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-	Role findByName(String name);
+    Role findByName(String name);
 
-	boolean existsByName(String string);
+    boolean existsByName(String name);
+
 }

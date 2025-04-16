@@ -204,6 +204,7 @@ public class RessourceController {
 		// Vérifie les erreurs de validation de formulaire
 		if (result.hasErrors()) {
 			model.addAttribute("title", isCreation ? "Création d'une ressource" : "Modification d'une ressource");
+			model.addAttribute("ressource", ressource);
 			model.addAttribute("relationTypes", _relationTypeService.findAll());
 			model.addAttribute("ressourceTypes", _ressourceTypeService.findAll());
 			model.addAttribute("categories", _categoryService.findAll());

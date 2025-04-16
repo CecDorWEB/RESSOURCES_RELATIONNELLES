@@ -92,7 +92,7 @@ public class SecurityService {
 			// 🛡️ Attribution d’un rôle par défaut
 			Role defaultRole = roleRepository.findByName("Utilisateur");
 			if (defaultRole == null) {
-				throw new RuntimeException("Rôle par défaut 'User' introuvable en base !");
+				throw new RuntimeException("Rôle par défaut 'Utilisateur' introuvable en base !");
 			}
 			user.setRole(defaultRole);
 
@@ -104,7 +104,7 @@ public class SecurityService {
 		}
 		return false;
 	}
-
+	
 	public User getCurrentUser() {
 		Object email = session.getAttribute("userEmail"); // tu dois stocker ça lors de la connexion
 		if (email != null) {

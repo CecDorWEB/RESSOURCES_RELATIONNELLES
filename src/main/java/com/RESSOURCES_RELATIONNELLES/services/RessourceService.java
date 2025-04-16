@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +56,24 @@ public class RessourceService extends BaseService<Ressource, Long> {
 	public void DeleteRessource(Ressource ressource) {
 		_resourceRepository.delete(ressource);
 	}
+
+	public Page<Ressource> searchPagedRessources(
+			String search,
+			List<Long> catIds,
+			List<Long> resTypeIds,
+			List<Long> relTypeIds,
+			String status,
+			Pageable pageable
+	) {
+		return _resourceRepository.searchPaged(
+				(search != null && !search.isBlank()) ? search : null,
+				(catIds != null && !catIds.isEmpty()) ? catIds : null,
+				(resTypeIds != null && !resTypeIds.isEmpty()) ? resTypeIds : null,
+				(relTypeIds != null && !relTypeIds.isEmpty()) ? relTypeIds : null,
+				(status != null && !status.isBlank()) ? status : null,
+				pageable
+		);
+	}
+
 
 }

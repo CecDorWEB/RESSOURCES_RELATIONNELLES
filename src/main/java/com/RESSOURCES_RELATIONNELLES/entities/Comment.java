@@ -1,8 +1,8 @@
 package com.RESSOURCES_RELATIONNELLES.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,6 +30,7 @@ public class Comment {
 	@Column(name = "isReported", nullable = true)
 	private boolean isReported;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "ressource_id")
 	private Ressource ressource;
