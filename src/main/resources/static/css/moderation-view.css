@@ -61,3 +61,48 @@ body {
 .btn-back:hover {
     background-color: #005bb5;
 }
+.view-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.card p {
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 100%;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-action.danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-back {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}

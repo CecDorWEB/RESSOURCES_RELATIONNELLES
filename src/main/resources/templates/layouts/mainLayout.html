@@ -57,6 +57,10 @@
         <a href="#" th:text="#{footer.contact}">Contact</a> |
         <a href="#" th:text="#{footer.privacy}">Politique de Confidentialité</a> |
         <a href="#" th:text="#{footer.terms}">Conditions</a>
+        <p th:if="${session.user != null}">
+            <a href="/account/delete-request" th:text="#{footer.deleteAccount}">Demander la suppression de mes données personnelles</a>
+        </p>
+
     </p>
 </footer>
 </body>

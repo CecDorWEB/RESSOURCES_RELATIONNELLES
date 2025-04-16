@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Suppression de mes données</title>
+    <link rel="stylesheet" href="/css/moderation-view.css">
+</head>
+<body>
+<div class="view-container">
+    <div class="card">
+        <h1>Suppression de vos données personnelles</h1>
+        <p>Vous êtes sur le point de demander la suppression de vos données personnelles conformément au RGPD. Cette action est <strong>irréversible</strong>.</p>
+        <form method="post" th:action="@{/account/delete-request}">
+            <label for="confirmation">Tapez "<strong>OUI</strong>" pour confirmer :</label>
+            <input type="text" name="confirmation" required />
+            <button type="submit" class="btn-action danger">Confirmer la suppression</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
