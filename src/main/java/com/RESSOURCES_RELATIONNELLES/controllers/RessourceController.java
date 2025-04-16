@@ -113,7 +113,7 @@ public class RessourceController {
 		if (user != null) {
 		model.addAttribute("myUser", user);
 		
-		Set<Long> favoriteIds = _favoriteService.getFavoriteByUserId(user.getId());
+		Set<Long> favoriteIds = _favoriteService.getFavoriteIdByUserId(user.getId());
 	    model.addAttribute("favoriteIds", favoriteIds);
 		}
 		

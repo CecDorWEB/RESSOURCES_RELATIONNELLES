@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.RESSOURCES_RELATIONNELLES.services.saveToConsultService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import com.RESSOURCES_RELATIONNELLES.entities.SaveToConsult;
@@ -29,7 +30,7 @@ public class SaveToConsultController {
 	}
 	
 	@PostMapping("/create")
-	public String addSaveToConsult(@RequestParam("ressourceId") Long ressourceId, HttpSession session) {
+	public String addSaveToConsult(@RequestParam("ressourceId") Long ressourceId, HttpSession session, HttpServletRequest request) {
 		
 		User user = (User) session.getAttribute("user");
 
@@ -54,6 +55,14 @@ public class SaveToConsultController {
 	    _saveToConsultService.save(saveToConsult);
 	    
 	    }
-	    return "redirect:/ressource/"+ressourceId ;
+	    
+	    // 🔙 Récupération de l’URL de provenance
+	    String referer = request.getHeader("Referer");
+	    if (referer != null) {
+	        return "redirect:" + referer;
+	    }
+
+	    // Fallback au cas où le referer est absent
+	    return "redirect:/ressource/" + ressourceId;
 	}
 }

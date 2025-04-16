@@ -17,8 +17,16 @@ import java.util.Optional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.RESSOURCES_RELATIONNELLES.entities.Exploit;
+import com.RESSOURCES_RELATIONNELLES.entities.Favorite;
+import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
+import com.RESSOURCES_RELATIONNELLES.entities.SaveToConsult;
+import com.RESSOURCES_RELATIONNELLES.services.ExploitService;
+import com.RESSOURCES_RELATIONNELLES.services.FavoriteService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
+import com.RESSOURCES_RELATIONNELLES.services.saveToConsultService;
 
 @Controller
 @RequestMapping("/users")
@@ -28,6 +36,15 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private FavoriteService _favoriteService;
+	
+	@Autowired
+	private ExploitService _exploitService;
+	
+	@Autowired
+	private saveToConsultService _saveToConsultService;
 
 	// Formulaire d'ajout
 	@GetMapping("/add")
@@ -51,8 +68,6 @@ public class UserController {
 
 
 
-
-
 	@GetMapping("/toggle/{id}")
 	public String toggleUserActivation(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 		Optional<User> optionalUser = userRepository.findById(id);
@@ -70,9 +85,6 @@ public class UserController {
 
 		return "redirect:/users";
 	}
-
-
-
 
 
 	// (Pages futures)
@@ -96,6 +108,22 @@ public class UserController {
 	@GetMapping("/superAdministrator")
 	public String superAdministratorHome() {
 		return "superAdministrator";
+	}
+	
+	@GetMapping("/profile")
+	public String userProfileHome(Model model, HttpSession session) {
+		
+		User user = (User) session.getAttribute("user");
+		
+		List<Favorite> favorite = _favoriteService.getAllFavoriteByUserId(user.getId());
+		List<SaveToConsult> saveToConsult = _saveToConsultService.getAllSaveToConsultByUserId(user.getId());
+		List<Exploit> exploit = _exploitService.findAllExploitByUserId(user.getId());
+		
+		model.addAttribute("listFavorite", favorite);
+		model.addAttribute("listSaveToConsult", saveToConsult);
+		model.addAttribute("listExploit", exploit);
+		
+		return "profile";
 	}
 
 }
