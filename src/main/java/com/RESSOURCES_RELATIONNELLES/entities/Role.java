@@ -2,6 +2,7 @@ package com.RESSOURCES_RELATIONNELLES.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ public class Role {
 	@Column(length = 255, nullable = true)
 	private String description;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "role")
 	private List<User> listeDeUser;
 

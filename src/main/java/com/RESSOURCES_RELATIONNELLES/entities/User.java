@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -47,6 +48,7 @@ public class User {
 	@JoinColumn(name = "adresse_id", nullable = true)
 	private Adresse adresse;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Ressource> listRessources;
 

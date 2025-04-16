@@ -1,5 +1,6 @@
 package com.RESSOURCES_RELATIONNELLES.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class Comment {
 	@Column(name = "isReported", nullable = true)
 	private boolean isReported;
 
+	@JsonIgnore
 	@ManyToOne
 	private Ressource ressource;
 

@@ -58,6 +58,7 @@ public class Ressource {
 	@JoinColumn(name = "statistic_id")
 	private Statistic statistic;
 
+
 	@ManyToOne
 	private Category category;
 

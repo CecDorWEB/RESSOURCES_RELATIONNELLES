@@ -90,9 +90,9 @@ public class SecurityService {
     public boolean signUpUser(User user) {
         if (!userAlreadyExists(user.getEmail())) {
             // 🛡️ Attribution d’un rôle par défaut
-            Role defaultRole = roleRepository.findByName("User");
+            Role defaultRole = roleRepository.findByName("Utilisateur");
             if (defaultRole == null) {
-                throw new RuntimeException("Rôle par défaut 'User' introuvable en base !");
+                throw new RuntimeException("Rôle par défaut 'Utilisateur' introuvable en base !");
             }
             user.setRole(defaultRole);
 

@@ -1,5 +1,6 @@
 package com.RESSOURCES_RELATIONNELLES.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,9 +14,12 @@ public class HaveRelationType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@JsonIgnore
 	@ManyToOne
 	private Ressource ressource;
 
+	@JsonIgnore
 	@ManyToOne
 	private RelationType relationType;
 

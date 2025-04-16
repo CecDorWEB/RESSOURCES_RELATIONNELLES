@@ -3,10 +3,8 @@ package com.RESSOURCES_RELATIONNELLES.utils;
 import com.RESSOURCES_RELATIONNELLES.entities.Category;
 import com.RESSOURCES_RELATIONNELLES.entities.RelationType;
 import com.RESSOURCES_RELATIONNELLES.entities.RessourceType;
-import com.RESSOURCES_RELATIONNELLES.repositories.CategoryRepository;
-import com.RESSOURCES_RELATIONNELLES.repositories.RelationTypeRepository;
-import com.RESSOURCES_RELATIONNELLES.repositories.RessourceTypeRepository;
-import com.RESSOURCES_RELATIONNELLES.repositories.UserRepository;
+import com.RESSOURCES_RELATIONNELLES.entities.Role;
+import com.RESSOURCES_RELATIONNELLES.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +16,13 @@ public class DataInitializer implements CommandLineRunner {
     private final RessourceTypeRepository _ressourceTypeRepository;
     private final CategoryRepository _categoryRepository;
     private final RelationTypeRepository _relationTypeRepository;
+    private final RoleRepository _roleRepository;
 
-    public DataInitializer(RessourceTypeRepository ressourceTypeRepository, CategoryRepository categoryRepository, RelationTypeRepository relationTypeRepository) {
+    public DataInitializer(RessourceTypeRepository ressourceTypeRepository, CategoryRepository categoryRepository, RelationTypeRepository relationTypeRepository, RoleRepository roleRepository) {
         _ressourceTypeRepository = ressourceTypeRepository;
         _categoryRepository = categoryRepository;
         _relationTypeRepository = relationTypeRepository;
+        _roleRepository = roleRepository;
     }
 
     @Override
@@ -88,6 +88,17 @@ public class DataInitializer implements CommandLineRunner {
                 }
             }
 
+        }
+
+        if(_roleRepository.count() == 0) {
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Utilisateur", "Rôle de base pour les utilisateurs inscrits sur la plateforme.", null));
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Modérateur", "Rôle ayant accès à la modération des ressources et des commentaires.", null));
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Administrateur", "Rôle ayant accès à l’administration et aux statistiques.", null));
+            if(!_roleRepository.existsByName("Utilisateur"))
+                _roleRepository.save(new Role("Super-Administrateur", "Rôle ayant tous les droits, y compris la gestion des utilisateurs.", null));
         }
     }
 }
