@@ -23,9 +23,13 @@ public class FavoriteService extends BaseService<Favorite, Long> {
 	protected FavoriteService(JpaRepository<Favorite, Long> baseRepository) {
 		super(baseRepository);
 	}
+
+	public List<Favorite> getAllFavoriteByUserId(Long userId) {
+		return _favoriteRepository.findAllFavoriteByUserId(userId);
+	}
 	
-	public Set<Long> getFavoriteByUserId(Long userId) {
-		return new HashSet<>(_favoriteRepository.findFavoriteByUserId(userId));
+	public Set<Long> getFavoriteIdByUserId(Long userId) {
+		return new HashSet<>(_favoriteRepository.findFavoriteIdByUserId(userId));
 	}
 	
 	public Optional<Favorite> getFavoriteByUserAndRessourceId(Long userId, Long ressourceId) {

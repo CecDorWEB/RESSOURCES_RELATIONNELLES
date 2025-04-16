@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.RESSOURCES_RELATIONNELLES.services.RelationTypeService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceTypeService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -32,7 +34,7 @@ public class FavoriteController {
 	}
 
 	@PostMapping("/create")
-	public String addFavorite(@RequestParam("ressourceId") Long ressourceId, HttpSession session) {
+	public String addFavorite(@RequestParam("ressourceId") Long ressourceId, HttpSession session, HttpServletRequest request) {
 		
 		User user = (User) session.getAttribute("user");
 
@@ -57,7 +59,30 @@ public class FavoriteController {
 	    _favoriteService.save(favorite);
 	    
 	    }
-	    return "redirect:/ressource/"+ressourceId ;
+	    
+	    // 🔙 Récupération de l’URL de provenance
+	    String referer = request.getHeader("Referer");
+	    if (referer != null) {
+	        return "redirect:" + referer;
+	    }
+
+	    // Fallback au cas où le referer est absent
+	    return "redirect:/ressource/" + ressourceId;
+	    
+	}
+	
+	@DeleteMapping("/delete")
+	public String deleteFavorite(@RequestParam("ressourceId") Long ressourceId, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		
+		 //Vérifier si la ressource est déjà en favorie
+	    boolean isFavorite = _favoriteService.getFavoriteByUserAndRessourceId(user.getId(), ressourceId).isPresent();
+	   
+	    if(isFavorite) {
+	    	_favoriteService.deleteFavoriteByUserAndRessource(user.getId(), ressourceId);
+	    }
+		
+	    return "redirect:/users/profile";
 	}
 	
 }

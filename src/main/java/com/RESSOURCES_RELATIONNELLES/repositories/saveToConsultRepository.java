@@ -13,6 +13,9 @@ import com.RESSOURCES_RELATIONNELLES.entities.SaveToConsult;
 @Repository
 public interface saveToConsultRepository extends JpaRepository<SaveToConsult, Long> {
 
+	@Query("SELECT stc FROM SaveToConsult stc WHERE stc.user.id= :userId")
+	List<SaveToConsult> findAllSaveToConsultByUserId(@Param("userId") Long userId);
+	
 	@Query("SELECT stc.ressource.id FROM SaveToConsult stc WHERE stc.user.id= :userId")
 	List<Long> findSaveToConsultByUserId(@Param("userId") Long userId);
 

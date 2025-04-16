@@ -1,5 +1,6 @@
 package com.RESSOURCES_RELATIONNELLES.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class saveToConsultService extends BaseService<SaveToConsult, Long> {
 	
 	protected saveToConsultService(JpaRepository<SaveToConsult, Long> baseRepository) {
 		super(baseRepository);
+	}
+	
+	public List<SaveToConsult> getAllSaveToConsultByUserId(Long userId){
+		return _saveToConsultRepository.findAllSaveToConsultByUserId(userId);
 	}
 	
 	public Optional<SaveToConsult> getSaveToConsultByUserAndRessourceId(Long userId, Long ressourceId) {

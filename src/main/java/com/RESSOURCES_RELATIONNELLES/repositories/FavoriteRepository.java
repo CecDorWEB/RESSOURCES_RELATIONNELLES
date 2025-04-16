@@ -15,8 +15,11 @@ import com.RESSOURCES_RELATIONNELLES.entities.User;
 @Repository
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
+	@Query("SELECT fav FROM Favorite fav Where fav.user.id=:userId")
+	List<Favorite> findAllFavoriteByUserId(@Param("userId") Long userId);
+	
 	@Query("SELECT fav.ressource.id FROM Favorite fav Where fav.user.id=:userId")
-	List<Long> findFavoriteByUserId(@Param("userId") Long userId);
+	List<Long> findFavoriteIdByUserId(@Param("userId") Long userId);
 	
 	@Query("SELECT fav FROM Favorite fav Where fav.user.id=:userId and fav.ressource.id=:ressourceId")
 	Optional<Favorite> findIfIsFavorite(@Param("userId") Long userId,
