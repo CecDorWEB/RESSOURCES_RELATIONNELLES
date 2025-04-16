@@ -44,7 +44,7 @@ public class Ressource {
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@Pattern(regexp = "public|private|unlisted", message = "Le statut doit être public, private ou unlisted")
+	@Pattern(regexp = "Public|Private|Unlisted", message = "Le statut doit être public, private ou unlisted")
 	@Column(name = "status", nullable = false)
 	private String status = "Public";
 
