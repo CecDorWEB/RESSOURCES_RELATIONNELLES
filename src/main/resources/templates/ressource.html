@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layouts/mainLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenu de la Ressource</title>
     <link rel="stylesheet" href="/css/myRessource.css" />
 </head>
@@ -12,36 +14,75 @@
     <div class="content-card">
         <h1 th:text="${ressource.title}"></h1>
 
-        <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
-        <span th:text="${ressource.description}"></span>
-        <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span><strong> / Types de relation  :</strong>
+        <!-- Affichage de l'image d'en-tête -->
+        <div class="header-image-container">
+            <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
+        </div>
+        
+        <!-- Description et métadonnées -->
+        <div class="meta-info">
+            <span th:text="${ressource.description}"></span>
+            <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span>
+               <strong> / Types de relation :</strong>
+               <span th:each="rr : ${ressource.listRelationTypes}">
+                   <span th:text="${rr.relationType.name}"></span>
+               </span>
+               <strong> / Type :</strong> <span th:text="${ressource.ressourceType.name}"></span>
+            </p>
+            <p>
+                <strong>Publié le :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}"></span>
+                <strong> / Dernière mise à jour :</strong> <span th:text="${#dates.format(ressource.updateDate, 'dd MMM yyyy')}"></span>
+            </p>
+        </div>
 
-            <span th:each="rr : ${ressource.listRelationTypes}">
-					        <span th:text="${rr.relationType.name}"></span>
-					    </span>
+        <!-- Affichage du contenu ou du fichier -->
+        <div class="content-container">
+            <p th:if="${#strings.isEmpty(ressource.filePath)}">
+                <span th:text="${ressource.content}"></span>
+            </p>
+            <p th:if="${not #strings.isEmpty(ressource.filePath)}">
+                <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
+                <h2 th:text="${ressource.content}"></h2>
+            </p>
+        </div>
 
-            <strong> / Type :</strong> <span th:text="${ressource.ressourceType.name}"></span>
-        </p>
-        <p><strong>Publié le :</strong> <span th:text="${#dates.format(ressource.publicationDate, 'dd MMM yyyy')}">
-            </span><strong> / Dernière mise à jour :</strong> <span th:text="${#dates.format(ressource.updateDate, 'dd MMM yyyy')}"></span></p>
-        <p th:if="${#strings.isEmpty(ressource.filePath)}">
-            <span th:text="${ressource.content}"></span>
-        </p>
-        <p th:if="${not #strings.isEmpty(ressource.filePath)}">
-            <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
-        <h2 th:text="${ressource.content}"></h2>
-        </p>
+	<!-- Section des commentaires -->
+	<section class="comment-section">
+	    <h2>Écris ton commentaire :</h2>
+	
+	    <!-- Si l'utilisateur est connecté -->
+	    <div sec:authorize="isAuthenticated()">
+	        <form th:action="@{/ajouter_commentaire/{ressourceId}(ressourceId=${ressource.id})}" method="get">
+	            <textarea class="styled-textarea" rows="6" placeholder="Ton commentaire..." name="content" required></textarea>
+	            <br />
+	            <button type="submit" class="btn btn-submit" aria-label="Soumettre ton commentaire">Soumettre</button>
+	        </form>
+	    </div>
+	
+	    <!-- Si l'utilisateur n'est pas connecté -->
+	    <div sec:authorize="isAnonymous()">
+	        <p>Tu dois être <a th:href="@{/login}">connecté(e)</a> pour écrire un commentaire.</p>
+	    </div>
+	</section>
+
+
+
+
+        <!-- Affichage des commentaires existants -->
+<section class="existing-comments">
+    <h3>Commentaires :</h3>
+    
+    <div th:each="comment : ${comments}" class="comment-item">
+    <strong th:text="${comment.name != null ? comment.name : 'Anonymous'}">Auteur</strong>
+        <p th:text="${comment.content}">Contenu du commentaire</p>
+    </div>
+</section>
+
+
+
     </div>
 </div>
-<<<<<<< HEAD
-<section>
-    <p>Écris ici ton commentaire :</p>
-    <textarea class="styled-textarea" rows="6" placeholder="Tape ton message ici..."></textarea>
-    <br />
-    <button class="btn">Soumettre</button>
-</section>
-=======
+
 </main>
->>>>>>> 25301de0c54874802663aa9829ec1d3a16e76048
 </body>
 </html>

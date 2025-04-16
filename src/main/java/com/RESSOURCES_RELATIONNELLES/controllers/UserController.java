@@ -7,16 +7,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.RESSOURCES_RELATIONNELLES.entities.Comment;
 import com.RESSOURCES_RELATIONNELLES.entities.Ressource;
+import com.RESSOURCES_RELATIONNELLES.services.CommentService;
 import com.RESSOURCES_RELATIONNELLES.services.RessourceService;
 
 @Controller
 public class UserController {
 	@Autowired
 	private RessourceService ressourceService;
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("/moderator")
 	public String moderatorHome() {
+		return "moderator";
+	}
+
+	@GetMapping("/moderator/gestion")
+	public String moderatorGestionRessourcesAndComments(Model model) {
+		List<Ressource> ressources = ressourceService.getAllRessourcesWithStateNullOrFalse();
+		List<Comment> comments = commentService.getAllCommentsOnlyTrue();
+
+		// Passer les ressources à la vue
+		model.addAttribute("ressources", ressourceService.getAllRessourcesWithStateNullOrFalse());
+		model.addAttribute("commentaires", commentService.getAllCommentsOnlyTrue());
+
+		// Retourner la vue de gestion des ressources
 		return "moderator";
 	}
 

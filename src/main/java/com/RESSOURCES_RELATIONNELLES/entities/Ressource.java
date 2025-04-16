@@ -31,7 +31,7 @@ public class Ressource {
 	@Column(name = "filePath", nullable = true)
 	private String filePath;
 
-	@Column(name = "content",columnDefinition="TEXT", nullable = false)
+	@Column(name = "content", columnDefinition = "TEXT", nullable = false)
 	private String content;
 
 	@Column(name = "publicationDate", nullable = false)
@@ -52,6 +52,14 @@ public class Ressource {
 	@Column(name = "isActived", nullable = false)
 	private Boolean isActived = true;
 
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 	@OneToOne
 	@JoinColumn(name = "statistic_id")
 	private Statistic statistic;
@@ -61,12 +69,15 @@ public class Ressource {
 
 	@ManyToOne
 	private RessourceType ressourceType;
-	
+
 	@ManyToOne
 	private User user;
 
 	@OneToMany(mappedBy = "ressource")
 	private List<HaveRelationType> listRelationTypes;
+
+	@OneToMany(mappedBy = "ressource")
+	private List<Comment> comments;
 
 	public Ressource() {
 		super();

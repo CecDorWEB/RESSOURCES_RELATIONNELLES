@@ -32,13 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-<<<<<<< HEAD
-.env
-application-.yml
-application-.properties
-=======
 # fichiers sensibles
 .env
 application-*.yml
 application-*.properties
->>>>>>> 25301de0c54874802663aa9829ec1d3a16e76048

@@ -44,4 +44,8 @@ public class RessourceService extends BaseService<Ressource, Long> {
 		_resourceRepository.delete(ressource);
 	}
 
+	public List<Ressource> getAllRessourcesWithStateNullOrFalse() {
+		return _resourceRepository.findByIsActivedIsNullOrIsActivedFalse();
+	}
+
 }

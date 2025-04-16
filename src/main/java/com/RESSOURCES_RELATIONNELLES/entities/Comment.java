@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -14,9 +15,6 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(name = "name", nullable = false)
-	private String name;
 
 	@Column(name = "content", nullable = false)
 	private String content;
@@ -28,7 +26,19 @@ public class Comment {
 	private boolean isReported;
 
 	@ManyToOne
+	@JoinColumn(name = "ressource_id")
 	private Ressource ressource;
+
+	@JoinColumn(name = "user_id")
+	private String name;
+
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
 
 	public Long getId() {
 		return id;
