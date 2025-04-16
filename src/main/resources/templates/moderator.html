@@ -24,6 +24,7 @@
 					<th>Catégorie</th>
 					<th>Relation</th>
 					<th>Statut</th>
+					<th>Active</th>
 					<th>Création</th>
 					<th>Créateur</th>
 					<th>Actions</th>
@@ -39,13 +40,27 @@
 					<td>
 						<span th:text="${res.status}" th:classappend="${res.status == 'Publique'} ? 'badge badge-success' : 'badge badge-warning'">Statut</span>
 					</td>
+					<td>
+                        <span th:text="${res.isActived ? 'Oui' : 'Non'}"
+							  th:classappend="${res.isActived ? 'badge badge-success' : 'badge badge-danger'}">Oui</span>
+					</td>
 					<td th:text="${#dates.format(res.publicationDate, 'dd/MM/yyyy')}">12/04/2024</td>
 					<td th:text="${res.user != null ? res.user.lastName + ' ' + res.user.firstName : 'Auteur inconnu'}">Auteur</td>
 					<td>
 						<div class="batch-actions">
 							<a th:href="@{'/moderator/ressource/' + ${res.id}}" class="btn-action success">Consulter</a>
+
 							<form th:action="@{'/moderator/ressource/' + ${res.id} + '/publish'}" method="post" style="display:inline;">
 								<button type="submit" class="btn-action btn-role">Publier</button>
+							</form>
+
+							<form th:if="${res.isActived}" th:action="@{'/moderator/ressource/' + ${res.id} + '/suspend'}" method="post" style="display:inline;">
+								<button type="submit" class="btn-action danger">Suspendre</button>
+							</form>
+
+							<form th:if="${!res.isActived and (session.user.role.name == 'Administrateur' or session.user.role.name == 'Super-Administrateur')}"
+								  th:action="@{'/moderator/ressource/' + ${res.id} + '/activate'}" method="post" style="display:inline;">
+								<button type="submit" class="btn-action btn-role">Réactiver</button>
 							</form>
 						</div>
 					</td>
@@ -76,10 +91,10 @@
 					<td th:text="${comment.name}">Auteur</td>
 					<td th:text="${comment.content}">Contenu</td>
 					<td>
-						<span th:text="${comment['isActivated'] ? 'Actif' : 'Suspendu'}"
+                        <span th:text="${comment['isActivated'] ? 'Actif' : 'Suspendu'}"
 							  th:classappend="${comment['isActivated'] ? 'badge badge-success' : 'badge badge-danger'}">
-							Statut
-						</span>
+                            Statut
+                        </span>
 					</td>
 					<td>
 						<div class="batch-actions">
@@ -94,8 +109,6 @@
 							</form>
 						</div>
 					</td>
-
-
 				</tr>
 				</tbody>
 			</table>

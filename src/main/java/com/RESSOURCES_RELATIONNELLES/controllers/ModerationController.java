@@ -76,5 +76,25 @@ public class ModerationController {
         }
         return "redirect:/moderator";
     }
+    @PostMapping("/moderator/ressource/{id}/suspend")
+    public String suspendRessource(@PathVariable Long id) {
+        Ressource ressource = ressourceRepository.findById(id).orElse(null);
+        if (ressource != null) {
+            ressource.setIsActived(false);
+            ressourceRepository.save(ressource);
+        }
+        return "redirect:/moderator";
+    }
+
+    @PostMapping("/moderator/ressource/{id}/activate")
+    public String activateRessource(@PathVariable Long id) {
+        Ressource ressource = ressourceRepository.findById(id).orElse(null);
+        if (ressource != null) {
+            ressource.setIsActived(true);
+            ressourceRepository.save(ressource);
+        }
+        return "redirect:/moderator";
+    }
+
 
 }
