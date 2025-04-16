@@ -11,4 +11,9 @@ import com.RESSOURCES_RELATIONNELLES.entities.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 	List<Comment> findByIsReportedTrue();
+
+	List<Comment> findByRessourceId(Long ressourceId);
+
+	List<Comment> findByParent(Comment parent); // Récupérer les réponses d'un commentaire
+
 }

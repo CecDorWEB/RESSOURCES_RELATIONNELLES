@@ -96,6 +96,7 @@ public class RessourceController {
 			List<Comment> comments = ressource.get().getComments();
 			model.addAttribute("ressource", ressource.get());
 			model.addAttribute("comments", comments);
+			model.addAttribute("isAuthenticated", securityService.isAuthenticated());
 
 			if (securityService.isAuthenticated()) {
 				User currentUser = securityService.getCurrentUser();
@@ -170,7 +171,7 @@ public class RessourceController {
 		return "redirect:/administrator/gestionRessources";
 	}
 
-	@PostMapping("/commenter/{ressourceId}")
+	@GetMapping("/commenter/{ressourceId}")
 	public String commenter(@PathVariable Long ressourceId, @RequestParam User user, @RequestParam String content) {
 
 		Optional<Ressource> ressourceOpt = _ressourceService.findById(ressourceId);
@@ -186,6 +187,23 @@ public class RessourceController {
 			_commentService.save(comment); // ou tout autre moyen de persister le commentaire
 
 			return "redirect:/ressource/" + ressourceId;
+		} else {
+			return "redirect:/home";
+		}
+	}
+
+	@GetMapping("/commenter/reponse/{commentId}")
+	public String repondreAuCommentaire(@PathVariable Long commentId, @RequestParam String content) {
+		Optional<Comment> parentComment = _commentService.FindById(commentId);
+
+		if (parentComment.isPresent()) {
+			Comment reply = new Comment();
+			reply.setContent(content);
+			reply.setName(securityService.getCurrentUser().getFirstName()); // Ou autre
+			reply.setParent(parentComment.get()); // Il faut que ton entity `Comment` ait un champ `parent`
+
+			_commentService.save(reply);
+			return "redirect:/ressource/" + parentComment.get().getRessource().getId();
 		} else {
 			return "redirect:/home";
 		}

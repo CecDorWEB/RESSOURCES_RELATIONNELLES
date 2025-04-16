@@ -7,21 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenu de la Ressource</title>
     <link rel="stylesheet" href="/css/myRessource.css" />
+    <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM complètement chargé"); // Ajoute ce log pour vérifier l'exécution
+    document.querySelectorAll(".reply-toggle-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            const commentId = btn.getAttribute("data-comment-id");
+            const form = document.getElementById("reply-form-" + commentId);
+            console.log("Formulaire trouvé pour le commentaire ID:", commentId); // Ajoute ce log pour vérifier la cible
+            if (form) {
+                if (form.style.display === "none" || form.style.display === "") {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            }
+        });
+    });
+});
+
+</script>
+    
 </head>
 <body>
 <main layout:fragment="content">
 <div class="container">
     <div class="content-card">
-        <h1 th:text="${ressource.title}"></h1>
+        
 
         <!-- Affichage de l'image d'en-tête -->
         <div class="header-image-container">
             <img th:src="@{${ressource.headerImagePath}}" alt="Image d'en-tête" class="header-image" th:if="${ressource.headerImagePath != null}">
         </div>
+        <h1 th:text="${ressource.title}"></h1>
         
         <!-- Description et métadonnées -->
         <div class="meta-info">
-            <span th:text="${ressource.description}"></span>
+            <span class = description th:text="${ressource.description}"></span>
             <p><strong>Catégorie :</strong> <span th:text="${ressource.category.name}"></span>
                <strong> / Types de relation :</strong>
                <span th:each="rr : ${ressource.listRelationTypes}">
@@ -40,10 +62,14 @@
             <p th:if="${#strings.isEmpty(ressource.filePath)}">
                 <span th:text="${ressource.content}"></span>
             </p>
-            <p th:if="${not #strings.isEmpty(ressource.filePath)}">
-                <img th:src="@{${ressource.filePath}}" alt="Image" class="content-image" />
-                <h2 th:text="${ressource.content}"></h2>
-            </p>
+            
+             <p th:if="${not #strings.isEmpty(ressource.filePath)}">
+    <strong>Lien du fichier :</strong> 
+    <a th:href="${ressource.filePath}" target="_blank">Télécharger le fichier</a>
+</p>
+
+              
+           
         </div>
 
 	<!-- Section des commentaires -->
@@ -51,16 +77,18 @@
 	    <h2>Écris ton commentaire :</h2>
 	
 	    <!-- Si l'utilisateur est connecté -->
-	    <div sec:authorize="isAuthenticated()">
+	    <div th:if="${isAuthenticated}">
+
 	        <form th:action="@{/ajouter_commentaire/{ressourceId}(ressourceId=${ressource.id})}" method="get">
 	            <textarea class="styled-textarea" rows="6" placeholder="Ton commentaire..." name="content" required></textarea>
 	            <br />
-	            <button type="submit" class="btn btn-submit" aria-label="Soumettre ton commentaire">Soumettre</button>
+	            <button type="submit" class="submit" aria-label="Soumettre ton commentaire">Soumettre</button>
 	        </form>
 	    </div>
 	
 	    <!-- Si l'utilisateur n'est pas connecté -->
-	    <div sec:authorize="isAnonymous()">
+	    <div th:if="${!isAuthenticated}">
+
 	        <p>Tu dois être <a th:href="@{/login}">connecté(e)</a> pour écrire un commentaire.</p>
 	    </div>
 	</section>
@@ -68,21 +96,61 @@
 
 
 
-        <!-- Affichage des commentaires existants -->
+       <!-- Affichage des commentaires existants -->
 <section class="existing-comments">
     <h3>Commentaires :</h3>
-    
+
     <div th:each="comment : ${comments}" class="comment-item">
-    <strong th:text="${comment.name != null ? comment.name : 'Anonymous'}">Auteur</strong>
-        <p th:text="${comment.content}">Contenu du commentaire</p>
-    </div>
+
+        <!-- En-tête du commentaire -->
+        <div class="comment-header">
+            <strong th:text="${comment.name != null ? comment.name : 'Anonymous'}">Auteur</strong>
+            <strong> : </strong>
+            <p th:text="${comment.content}">Contenu du commentaire</p>
+
+            <div th:if="${currentUser != null}">
+                <button th:attr="data-comment-id=${comment.id}" class="btn btn-reply reply-toggle-btn">
+                    Répondre
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulaire de réponse -->
+        <div th:id="'reply-form-' + ${comment.id}" class="reply-form" style="display:none;">
+            <form th:action="@{/commenter/reponse/{id}(id=${comment.id})}" method="get">
+                <textarea name="content" rows="2" placeholder="Ta réponse..." required></textarea>
+                <br />
+                <button type="submit" class="reply">Envoyer la réponse</button>
+            </form>
+        </div>
+
+        <!-- Réponses -->
+        <div th:each="reply : ${comment.replies}" class="reply-item">
+            <div class="reply-header">
+                <strong th:text="${reply.name}">Répondant</strong>
+                <span> : </span>
+                <p th:text="${reply.content}">Contenu de la réponse</p>
+
+                <div th:if="${currentUser != null}">
+                    <button th:attr="data-comment-id=${reply.id}" class="btn btn-reply reply-toggle-btn">
+                        Répondre
+                    </button>
+                </div>
+            </div>
+
+            <div th:id="'reply-form-' + ${reply.id}" class="reply-form" style="display:none;">
+                <form th:action="@{/commenter/reponse/{id}(id=${reply.id})}" method="get">
+                    <textarea name="content" rows="2" placeholder="Ta réponse..." required></textarea>
+                    <br />
+                    <button type="submit" class="btn btn-reply">Envoyer la réponse</button>
+                </form>
+            </div>
+        </div>
+
+    </div> <!-- fin de comment-item -->
 </section>
 
-
-
-    </div>
-</div>
-
 </main>
+
 </body>
 </html>

@@ -12,7 +12,9 @@
             min-height: 100%; /* Permet au body de s'étendre sur toute la hauteur de l'écran */
             overflow-x: hidden; /* Empêche le défilement horizontal */
         }
-
+        span.description {
+    font-weight: bold;
+}
 
         /* Container for content */
         .container {
@@ -141,3 +143,102 @@
         li {
         display :inline-block;margin: 0; padding-left: 0;
         }
+        
+        
+        
+        .reply-item {
+    margin-left: 20px; /* Décalage pour imiter une hiérarchie */
+    background-color: #f8f9fa; /* Un fond différent pour les réponses */
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.reply-form {
+    margin-top: 10px;
+    margin-left: 20px; /* Alignement des formulaires de réponses sous chaque commentaire */
+}
+
+.comment-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.styled-textarea {
+    width: 50%;
+    min-height: 150px;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espace entre le nom et le commentaire */
+    
+}
+
+.comment-header p {
+    margin: 0;
+}
+
+.comment-item {
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 700px; /* Limite la largeur du cadre */
+    width: 90%;       /* Ajuste à la taille de l'écran tout en respectant le max */
+}
+
+.reply-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.reply-header p {
+    margin: 0;
+}
+.reply
+{
+	padding : 1%;
+	background-color : #c0c0c0;
+	color : #FFFFFF;
+	 border-radius: 5px;
+}
+.reply:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px) scale(1.03);
+        }
+.btn.btn-reply.reply-toggle-btn {
+    padding: 1%;
+    background-color: #c0c0c0;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.btn.btn-reply.reply-toggle-btn:hover {
+	background-color: #0056b3;
+            transform: translateY(-3px) scale(1.03);
+	}
+
+.submit {
+	padding: 0.8%;
+    background-color: #c0c0c0;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.submit:hover {
+	background-color: #0056b3;
+            transform: translateY(-3px) scale(1.03);
+}
+	
