@@ -19,18 +19,18 @@
             </ul>
         </nav>
         <div class="auth">
-            <div th:if="${session.user != null and session.user.role.name == 'Super-Administrateur'}">
+            <div th:if="${session.user != null and session.user.role.name == 'SUPER-ADMINISTRATOR'}">
                 <a href="/superadmin/users" class=" btn-superadmin" th:text="#{nav.superadmin}">Super-Administrateur</a>
                 <a href="/admin/stats" class=" btn-admin" th:text="#{nav.admin}">Administrateur</a>
                 <a href="/moderator" class="btn-moderator" th:text="#{nav.moderator}">Modérateur</a>
             </div>
 
-            <div th:if="${session.user != null and session.user.role.name == 'Administrateur'}">
+            <div th:if="${session.user != null and session.user.role.name == 'ADMINISTRATOR'}">
                 <a href="/admin/stats" class="btn-users" th:text="#{nav.admin}">Administrateur</a>
                 <a href="/moderator" class="btn-users" th:text="#{nav.moderator}">Modérateur</a>
             </div>
 
-            <div th:if="${session.user != null and session.user.role.name == 'Modérateur'}">
+            <div th:if="${session.user != null and session.user.role.name == 'MODERATOR'}">
                 <a href="/moderator" class="btn-users" th:text="#{nav.moderator}">Modérateur</a>
             </div>
             <div th:if="${session.user == null}">
@@ -39,7 +39,7 @@
             </div>
 
             <div th:if="${session.user != null}">
-                <a href="/users/profile" class="btn-profile" th:text="#{nav.profile}">Mon profil</a>
+                <a href="/profile" class="btn-profile" th:text="#{nav.profile}">Mon profil</a>
                 <a href="/logout" class="btn-profile">Se déconnecter</a>
 
             </div>
