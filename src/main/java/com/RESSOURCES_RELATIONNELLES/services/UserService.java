@@ -29,9 +29,7 @@ public class UserService extends BaseService<User, Long> {
 
         return user != null &&
                 user.getRole() != null &&
-                "Super-Administrateur".equalsIgnoreCase(user.getRole().getName())
-                ||
-                "Dieu".equalsIgnoreCase(user.getRole().getName());
+                "SUPER-ADMINISTRATOR".equalsIgnoreCase(user.getRole().getName());
 
     }
 
@@ -45,11 +43,9 @@ public class UserService extends BaseService<User, Long> {
 
         return user != null &&
                 user.getRole() != null &&
-                "Administrateur".equalsIgnoreCase(user.getRole().getName())
+                "ADMINISTRATOR".equalsIgnoreCase(user.getRole().getName())
                 ||
-                "Super-Administrateur".equalsIgnoreCase(user.getRole().getName())
-                 ||
-                "Dieu".equalsIgnoreCase(user.getRole().getName());
+                "SUPER-ADMINISTRATOR".equalsIgnoreCase(user.getRole().getName());
 
 
     }
