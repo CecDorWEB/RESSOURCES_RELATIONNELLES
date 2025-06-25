@@ -82,7 +82,7 @@ public class FavoriteController {
 	    	_favoriteService.deleteFavoriteByUserAndRessource(user.getId(), ressourceId);
 	    }
 		
-	    return "redirect:/users/profile";
+	    return "redirect:/profile";
 	}
 	
 }
